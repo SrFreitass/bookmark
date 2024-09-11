@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/srfreitass/silvio-library-management/back-end/src/router"
 )
 
 func main() {
@@ -18,6 +19,7 @@ func main() {
 
 	add := os.Getenv("ADDRESS")
 	port := os.Getenv("PORT")
-
+	router.InitRouters(&r.RouterGroup)
+	
 	r.Run(add + ":" + port)
 }

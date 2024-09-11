@@ -7,4 +7,5 @@ import (
 
 func InitRouters(r *gin.RouterGroup) {
 	r.POST("/api/v1/auth/register", controller.CreateAccount)
+	r.POST("/api/v1/auth/login", controller.CreateAccount)
 }
