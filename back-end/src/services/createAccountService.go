@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/google/uuid"
 	"github.com/srfreitass/silvio-library-management/back-end/src/dto"
@@ -11,19 +12,22 @@ import (
 )
 
 func CreateAccountService(user dto.UserRequest, repository repositories.UserRepository) (string, error) {
+	userExists, err := repository.FindUserByEmail(user.Email)
+
+	if err != nil && err.Error() != "not found user" {
+		fmt.Println(err)
+		return "", err
+	}
+
+	if userExists.Email == user.Email {
+		return "", errors.New("e-mail already exists")
+	}
+
 	userId, err := uuid.NewRandom()
 
 	if err != nil {
 		return "", err
 	}
-	
-	// r, _ := regexp.Compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$")
-
-	// matchPassword := r.MatchString(user.Password)
-
-	// if !matchPassword {
-	// 	return "", errors.New("password is required Minimum eight characters, at least one uppercase letter, one lowercase letter and one number")
-	// }
 
 	passwordHashBytes, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
 
