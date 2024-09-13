@@ -1,25 +1,26 @@
 
-import { JWTPayloadSpec } from "@elysiajs/jwt";
-import { signUpDTO } from "../../../application/dto/user.dto";
+import { IJWT } from "../../../@types/interfaces";
+import { signUpDTO } from "../../../application/dto/auth.dto";
+import { ErrorHandler } from "../../../application/utils/error.handle";
 import { UserRepository } from "../../repositories/IUser.repository";
 import { UserEntity } from "../entities/user.entity";
 
-interface jwt {
-    sign: (morePayload: Record<string, string | number> & JWTPayloadSpec) => Promise<string>;
-    verify: (payload: string) => Promise<JWTPayloadSpec | false>;
-}
+
 
 class CreateAccountUseCase {
     constructor(private readonly userRepository: UserRepository) {}
 
-    async execute(body: typeof signUpDTO.static, jwt: jwt) {
-        const user = this.userRepository.findUser({ email: body.email, username: body.username })
+    async execute(body: typeof signUpDTO.static, jwt: IJWT) {
+        const user = await this.userRepository.findUser({ email: body.email, username: body.username })
     
-        // if (user) {
-        //     return {
-        //         message: "User already exists"
-        //     }
-        // }
+    
+        if (user?.email === body.email) {
+            throw new ErrorHandler("Username already exists", 400)
+        }
+
+        if (user?.name === body.name) {
+            throw new ErrorHandler("Email already exists", 400)
+        }
 
         body.password = Bun.password.hashSync(body.password, {
             algorithm: 'bcrypt',
@@ -34,6 +35,8 @@ class CreateAccountUseCase {
             age: body.age,
             avatarURL: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50",
         })
+        
+        console.log(newUserEntity);
 
         await this.userRepository.create(newUserEntity);
 

@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 import { UserEntity } from "../../core/domains/entities/user.entity";
 import { UserRepository } from "../../core/repositories/IUser.repository";
 import { db } from "../db/connect";
@@ -14,7 +14,7 @@ export class UserRepositoryImpl implements UserRepository {
 
     async findUser(fields: { email?: string; username?: string; id?: string; }): Promise<UserEntity | null> {
         const user = await this.database.query.users.findFirst({
-            where: sql`email = ${fields.email} OR username = ${fields.username} OR id = ${fields.id}`
+            where: or(eq(users.id, fields.id || ''), eq(users.email, fields.email || ''), eq(users.username, fields.username || '')),
         })
 
         if (!user) {
@@ -23,7 +23,8 @@ export class UserRepositoryImpl implements UserRepository {
 
         return user;
     }
-    findUsers(): UserEntity[] {
+
+    async findUsers(): Promise<UserEntity[]> {
         throw new Error("Method not implemented.");
     }
 
