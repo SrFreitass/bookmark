@@ -1,0 +1,21 @@
+{
+  "name": "back-end",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/config/app.ts"
+  },
+  "dependencies": {
+    "@elysiajs/jwt": "^1.1.1",
+    "@elysiajs/swagger": "^1.1.1",
+    "drizzle-orm": "^0.33.0",
+    "elysia": "latest",
+    "postgres": "^3.4.4"
+  },
+  "devDependencies": {
+    "@freitasdev/eslint-config": "^2.1.0",
+    "bun-types": "latest",
+    "drizzle-kit": "^0.24.2"
+  },
+  "module": "src/config/app.ts"
+}
