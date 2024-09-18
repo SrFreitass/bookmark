@@ -7,9 +7,12 @@ class BookRepositoryImpl implements BookRepository {
     constructor(private readonly database: typeof db, private readonly book: typeof books) {}
 
 
-    create(book: BookEntity): Promise<void> {
-        throw new Error("Method not implemented.");
+    async create(book: BookEntity): Promise<void> {
+        await this.database.insert(this.book).values({
+            ...book
+        });
     }
+    
     findBook(fields: { title?: string; isbn?: string; id?: string; }): Promise<BookEntity | null> {
         throw new Error("Method not implemented.");
     }

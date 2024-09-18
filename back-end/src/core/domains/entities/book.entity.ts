@@ -3,7 +3,7 @@ class BookEntity {
     id: string;
     title: string;
     description: string | null; 
-    author: string;
+    authors: string[];
     coverURL: string;
     publisher: string;
     publishedAt: Date;
@@ -13,11 +13,11 @@ class BookEntity {
     createdAt: Date;
     updatedAt: Date | null
 
-    constructor({ title, description, author, coverURL, publisher, publishedAt, isbn, available, quantity, pages }: Omit<BookEntity, "id" | "createdAt" | "updatedAt">) {
+    constructor({ title, description, authors, coverURL, publisher, publishedAt, isbn, available, quantity, pages }: Omit<BookEntity, "id" | "createdAt" | "updatedAt">) {
         this.id = crypto.randomUUID();
         this.title = title;
         this.description = description;
-        this.author = author;
+        this.authors = authors;
         this.coverURL = coverURL;
         this.publisher = publisher;
         this.publishedAt = publishedAt;

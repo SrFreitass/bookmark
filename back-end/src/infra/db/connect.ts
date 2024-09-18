@@ -8,6 +8,5 @@ const db = drizzle(sql,  { schema: schema });
 
 await migrate(db, { migrationsFolder: 'drizzle'})
 
-
 export { db };
 
