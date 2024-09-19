@@ -1,11 +1,13 @@
-import { UserEntity } from "../domains/entities/user.entity";
-
+import { UserEntity } from '../domains/entities/user.entity';
 
 interface UserRepository {
-    create(user: UserEntity): Promise<void>;
-    findUser(fields: { email?: string, username?: string, id?: string }): Promise<UserEntity | null>;
-    findUsers(): Promise<UserEntity[]>;
+  create(user: UserEntity): Promise<void>;
+  findUser(fields: {
+    email?: string;
+    username?: string;
+    id?: string;
+  }): Promise<UserEntity | null>;
+  findUsers(): Promise<UserEntity[]>;
 }
 
 export { UserRepository };
-
