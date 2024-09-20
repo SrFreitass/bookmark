@@ -10,7 +10,7 @@ import {
 
 // type role = 'DEVELOPER' | 'LIBRARIAN' | 'COORDINATOR' | 'TEACHER' | 'STUDENT';
 
-const users = pgTable('user', {
+const users = pgTable('users', {
   id: varchar('id', { length: 36 }).primaryKey(),
   name: varchar('name', { length: 100 }).notNull(),
   username: varchar('username', { length: 100 }).notNull(),

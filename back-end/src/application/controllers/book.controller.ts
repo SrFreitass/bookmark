@@ -25,6 +25,9 @@ class BookController {
       },
       {
         body: createBookDTO,
+        error: (err) => {
+          return errorResponse(err.error);
+        },
         detail: {
           tags: ['Books'],
           description: 'Create a book',
@@ -40,7 +43,6 @@ class BookController {
             new BookRepositoryImpl(db, books),
           );
           const output = await usecase.execute(context.params.page);
-
           return successResponse(200, output, 'Books found');
         } catch (err) {
           return errorResponse(err);
@@ -48,6 +50,9 @@ class BookController {
       },
       {
         params: getBooksDTO,
+        error: (err) => {
+          return errorResponse(err.error);
+        },
         detail: {
           tags: ['Books'],
           description: 'Get Books with pagination',

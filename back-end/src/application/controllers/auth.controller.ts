@@ -30,6 +30,9 @@ class AuthController {
       },
       {
         body: signUpDTO,
+        error: (err) => {
+          return errorResponse(err.error);
+        },
         detail: {
           tags: ['Auth'],
           description: 'Create a new account',
@@ -55,6 +58,9 @@ class AuthController {
       },
       {
         body: signInDTO,
+        error: (err) => {
+          return errorResponse(err.error);
+        },
         detail: {
           tags: ['Auth'],
           description: 'Sign in to your account',
@@ -83,6 +89,9 @@ class AuthController {
       },
       {
         body: refreshTokenDTO,
+        error: (err) => {
+          return errorResponse(err.error);
+        },
         detail: {
           tags: ['Auth'],
           description: 'Refresh token',

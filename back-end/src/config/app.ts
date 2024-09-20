@@ -1,9 +1,9 @@
 import jwt from '@elysiajs/jwt';
 import { swagger } from '@elysiajs/swagger';
-import { Elysia } from 'elysia';
+import { Elysia, t } from 'elysia';
 import { Router } from '../application/routers/router';
 
-const App = new Elysia()
+const App = new Elysia({})
   .use(
     swagger({
       version: '0.1.0',

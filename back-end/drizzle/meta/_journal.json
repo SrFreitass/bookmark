@@ -36,6 +36,20 @@
       "when": 1726407734205,
       "tag": "0004_aberrant_kid_colt",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1726799335620,
+      "tag": "0005_magenta_diamondback",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1726800070585,
+      "tag": "0006_chubby_vindicator",
+      "breakpoints": true
     }
   ]
 }
