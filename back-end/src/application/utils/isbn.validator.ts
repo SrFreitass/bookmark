@@ -10,11 +10,7 @@ const validateISBN = (isbn: string) => {
 
   const check = total % 10;
 
-  if (check === parseInt(isbn[12])) {
-    return true;
-  }
-
-  return false;
+  return check === parseInt(isbn[12]);
 };
 
 export { validateISBN };
