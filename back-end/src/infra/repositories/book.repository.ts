@@ -1,3 +1,4 @@
+import { eq, like, or, sql } from 'drizzle-orm';
 import { BookEntity } from '../../core/domains/entities/book.entity';
 import { BookRepository } from '../../core/repositories/IBook.repository';
 import { db } from '../db/connect';
@@ -9,18 +10,33 @@ class BookRepositoryImpl implements BookRepository {
     private readonly book: typeof books,
   ) {}
 
+  async deleteBook(id: string, quantity: number): Promise<void> {
+    await this.database.update(this.book).set({
+      quantity: sql`${this.book.quantity} - ${quantity}`,
+      available: sql`${this.book.quantity} - ${quantity}`
+    }).where(eq(this.book.id, id))
+  }
+
   async create(book: BookEntity): Promise<void> {
     await this.database.insert(this.book).values({
       ...book,
     });
   }
 
-  findBook(fields: {
+  async findBook(fields: {
     title?: string;
     isbn?: string;
     id?: string;
-  }): Promise<BookEntity | null> {
-    throw new Error('Method not implemented.');
+  }): Promise<BookEntity | undefined> {
+    const book = await this.database.query.books.findFirst({
+      where: or(
+        eq(this.book.id, fields.id || ''),
+        eq(this.book.isbn, fields.isbn || ''),
+        like(this.book.title, fields.title || '')
+      )
+    })
+
+    return book;
   }
 
   async findBooks(page: number): Promise<BookEntity[]> {

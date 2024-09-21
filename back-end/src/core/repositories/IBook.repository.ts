@@ -6,8 +6,9 @@ interface BookRepository {
     title?: string;
     isbn?: string;
     id?: string;
-  }): Promise<BookEntity | null>;
+  }): Promise<BookEntity | undefined>;
   findBooks(page: number): Promise<BookEntity[]>;
+  deleteBook(id: string, quantity: number): Promise<void>;
 }
 
 export { BookRepository };
