@@ -21,7 +21,7 @@ const users = pgTable('users', {
   age: smallint('age').notNull(),
   avatarURL: text('avatar_url').notNull(),
   isVerified: boolean('is_verified').notNull(),
-  role: smallint('role').notNull().default(0),
+  role: pgEnum("role", ["DEVELOPER", "ADMIN", "LIBRARIAN", "USER"])("role").default("USER"),
   createdAt: timestamp('created_at').notNull(),
 });
 
