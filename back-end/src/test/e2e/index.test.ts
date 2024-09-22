@@ -15,11 +15,12 @@ describe("E2E API tests", () => {
     });
 });
 
-// describe("E2E API tests - Auth", () => {
+// sdescribe("E2E API tests - Auth", () => {
 //     test("POST /api/v1/auth/signup", async () => {
 //         const http = await App.handle(new Request("http://localhost:8080/api/v1/auth/signup", {
 //             method: "POST",
 //             body: JSON.stringify({
-//                 email: "
+//                 email: ""
+//             })
 //     })
 // });
