@@ -1,6 +1,8 @@
+import { relations } from 'drizzle-orm';
 import {
   boolean,
   integer,
+  pgEnum,
   pgTable,
   smallint,
   text,
@@ -39,4 +41,15 @@ const books = pgTable('books', {
   updatedAt: timestamp('updated_at'),
 });
 
-export { books, users };
+const bookLending = pgTable('book_lending', {
+  id: varchar('id', { length: 36 }).primaryKey(),
+  book_id: varchar('book_id', { length: 36 }).notNull().references(() => books.id),
+  user_id: varchar('user_id', { length: 36 }).notNull().references(() => users.id),
+  lendend: boolean("lendend").notNull(),
+  createdAt: timestamp('created_at').notNull(),
+  statusUpdateAt: timestamp("status_update_at").notNull(),
+  limitDate: timestamp("limit_date").notNull()
+})
+
+
+export { books, users, bookLending };

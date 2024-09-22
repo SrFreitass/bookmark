@@ -50,6 +50,13 @@
       "when": 1726800070585,
       "tag": "0006_chubby_vindicator",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1727017941317,
+      "tag": "0007_bitter_absorbing_man",
+      "breakpoints": true
     }
   ]
 }
