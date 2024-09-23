@@ -1,4 +1,3 @@
-import { relations } from 'drizzle-orm';
 import {
   boolean,
   integer,
@@ -21,7 +20,7 @@ const users = pgTable('users', {
   age: smallint('age').notNull(),
   avatarURL: text('avatar_url').notNull(),
   isVerified: boolean('is_verified').notNull(),
-  role: pgEnum("role", ["DEVELOPER", "ADMIN", "LIBRARIAN", "USER"])("role").default("USER"),
+  role: pgEnum("role", ["DEVELOPER", "ADMIN", "LIBRARIAN", "USER"])("role").default("USER").notNull(),
   createdAt: timestamp('created_at').notNull(),
 });
 
@@ -52,4 +51,5 @@ const bookLending = pgTable('book_lending', {
 })
 
 
-export { books, users, bookLending };
+export { bookLending, books, users };
+
