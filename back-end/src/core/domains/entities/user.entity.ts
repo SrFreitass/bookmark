@@ -7,16 +7,16 @@ enum role {
 }
 
 class UserEntity {
-  id: string;
-  name: string;
-  username: string;
-  email: string;
-  password: string;
-  age: number;
-  avatarURL: string;
-  role: role;
-  isVerified: boolean;
-  createdAt: Date;
+  readonly id: string;
+  readonly name: string;
+  readonly username: string;
+  readonly email: string;
+  readonly password: string;
+  readonly age: number;
+  readonly avatarURL: string;
+  readonly role: role;
+  readonly isVerified: boolean;
+  readonly createdAt: Date;
 
   constructor({
     name,
@@ -40,3 +40,4 @@ class UserEntity {
 }
 
 export { UserEntity, role };
+

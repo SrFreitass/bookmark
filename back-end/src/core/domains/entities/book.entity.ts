@@ -1,17 +1,17 @@
 class BookEntity {
-  isbn: string;
-  id: string;
-  title: string;
-  description: string | null;
-  authors: string[];
-  coverURL: string;
-  publisher: string;
-  publishedAt: Date;
-  pages: number;
-  quantity: number;
-  available: number;
-  createdAt: Date;
-  updatedAt: Date | null;
+  readonly isbn: string;
+  readonly id: string;
+  readonly title: string;
+  readonly description: string | null;
+  readonly authors: string[];
+  readonly coverURL: string;
+  readonly publisher: string;
+  readonly publishedAt: Date;
+  readonly pages: number;
+  readonly quantity: number;
+  readonly available: number;
+  readonly createdAt: Date;
+  readonly updatedAt: Date | null;
 
   constructor({
     title,
@@ -42,3 +42,4 @@ class BookEntity {
 }
 
 export { BookEntity };
+
