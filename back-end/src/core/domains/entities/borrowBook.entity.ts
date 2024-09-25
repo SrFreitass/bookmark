@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 //#TODO book lending entity
-class BookLendingEntity {
+class BorrowBookEntity {
     readonly id: string;
     readonly book_id: string;
     readonly user_id: string;
@@ -10,7 +10,7 @@ class BookLendingEntity {
     readonly statusUpdateAt: Date;
     readonly limitDate: Date;
 
-    constructor({ book_id, lendend, user_id, statusUpdateAt }: Omit<BookLendingEntity, "id" | "createdAt" | "limitDate">) {
+    constructor({ book_id, lendend, user_id, statusUpdateAt }: Omit<BorrowBookEntity, "id" | "createdAt" | "limitDate">) {
         this.id = crypto.randomUUID();
         this.user_id = user_id;
         this.book_id = book_id;
@@ -22,5 +22,5 @@ class BookLendingEntity {
     }
 }
 
-export { BookLendingEntity };
+export { BorrowBookEntity };
   

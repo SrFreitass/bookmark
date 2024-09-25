@@ -9,8 +9,6 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
-// type role = 'DEVELOPER' | 'LIBRARIAN' | 'COORDINATOR' | 'TEACHER' | 'STUDENT';
-
 const roleEnum = pgEnum("role", ["DEVELOPER", "ADMIN", "LIBRARIAN", "STUDENT"])
 
 const users = pgTable('users', {
@@ -22,7 +20,7 @@ const users = pgTable('users', {
   dateBirthday: timestamp('date_birthday').notNull(),
   avatarURL: text('avatar_url').notNull(),
   isVerified: boolean('is_verified').notNull(),
-  role: roleEnum("role").default("STUDENT"),
+  role: roleEnum("role").default("STUDENT").notNull(),
   createdAt: timestamp('created_at').notNull(),
 });
 
@@ -42,7 +40,7 @@ const books = pgTable('books', {
   updatedAt: timestamp('updated_at'),
 });
 
-const bookLending = pgTable('book_lending', {
+const borrowBooks = pgTable('borrow_books', {
   id: varchar('id', { length: 36 }).primaryKey(),
   book_id: varchar('book_id', { length: 36 }).notNull().references(() => books.id),
   user_id: varchar('user_id', { length: 36 }).notNull().references(() => users.id),
@@ -53,5 +51,5 @@ const bookLending = pgTable('book_lending', {
 })
 
 
-export { bookLending, books, roleEnum, users };
+export { books, borrowBooks, roleEnum, users };
 

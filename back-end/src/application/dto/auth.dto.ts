@@ -8,7 +8,7 @@ const signUpDTO = t.Object({
     minLength: 8,
     pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})',
   }),
-  age: t.Number({ minimum: 1, maximum: 120 }),
+  dateBirthday: t.String({ format: 'date' }),
 });
 
 const signInDTO = t.Object({
@@ -27,3 +27,4 @@ const refreshTokenDTO = t.Object(
 );
 
 export { refreshTokenDTO, signInDTO, signUpDTO };
+

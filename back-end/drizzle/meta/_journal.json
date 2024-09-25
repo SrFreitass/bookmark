@@ -71,6 +71,20 @@
       "when": 1727269442908,
       "tag": "0009_eminent_mesmero",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1727274092504,
+      "tag": "0010_chubby_wildside",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1727274895957,
+      "tag": "0011_cold_guardian",
+      "breakpoints": true
     }
   ]
 }

@@ -31,7 +31,7 @@ class CreateAccountUseCase {
       username: body.username,
       email: body.email,
       password: body.password,
-      age: body.age,
+      dateBirthday: new Date(body.dateBirthday),
       avatarURL:
         'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
     });
@@ -54,3 +54,4 @@ class CreateAccountUseCase {
 }
 
 export { CreateAccountUseCase };
+
