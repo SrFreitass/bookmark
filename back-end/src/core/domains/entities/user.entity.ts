@@ -2,7 +2,7 @@ type role =
   'ADMIN' |
   'DEVELOPER' |
   'LIBRARIAN' |
-  'USER' 
+  'STUDENT' 
 
 
 class UserEntity {
@@ -32,7 +32,7 @@ class UserEntity {
     this.password = password;
     this.age = age;
     this.avatarURL = avatarURL;
-    this.role = 'USER'; // default role
+    this.role = 'STUDENT'; // default role
     this.isVerified = false;
     this.createdAt = new Date();
   }
