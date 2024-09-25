@@ -1,10 +1,9 @@
-enum role {
-  DEVELOPER,
-  LIBRARIAN,
-  COORDINATOR,
-  TEACHER,
-  STUDENT,
-}
+type role =
+  'ADMIN' |
+  'DEVELOPER' |
+  'LIBRARIAN' |
+  'USER' 
+
 
 class UserEntity {
   readonly id: string;
@@ -33,7 +32,7 @@ class UserEntity {
     this.password = password;
     this.age = age;
     this.avatarURL = avatarURL;
-    this.role = role.STUDENT; // default role
+    this.role = 'USER'; // default role
     this.isVerified = false;
     this.createdAt = new Date();
   }
