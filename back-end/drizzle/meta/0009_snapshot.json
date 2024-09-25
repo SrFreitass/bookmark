@@ -1,6 +1,6 @@
 {
-  "id": "e4139738-25ca-4804-b210-d4e05c01d908",
-  "prevId": "9e99d20e-d68b-4bea-b499-96f22209ebb5",
+  "id": "2b9f4038-5b86-48bb-9edc-1283b3359ea9",
+  "prevId": "e4139738-25ca-4804-b210-d4e05c01d908",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -213,9 +213,9 @@
           "primaryKey": false,
           "notNull": true
         },
-        "age": {
-          "name": "age",
-          "type": "smallint",
+        "date_birthday": {
+          "name": "date_birthday",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": true
         },

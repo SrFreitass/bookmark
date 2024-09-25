@@ -1,4 +1,3 @@
-import { relations } from 'drizzle-orm';
 import {
   boolean,
   integer,
@@ -12,16 +11,18 @@ import {
 
 // type role = 'DEVELOPER' | 'LIBRARIAN' | 'COORDINATOR' | 'TEACHER' | 'STUDENT';
 
+const roleEnum = pgEnum("role", ["DEVELOPER", "ADMIN", "LIBRARIAN", "STUDENT"])
+
 const users = pgTable('users', {
   id: varchar('id', { length: 36 }).primaryKey(),
   name: varchar('name', { length: 100 }).notNull(),
   username: varchar('username', { length: 100 }).notNull(),
   email: text('email').notNull(),
   password: text('password').notNull(),
-  age: smallint('age').notNull(),
+  dateBirthday: timestamp('date_birthday').notNull(),
   avatarURL: text('avatar_url').notNull(),
   isVerified: boolean('is_verified').notNull(),
-  role: pgEnum("role", ["DEVELOPER", "ADMIN", "LIBRARIAN", "USER"])("role").default("USER"),
+  role: roleEnum("role").default("STUDENT"),
   createdAt: timestamp('created_at').notNull(),
 });
 
@@ -52,4 +53,5 @@ const bookLending = pgTable('book_lending', {
 })
 
 
-export { books, users, bookLending };
+export { bookLending, books, roleEnum, users };
+
