@@ -2,10 +2,7 @@ import { t } from "elysia";
 
 const borrowBookDTO  = t.Object({
     bookId: t.String({ format: 'uuid' }),
-    type: t.Enum({
-        'SHORT': 'SHORT',
-        'LONG': 'LONG'
-    }),
+    type: t.String({ minLength: 4, maxLength: 5  }),
     quantity: t.Number({ minimum: 1 })
 })
 

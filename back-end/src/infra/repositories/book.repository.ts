@@ -10,6 +10,12 @@ class BookRepositoryImpl implements BookRepository {
     private readonly book: typeof books,
   ) {}
 
+  async updateBook(id: string, bookEntity: Partial<BookEntity>): Promise<void> {
+      await this.database.update(this.book).set({
+        ...bookEntity
+      }).where(eq(this.book.id, id));
+  }
+
   async deleteBook(id: string, quantity: number): Promise<void> {
     await this.database.update(this.book).set({
       quantity: sql`${this.book.quantity} - ${quantity}`,
@@ -50,3 +56,4 @@ class BookRepositoryImpl implements BookRepository {
 }
 
 export { BookRepositoryImpl };
+

@@ -22,7 +22,11 @@ class BookController {
           return errorResponse(error)
         }
       }, {
-        body: deleteBookDTO
+        body: deleteBookDTO,
+        detail: {
+          tags: ['Books'],
+          description: 'Delete a book'
+        }
       }
     )
 
@@ -81,3 +85,4 @@ class BookController {
 }
 
 export { BookController };
+

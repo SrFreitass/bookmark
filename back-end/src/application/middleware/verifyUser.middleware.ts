@@ -18,6 +18,9 @@ const verifyUserMiddlare = async (context: Context & { jwt: IJWT }) => {
     if (!isTokenValid) {
         throw new ErrorHandler("Invalid token", 401);
     }
+
+    context.headers["userId"] = isTokenValid.sub;
+
 }
 
 export { verifyUserMiddlare };

@@ -7,8 +7,10 @@ interface BookRepository {
     isbn?: string;
     id?: string;
   }): Promise<BookEntity | undefined>;
+  updateBook(id: string, bookEntity: Partial<BookEntity>): Promise<void>;
   findBooks(page: number): Promise<BookEntity[]>;
   deleteBook(id: string, quantity: number): Promise<void>;
 }
 
 export { BookRepository };
+

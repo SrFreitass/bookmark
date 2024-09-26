@@ -1,4 +1,4 @@
-import { BorrowBookEntity } from "../../core/domains/entities/BorrowBook.entity";
+import { BorrowBookEntity } from "../../core/domains/entities/borrowBook.entity";
 import { BorrowBookRepository } from "../../core/repositories/IBorrowBook.repository";
 import { db } from "../db/connect";
 import { borrowBooks } from "../db/schema";

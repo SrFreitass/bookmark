@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 
 //#TODO book lending entity
 class BorrowBookEntity {
@@ -10,14 +9,14 @@ class BorrowBookEntity {
     readonly statusUpdateAt: Date;
     readonly limitDate: Date;
 
-    constructor({ book_id, lendend, user_id, statusUpdateAt }: Omit<BorrowBookEntity, "id" | "createdAt" | "limitDate">) {
+    constructor({ book_id, user_id, limitDate }: Omit<BorrowBookEntity, "id" | "createdAt" | "lendend" | "statusUpdateAt">) {
         this.id = crypto.randomUUID();
         this.user_id = user_id;
         this.book_id = book_id;
-        this.lendend = lendend;
+        this.lendend = true;
         this.createdAt = new Date();
-        this.limitDate = dayjs(this.createdAt).add(14, 'day').toDate();
-        this.statusUpdateAt = statusUpdateAt;
+        this.limitDate = limitDate;
+        this.statusUpdateAt = new Date();
 
     }
 }

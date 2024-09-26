@@ -1,4 +1,4 @@
-import { BorrowBookEntity } from "../domains/entities/BorrowBook.entity";
+import { BorrowBookEntity } from "../domains/entities/borrowBook.entity";
 ;
 
 interface BorrowBookRepository {
