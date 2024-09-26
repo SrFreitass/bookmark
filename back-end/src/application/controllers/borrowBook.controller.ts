@@ -5,6 +5,7 @@ import { books, borrowBooks } from "../../infra/db/schema";
 import { BookRepositoryImpl } from "../../infra/repositories/book.repository";
 import { BorrowBookRepositoryImpl } from "../../infra/repositories/borrowBook.repository";
 import { borrowBookDTO } from "../dto/borrowBook.dto";
+import { verifyUserMiddlare } from "../middleware/verifyUser.middleware";
 import { errorResponse } from "../utils/error.response";
 import { successResponse } from "../utils/success.response";
 
@@ -20,9 +21,17 @@ class BorrowBookController {
 
                 return successResponse(201, ouput, 'Book borrowed successfully');
             } catch (error) {
+                console.log(error);
                 return errorResponse(error);
             }
         }, {
+            async beforeHandle(context: any) {
+                try {
+                    await verifyUserMiddlare(context);
+                } catch (error) {
+                    return errorResponse(error);
+                }
+            },
             body: borrowBookDTO,
             detail: {
                 tags: ['Borrow Book'],

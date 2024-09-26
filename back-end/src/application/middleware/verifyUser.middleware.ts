@@ -21,6 +21,12 @@ const verifyUserMiddlare = async (context: Context & { jwt: IJWT }) => {
 
     context.headers["userId"] = isTokenValid.sub;
 
+    const path = context.path;
+
+    if (path === '/api/v1/borrow' && isTokenValid.role === 'STUDENT') {
+        throw new ErrorHandler('Unauthorized', 403);
+    }
+
 }
 
 export { verifyUserMiddlare };

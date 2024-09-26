@@ -19,13 +19,19 @@ class BorrowBookUseCase {
             throw new ErrorHandler('Book not found');
        }
 
+       const borrowBook = await this.borrowBookRepository.findBorrowBook({ userId, borrow: true });
+
+       if (borrowBook) {
+          throw new ErrorHandler('User already have a book borrowed');
+       }
+
        if (bookExists.available <= 0) {
             throw new ErrorHandler('Book not available');
        }
 
        const borrowBookEntity = new BorrowBookEntity({
-            user_id: userId,
-            book_id: body.bookId,
+            userId: userId,
+            bookId: body.bookId,
             limitDate: body.type === 'SHORT' ? dayjs().add(1, 'day').toDate() : dayjs().add(14, 'day').toDate(),
        })
 

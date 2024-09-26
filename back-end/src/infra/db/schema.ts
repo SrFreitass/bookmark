@@ -42,9 +42,9 @@ const books = pgTable('books', {
 
 const borrowBooks = pgTable('borrow_books', {
   id: varchar('id', { length: 36 }).primaryKey(),
-  book_id: varchar('book_id', { length: 36 }).notNull().references(() => books.id),
-  user_id: varchar('user_id', { length: 36 }).notNull().references(() => users.id),
-  lendend: boolean("lendend").notNull(),
+  bookId: varchar('book_id', { length: 36 }).notNull().references(() => books.id),
+  userId: varchar('user_id', { length: 36 }).notNull().references(() => users.id),
+  borrow: boolean("borrow").notNull(),
   createdAt: timestamp('created_at').notNull(),
   statusUpdateAt: timestamp("status_update_at").notNull(),
   limitDate: timestamp("limit_date").notNull()

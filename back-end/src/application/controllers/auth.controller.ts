@@ -1,3 +1,4 @@
+import { IJWT } from '../../@types/interfaces';
 import { App } from '../../config/app';
 import { CreateAccountUseCase } from '../../core/domains/usecases/createAccount.usecase';
 import { RefreshTokenUseCase } from '../../core/domains/usecases/refreshToken.usecase';
@@ -17,7 +18,7 @@ class AuthController {
           const usecase = new CreateAccountUseCase(
             new UserRepositoryImpl(db, users),
           );
-          const output = await usecase.execute(context.body, context.jwt);
+          const output = await usecase.execute(context.body, context.jwt as IJWT);
 
           return {
             status: 201,
@@ -45,7 +46,7 @@ class AuthController {
       async (context) => {
         try {
           const usecase = new SignInAccount(new UserRepositoryImpl(db, users));
-          const output = await usecase.execute(context.body, context.jwt);
+          const output = await usecase.execute(context.body, context.jwt as IJWT);
 
           return {
             status: 200,
@@ -74,7 +75,7 @@ class AuthController {
         try {
           const usecase = new RefreshTokenUseCase(
             new UserRepositoryImpl(db, users),
-            context.jwt,
+            context.jwt as IJWT,
           );
           const output = await usecase.execute(context.body.refreshToken);
 
@@ -102,3 +103,4 @@ class AuthController {
 }
 
 export { AuthController };
+

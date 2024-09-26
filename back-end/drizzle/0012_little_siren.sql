@@ -1,0 +1,1 @@
+ALTER TABLE "borrow_books" RENAME COLUMN "lendend" TO "borrow";

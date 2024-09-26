@@ -1,15 +1,13 @@
 import { JWTPayloadSpec } from "@elysiajs/jwt";
 
-
-interface Payload extends JWTPayloadSpec {
+interface JwtPayload extends JWTPayloadSpec {
     email: string;
-    sub: string;
-    role: 'DEVELOPER' | 'ADMIN' | 'LIBRARIAN' | 'STUDENT';
+    role: "DEVELOPER" | "ADMIN" | "LIBRARIAN" | "STUDENT";
 }
 
 interface IJWT {
-    sign: (morePayload: Record<string, string | number> & Payload) => Promise<string>;
-    verify: (payload: string) => Promise<JWTPayloadSpec | false>;
+    sign: (morePayload: Record<string, string | number> & JwtPayload) => Promise<string>;
+    verify: (payload: string) => Promise<JwtPayload | false>;
 }
 
 export { IJWT };

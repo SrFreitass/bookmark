@@ -2,22 +2,21 @@
 //#TODO book lending entity
 class BorrowBookEntity {
     readonly id: string;
-    readonly book_id: string;
-    readonly user_id: string;
-    readonly lendend: boolean;
+    readonly bookId: string;
+    readonly userId: string;
+    readonly borrow: boolean;
     readonly createdAt: Date;
     readonly statusUpdateAt: Date;
     readonly limitDate: Date;
 
-    constructor({ book_id, user_id, limitDate }: Omit<BorrowBookEntity, "id" | "createdAt" | "lendend" | "statusUpdateAt">) {
+    constructor({ bookId, userId, limitDate }: Omit<BorrowBookEntity, "id" | "createdAt" | "borrow" | "statusUpdateAt">) {
         this.id = crypto.randomUUID();
-        this.user_id = user_id;
-        this.book_id = book_id;
-        this.lendend = true;
+        this.userId = userId;
+        this.bookId = bookId;
+        this.borrow = true;
         this.createdAt = new Date();
         this.limitDate = limitDate;
         this.statusUpdateAt = new Date();
-
     }
 }
 
