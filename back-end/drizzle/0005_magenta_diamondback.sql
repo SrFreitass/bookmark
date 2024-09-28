@@ -1,2 +1,0 @@
-ALTER TABLE "books" RENAME COLUMN "author" TO "authors";--> statement-breakpoint
-ALTER TABLE "books" ALTER COLUMN "authors" SET DATA TYPE text[] USING authors::text[];--> statement-breakpoint // Só fé, é o greloo!
