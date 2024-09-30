@@ -1,11 +1,12 @@
 import { App } from '../../config/app';
 import { CreateBookUseCase } from '../../core/domains/usecases/createBook.usecase';
 import { DeleteBookUseCase } from '../../core/domains/usecases/deleteBook.usecase';
+import { EditBookUseCase } from '../../core/domains/usecases/editBook.usecase';
 import { GetBooksUseCase } from '../../core/domains/usecases/getBooks.usecase';
 import { db } from '../../infra/db/connect';
 import { books } from '../../infra/db/schema';
 import { BookRepositoryImpl } from '../../infra/repositories/book.repository';
-import { createBookDTO, deleteBookDTO, getBooksDTO } from '../dto/book.dto';
+import { createBookDTO, deleteBookDTO, editBookDTO, getBooksDTO } from '../dto/book.dto';
 import { errorResponse } from '../utils/error.response';
 import { successResponse } from '../utils/success.response';
 
@@ -25,11 +26,30 @@ class BookController {
         body: deleteBookDTO,
         detail: {
           tags: ['Books'],
-          description: 'Delete a book'
+          description: 'Delete a book with id'
         }
       }
     )
 
+    this.app.put(
+      '/api/v1/book/:id',
+      async (context) => {
+        try {
+          const useCase = new EditBookUseCase(new BookRepositoryImpl(db, books));
+          const output = await useCase.execute(context.params.id, context.body);
+          return successResponse(200, output, "Edited book successfully");
+        } catch (error) {
+          return errorResponse(error);
+        }
+      },
+      {
+        body: editBookDTO,
+        detail: {
+          tags: ['Books'],
+          description: 'Edit a book with id'
+        }
+      }
+    )
 
     this.app.post(
       '/api/v1/book',
