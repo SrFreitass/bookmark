@@ -9,14 +9,14 @@
                 <ul class="flex items-center gap-4">
                     <li><span class="pi pi-home"></span></li>
                     <li><span class="pi pi-bell"></span></li>
-                    <li><span class="pi pi-search" @click="() => sidebarStatus = !sidebarStatus"></span></li>
+                    <li><span class="pi pi-search" @click="changeStatusSidebar"></span></li>
                     <li>
                         <img class="rounded-md" src="https://github.com/srfreitass.png" width="32" height="32"/>
                     </li>
                 </ul>
             </nav>
         </header>
-        <Searchbar v-if="sidebarStatus"/>
+        <Searchbar v-if="sidebarStatus" :change-status-sidebar="changeStatusSidebar"/>
     </div>
 </template>
 
@@ -25,6 +25,9 @@
     import 'primeicons/primeicons.css'
     const sidebarStatus = ref(false);
 
+    const changeStatusSidebar = () => {
+        sidebarStatus.value = !sidebarStatus.value;
+    }
 
     const items = ref([
         {

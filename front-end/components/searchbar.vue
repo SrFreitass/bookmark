@@ -2,7 +2,7 @@
     <aside class="bg-[#18181B] flex flex-col gap-4 w-1/4 fixed right-0 p-6 h-screen">
         <div class="flex items-center justify-between gap-4">
             <h2 class="text-xl font-semibold">Pesquisar livros</h2>
-            <span class="pi pi-times"></span>
+            <span class="pi pi-times" @click="props.changeStatusSidebar"></span>
         </div>
         <InputGroup>
             <InputText placeholder="Título"/>
@@ -45,7 +45,7 @@
 <script setup lang="ts">
     import 'primeicons/primeicons.css'
 
-    const props = defineProps(['sidebarStatus'])
+    const props = defineProps(['sidebarStatus', "changeStatusSidebar"])
 
     const categoriesArray = [
         "Contos",
