@@ -9,7 +9,21 @@ export default {
     "./error.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        'open-sidebar': 'sidebar 0.3s ease-in-out'
+      },
+      keyframes: {
+        'sidebar': {
+          '0%': {
+            transform: 'translateX(150%)'
+          }, 
+          '100%': {
+            transform: 'translateX(0%)'
+          }
+        }
+      }
+    },
   },
   plugins: [],
 }
