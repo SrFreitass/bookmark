@@ -7,20 +7,20 @@
             <h1 class="text-2xl font-semibold">Bom dia, {{ user.name }}!</h1>
             <div class="flex gap-8">
                 <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
-                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
-                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
-                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
+                <Card title="Categoria" icon="pi pi-bookmark" value="Romance" description="Categoria mais popular"/>
+                <Card title="Pendências" icon="pi pi-bookmark" value="5" description="Usuários caloteiros"/>
+                <Card title="C. Literatura" icon="pi pi-bookmark" value="10" description="Membros"/>
             </div>
             <div class="flex gap-8 mt-6">
-                <BorrowTable :borrows="[exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow]" class="w-2/3"/>
+                <MinBorrowTable :borrows="[exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow]" class="w-2/3"/>
                 <Chart type="bar" :data="exampleChartData" class="w-1/2" :options="exampleChartOptions"/>
             </div>
-            <UsersPendencyTable class="mt-6"/>
+            <UsersPendencyTable class="mt-6" :users="[exampleUserPendency, exampleUserPendency, exampleUserPendency, exampleUserPendency        ]" />
         </main>
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts">        
 import Card from '~/components/card.vue';
 import Sidebar from '~/components/sidebar.vue';
     const exampleBorrow = {
@@ -30,6 +30,14 @@ import Sidebar from '~/components/sidebar.vue';
         category: 'Computação',
         createdAt: new Date().toLocaleDateString('pt-BR'),
         limitDate: new Date().toLocaleDateString('pt-BR')
+    }
+
+    const exampleUserPendency = {
+        user: 'Joh Doe',
+        book: 'Design Patterns',
+        createdAt: new Date().toLocaleDateString('pt-BR'),
+        limitDate: new Date().toLocaleDateString('pt-BR'),
+        days: 2,
     }
 
 
