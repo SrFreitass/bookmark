@@ -1,10 +1,11 @@
 <template>
-    <DataTable :value="borrows" table-style="background: none;" >
+    <DataTable :value="borrows"  :rows="10" paginator show-gridlines >
         <Column field="user" header="Usuário"></Column>
         <Column field="book" header="Livro"></Column>
+        <Column field="quantity" header="Unid."></Column>
         <Column field="category" header="Categoria"></Column>
-        <Column field="createdAt" header="Data de saída"></Column>
-        <Column field="limitDate" header="Data de entrega"></Column>
+        <Column field="createdAt" header="D. saída"></Column>
+        <Column field="limitDate" header="D. entrega"></Column>
     </DataTable>
 </template>
 
