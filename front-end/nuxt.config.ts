@@ -6,11 +6,18 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
   modules: [
-    "@primevue/nuxt-module",
+    "@primevue/nuxt-module", 
+    '@nuxtjs/google-fonts',
   ],
   $production: {
     routeRules: {
       '/**': { isr: true }
+    }
+  },
+  googleFonts: {
+    preconnect: true,
+    families: {
+      Poppins: [100, 200, 300, 400, 500, 600, 700]
     }
   },
   primevue: {

@@ -6,13 +6,13 @@
             <p>Dashboard</p>
             <h1 class="text-2xl">Bom dia, {{ user.name }}!</h1>
             <div class="flex gap-8">
-                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Quantidade de emprestimos p/mês"/>
-                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Quantidade de emprestimos p/mês"/>
-                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Quantidade de emprestimos p/mês"/>
-                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Quantidade de emprestimos p/mês"/>
+                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
+                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
+                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
+                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
             </div>
             <div class="flex gap-8 mt-6">
-                <BorrowTable :borrows="[exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow]" class="w-1/2"/>
+                <BorrowTable :borrows="[exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow]" class="w-2/3"/>
                 <Chart type="bar" :data="exampleChartData" class="w-1/2"/>
             </div>
         </main>

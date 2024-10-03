@@ -1,5 +1,5 @@
 <template>
-    <DataTable :value="borrows">
+    <DataTable :value="borrows" table-style="background: none;" >
         <Column field="user" header="Usuário"></Column>
         <Column field="book" header="Livro"></Column>
         <Column field="category" header="Categoria"></Column>
