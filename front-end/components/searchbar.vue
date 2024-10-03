@@ -5,32 +5,30 @@
             <span class="pi pi-times" @click="props.changeStatusSidebar"></span>
         </div>
         <InputGroup>
+            <InputGroupAddon>
+                <i aria-haspopup="true" @click="toggle" aria-controls="overlay_options" class="pi pi-bars"> </i>
+            </InputGroupAddon>
+            <Menu ref="menu" id="overlay_options" :model="searchOptions" class="!mt-5 -ml-3" :popup="true">
+                <template #item="{ item, props }">
+                    <div class="flex gap-2 items-center p-2">
+                        <i :class="`${item.icon}`"></i>
+                        <p>{{ item.label }}</p>
+                    </div>
+                </template>
+            </Menu>
             <InputText placeholder="Título"/>
         </InputGroup>
-        <InputGroup class="items-center gap-2">
-            <Checkbox v-model="form.cl" binary/>
-            <label>Incluir livros do clube do livro?</label>
-        </InputGroup>
-        <InputGroup class="flex-col gap-2">
-            <label>Categorias</label>
-            <MultiSelect class="!w-full" :options="categoriesArray" v-model:model-value="form.categories" placeholder="Selecionar categorias"/>
-        </InputGroup>
+       <!-- <Accordion value="0">
+            <AccordionPanel value="0">
+                <AccordionHeader>
+                    Editora
+                </AccordionHeader>
+                <AccordionContent>
 
-        <InputGroup class="flex-col gap-2">
-            <label>Linguagem</label>
-            <MultiSelect class="!w-full" :options="languages" v-model:model-value="form.languages" placeholder="Selecionar Linguagem" />
-        </InputGroup>
-
-        <InputGroup class="flex-col gap-2">
-            <label>Ano de publicação</label>
-            <MultiSelect class="!w-full" :options="years" v-model:model-value="form.years" placeholder="Selecionar Linguagem"/>
-        </InputGroup>
-
-        <InputGroup class="flex-col gap-2">
-            <label>Editora</label>
-            <InputText class="!w-full" placeholder="Pesquisar editora" v-model:model-value="form.publisher"/>
-        </InputGroup>
-      
+                </AccordionContent>
+            </AccordionPanel>
+       </Accordion>
+       -->
         <div>
             <h2 class="text-xl font-semibold">Filtros aplicados</h2>
             <div class="flex gap-x-2 flex-wrap">
@@ -46,6 +44,7 @@
 <script setup lang="ts">
     import 'primeicons/primeicons.css'
 import Checkbox from 'primevue/checkbox';
+import Menu from 'primevue/menu';
 
     const props = defineProps(['sidebarStatus', "changeStatusSidebar"])
 
@@ -54,6 +53,32 @@ import Checkbox from 'primevue/checkbox';
         "Inglês",
         "Espanhol",
     ];
+
+    const searchOptions = [
+        {
+            icon: 'pi pi-bookmark',
+            label: 'Título'
+        },
+        {
+            icon: 'pi pi-barcode',
+            label: 'ISBN'
+        },
+        {
+            icon: 'pi pi-globe',
+            label: 'Editora'
+        },
+        {
+            icon: 'pi pi-sparkles',
+            label: 'Categoria'
+        }
+    ]
+
+    const searchOptionsStatus = ref(false);
+    const menu = ref();
+
+    const toggle = (event: Event) => {
+        menu.value.toggle(event);
+    }
 
     const selectedLanguages = ref([]);
     const form = reactive({
