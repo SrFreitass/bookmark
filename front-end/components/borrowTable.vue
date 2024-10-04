@@ -1,5 +1,5 @@
 <template>
-    <DataTable class="mt-4 w-full" show-gridlines>
+    <DataTable class="w-full" show-gridlines>
         <Column key="user" header="Usuário"/>
         <Column key="book" header="Livro"/>
         <Column key="quantity" header="Unidades"/>

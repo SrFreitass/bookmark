@@ -3,24 +3,22 @@
     <div class="flex min-h-screen">
         <Sidebar/>
         <main class="p-6">
-            <p>Dashboard</p>
             <h1 class="text-2xl font-semibold">Bom dia, {{ user.name }}!</h1>
-            <div class="flex gap-8">
+            <p>Dashboard</p>
+            <div class="grid grid-cols-dashboard gap-8">
                 <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
-                <Card title="Categoria" icon="pi pi-bookmark" value="Romance" description="Categoria mais popular"/>
-                <Card title="Pendências" icon="pi pi-bookmark" value="5" description="Usuários caloteiros"/>
-                <Card title="C. Literatura" icon="pi pi-bookmark" value="10" description="Membros"/>
+                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
+                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
+                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
+                <BorrowTable :borrows="[exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow]" class="col-span-3"/>
+                <Chart class="bg-card-bg border border-border rounded-md p-4" type="pie" :data="exampleChartData" :options="exampleChartOptions"/>
             </div>
-            <div class="flex gap-8 mt-6">
-                <MinBorrowTable :borrows="[exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow]" class="w-2/3"/>
-                <Chart type="bar" :data="exampleChartData" class="w-1/2" :options="exampleChartOptions"/>
-            </div>
-            <UsersPendencyTable class="mt-6" :users="[exampleUserPendency, exampleUserPendency, exampleUserPendency, exampleUserPendency        ]" />
+            <UsersPendencyTable class="mt-6"/>
         </main>
     </div>
 </template>
 
-<script setup lang="ts">        
+<script setup lang="ts">
 import Card from '~/components/card.vue';
 import Sidebar from '~/components/sidebar.vue';
     const exampleBorrow = {
@@ -32,46 +30,36 @@ import Sidebar from '~/components/sidebar.vue';
         limitDate: new Date().toLocaleDateString('pt-BR')
     }
 
-    const exampleUserPendency = {
-        user: 'Joh Doe',
-        book: 'Design Patterns',
-        createdAt: new Date().toLocaleDateString('pt-BR'),
-        limitDate: new Date().toLocaleDateString('pt-BR'),
-        days: 2,
-    }
-
 
     const user = {
         name: 'Guilherme Freitas'
     }
 
     const exampleChartData = {
-        labels: ['Contos', 'Romance', 'Literatura negra', 'Educação'],
+        labels: ['Romance', 'Contos', 'Ficção', 'Outros'],
         datasets: [
             {
-                label: 'Empréstimos',
-                data: [20, 10, 5, 30],
-                backgroundColor: '#00dc82',
-                borderWidth: '1px'
+                data: [540, 325, 702],
+                backgroundColor: ['#00dc82', '#009658', '#067549'],
             }
         ]
     }
     
     const exampleChartOptions = {
-        indexAxis: 'x',
+       /* indexAxis: 'x',
         aspectRatio: 1.35,
-        barPercentage: 0.4,
-        scales: {
-            x: {
-                grid: {
-                    color: 'rgba(84, 84, 84, 0.48)'
-                }
-            },
-            y: {
-                grid: {
-                    color: 'rgba(84, 84, 84, 0.48)'
+        barPercentage: 0.4, */
+        borderColor: '#5454547',
+        borderWidth: 1.5,
+        plugins: {
+            legend: {
+                labels: {
+                    usePointStyle: true,
                 }
             }
+        },
+        scales: {
+    
         }
     }
 </script>

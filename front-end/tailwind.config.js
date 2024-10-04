@@ -10,6 +10,15 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        'card-bg': '#18181b',
+        'border': '#54545471'
+      },
+
+      gridTemplateColumns: {
+        'dashboard': 'repeat(4, 22rem)',
+      },
+
       animation: {
         'open-sidebar': 'sidebar 0.3s ease-in-out'
       },
