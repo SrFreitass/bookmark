@@ -4,13 +4,15 @@
         <Sidebar />
         <main class="p-6 w-full">
             <p>Acervo</p>
-            <h1 class="text-2xl font-semibold">Livros</h1>
+            <h1 class="text-2xl font-semibold">Gerenciar livros</h1>
+            <SearchBooks class="mt-4"/>
             <BooksGrid :books="books"/>
         </main>
     </div>
 </template>
 
 <script setup lang="ts">
+import SearchBooks from '~/components/searchBooks.vue';
 import Sidebar from '~/components/sidebar.vue';
     const books: { id: string, title: string; coverURL: string }[] = [];
 
