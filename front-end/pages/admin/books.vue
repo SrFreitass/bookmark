@@ -5,12 +5,13 @@
         <main class="p-6 w-full">
             <p>Acervo</p>
             <h1 class="text-2xl font-semibold">Gerenciar livros</h1>
-            <NuxtLink href="./add/book">
+            <AddNewBookModal />
+            <!-- <NuxtLink href="./add/book">
                 <Button class="mt-4 w-48">
                     <i class="pi pi-plus-circle"></i>
                     Adicionar livro
                 </Button>
-            </NuxtLink>
+            </NuxtLink> -->
             <SearchBooks class="mt-4"/>
             <BooksGrid :books="books"/>
             <Paginator :rows="25" :total-records="120" class="mt-6"/>
