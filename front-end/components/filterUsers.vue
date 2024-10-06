@@ -13,7 +13,7 @@
 
     const menu = ref();
 
-    const toggle = (e) => {
+    const toggle = (e: Event) => {
         menu.value.toggle(e);
     }
 

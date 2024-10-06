@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-wrap gap-8 mt-4">
         <div v-for="book in books" class="flex flex-col max-w-48 gap-2">
-            <NuxtLink :href="`./edit/${book.id}`">
+            <NuxtLink :href="book.url">
                 <img :src="book.coverURL" :alt="`Capa do livro ${book.title}`" class="w-48 h-64 object-cover">
                 <h3>{{ book.title }}</h3>
             </NuxtLink>
@@ -15,6 +15,7 @@
             id: string;
             title: string;
             coverURL: string;
+            url: string;
         }[]
     }>();
 </script>
