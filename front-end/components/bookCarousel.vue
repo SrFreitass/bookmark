@@ -6,16 +6,17 @@
         :space-between="32"
         >
             <SwiperSlide v-for="book in books" :key="book.id" class="!w-44">
-                <div>
+                <NuxtLink :href="`/book/${book.id}`">
                     <img :src="book.coverURL" class="rounded-lg max-w-44"/>
                     <p class="text-slate-200">{{ book.title }}</p>
-                </div>
+                </NuxtLink>
             </SwiperSlide>
         </Swiper>
     </div>
 </template>
 
 <script setup lang="ts">
+
     interface Book {
         id: string;
         title: string;
