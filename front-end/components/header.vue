@@ -10,9 +10,7 @@
                     <li><span class="pi pi-home"></span></li>
                     <li><span class="pi pi-bell"></span></li>
                     <li><span class="pi pi-search" @click="changeStatusSidebar"></span></li>
-                    <li>
-                        <img class="rounded-md" src="https://github.com/srfreitass.png" width="32" height="32"/>
-                    </li>
+                    <li><UserOptions/></li>
                 </ul>
             </nav>
         </header>
@@ -23,6 +21,7 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import 'primeicons/primeicons.css'
+import UserOptions from './userOptions.vue';
     const sidebarStatus = ref(false);
 
     const changeStatusSidebar = () => {

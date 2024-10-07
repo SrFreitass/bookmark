@@ -6,7 +6,7 @@
         </div>
         <InputGroup>
             <InputGroupAddon>
-                <i aria-haspopup="true" @click="toggle" aria-controls="overlay_options" class="pi pi-bars"> </i>
+                <i aria-haspopup="true" @click="toggle" aria-controls="overlay_options" class="pi pi-bars"  > </i>
             </InputGroupAddon>
             <Menu ref="menu" id="overlay_options" :model="searchOptions" class="!mt-5 -ml-3" :popup="true">
                 <template #item="{ item, props }">
