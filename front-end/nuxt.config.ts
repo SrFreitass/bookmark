@@ -7,7 +7,8 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   modules: [
     "@primevue/nuxt-module", 
-    '@nuxtjs/google-fonts',
+    "@nuxtjs/google-fonts",
+    "nuxt-swiper"
   ],
   $production: {
     routeRules: {

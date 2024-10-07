@@ -880,7 +880,7 @@
     unimport "^3.11.1"
     untyped "^1.4.2"
 
-"@nuxt/kit@^3.10.3":
+"@nuxt/kit@^3.10.3", "@nuxt/kit@^3.7.0":
   version "3.13.2"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.13.2.tgz#4c019a87e08c33ec14d1059497ba40568b82bfed"
   integrity sha512-KvRw21zU//wdz25IeE1E5m/aFSzhJloBRAQtv+evcFeZvuroIxpIQuUqhbzuwznaUwpiWbmwlcsp5uOWmi4vwA==
@@ -3766,6 +3766,14 @@ nuxi@^3.13.1:
   optionalDependencies:
     fsevents "~2.3.3"
 
+nuxt-swiper@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/nuxt-swiper/-/nuxt-swiper-1.2.2.tgz#7b855c4948edb2e8ba4f98eea457a821b84ff53b"
+  integrity sha512-y4s/srISP4OuhXbYg9/W1/6EWnbcoHRGEKBKAvGP0I2h0b3enhqZNEk7854M3F89ys8waacBXektPzamgl5xwQ==
+  dependencies:
+    "@nuxt/kit" "^3.7.0"
+    swiper "^10.2.0"
+
 nuxt@^3.13.0:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-3.13.1.tgz#b1d43e10b1c3051a898b0b01471face675500c97"
@@ -4850,6 +4858,11 @@ svgo@^3.3.2:
     css-what "^6.1.0"
     csso "^5.0.5"
     picocolors "^1.0.0"
+
+swiper@^10.2.0:
+  version "10.3.1"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-10.3.1.tgz#4d19d7e9d0bd184c30accf2c1b180cfe41b9f4af"
+  integrity sha512-24Wk3YUdZHxjc9faID97GTu6xnLNia+adMt6qMTZG/HgdSUt4fS0REsGUXJOgpTED0Amh/j+gRGQxsLayJUlBQ==
 
 system-architecture@^0.1.0:
   version "0.1.0"
