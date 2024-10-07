@@ -16,28 +16,32 @@
                 <i class="pi pi-heart text-2xl"></i>
                 <i class="pi pi-share-alt text-2xl"></i>
             </div>
-            <p class="bg-[#fafafa] rounded-lg text-black p-2">{{ book.category }}</p>
             <hr class="border-border w-full"/>
             <div class="flex gap-8 w-full">
                 <div class="flex-grow">
-                    <label>Editora</label>
+                    <label class="text-gray-400">Editora</label>
                     <p>{{ book.publisher }}</p>
                 </div>
                 
                 <div class="flex-grow">
-                    <label>Ano de publicação</label>
+                    <label class="text-gray-400">Ano de publicação</label>
                     <p>{{ book.publishedAt }}</p>
                 </div>
                 
                 <div class="flex-grow">
-                    <label>Páginas</label>
+                    <label class="text-gray-400">Páginas</label>
                     <p>{{ book.pages }}</p>
                 </div>
 
                 <div class="flex-grow">
-                    <label>ISBN</label>
+                    <label class="text-gray-400">ISBN</label>
                     <p>{{ book.isbn }}</p>
                 </div>
+            </div>
+            <hr class="border-border w-full"/>
+            <div class="flex gap-4">
+                <p class="bg-[#fafafa] rounded-lg text-black p-2">{{ book.category }}</p>
+                <p class="bg-[#fafafa] rounded-lg text-black p-2">Clube do livro</p>
             </div>
         </div>
     </div>
