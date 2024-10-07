@@ -2,9 +2,8 @@
     <Button @click="() => visible = !visible" class="mt-4">
         Adicionar livro
     </Button>
-    <Dialog v-model:visible="visible"  header="Adicionar um novo livro">
+    <Dialog v-model:visible="visible" modal header="Adicionar um novo livro">
         <div class="flex gap-4">
-
             <img class="rounded-md" src="https://m.media-amazon.com/images/I/71Vkg7GfPFL._AC_UF1000,1000_QL80_.jpg" alt="" width="500"/>
             <form class="flex flex-col gap-4 w-[30rem]">
                 <InputGroup>
@@ -17,6 +16,10 @@
     
                 <InputGroup>
                     <InputText placeholder="Autores"/>
+                </InputGroup>
+
+                <InputGroup>
+                    <InputText placeholder="Categoria"/>
                 </InputGroup>
     
                 <InputGroup>
