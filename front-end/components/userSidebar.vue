@@ -1,5 +1,5 @@
 <template>
-    <Menu  class="!min-w-80 !rounded-none !border-l-0 !border-t-0" :model="nav" >
+    <Menu  class="!min-w-80 min-h-screen !rounded-none !border-l-0 !border-t-0" :model="nav" >
         <template #item="{item, props}">
             <div class="flex gap-4 items-center p-1 text-[#a1a1aa] hover:text-white">
                 <i :class="item.icon"></i>
