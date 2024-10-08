@@ -10,7 +10,13 @@
                     <li><span class="pi pi-home"></span></li>
                     <li><span class="pi pi-bell"></span></li>
                     <li><span class="pi pi-search" @click="changeStatusSidebar"></span></li>
-                    <li><UserOptions/></li>
+                    <li>
+                        <UserOptions
+                            :avatar="'https://github.com/srfreitass.png'"
+                            :username="'Freitasdev'"
+                            :role="'Estudante'"
+                        />
+                    </li>
                 </ul>
             </nav>
         </header>
