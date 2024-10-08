@@ -7,7 +7,7 @@
                     <img src="https://github.com/srfreitass.png" aria-controls="overlay_options"  width="48" height="48" class="rounded-md cursor-pointer max-h-12 max-w-12" @click="toggle" />
                     <div>
                         <h2 class="text-white">{{ username }}</h2>
-                        <p class="text-slate-400">{{ role }}</p>
+                        <p class="text-gray-400">{{ role }}</p>
                     </div>
                 </div>
                 <i class="pi pi-times" @click="toggle"</i>
