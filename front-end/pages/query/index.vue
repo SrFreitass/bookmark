@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="p-8">
         <SearchBooks/>
         <h2 class="text-xl font-semibold mt-4">Resultados para {{ query }}</h2>
         <BooksGrid :books="books"/>

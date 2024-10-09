@@ -8,7 +8,6 @@
 <script setup lang="ts">
     const route = useRoute()
     let category = route.params.category.toString();
-
     // Capitalize
     category = `${category.charAt(0).toUpperCase()}${category.substring(1, category.length)}`;
 </script>
