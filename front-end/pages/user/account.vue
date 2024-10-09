@@ -1,11 +1,9 @@
 <template>
-    <Header/>
-    <main class="flex gap-4">
-        <UserSidebar />
-        <UserAccount />
-    </main>
+    <UserAccount />
 </template>
 
 <script setup lang="ts">
-
+definePageMeta({
+    layout: 'user'
+})
 </script>

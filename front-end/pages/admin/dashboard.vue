@@ -1,26 +1,26 @@
 <template>
-    <Header/>
-    <div class="flex min-h-screen">
-        <Sidebar/>
-        <main class="p-6">
-            <h1 class="text-2xl font-semibold">Bom dia, {{ user.name }}!</h1>
-            <p>Dashboard</p>
-            <div class="grid grid-cols-dashboard gap-8">
-                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
-                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
-                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
-                <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
-                <BorrowTable :borrows="[exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow]" class="col-span-3"/>
-                <Chart class="bg-card-bg border border-border rounded-md p-4" type="pie" :data="exampleChartData" :options="exampleChartOptions"/>
-            </div>
-            <UsersPendencyTable class="mt-6"/>
-        </main>
+    <div>
+        <h1 class="text-2xl font-semibold">Bom dia, {{ user.name }}!</h1>
+        <p>Dashboard</p>
+        <div class="grid grid-cols-dashboard gap-8">
+            <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
+            <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
+            <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
+            <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
+            <BorrowTable :borrows="[exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow]" class="col-span-3"/>
+            <Chart class="bg-card-bg border border-border rounded-md p-4" type="pie" :data="exampleChartData" :options="exampleChartOptions"/>
+        </div>
+        <UsersPendencyTable class="mt-6"/>
     </div>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+    layout: 'admin'
+});
+
 import Card from '~/components/card.vue';
-import Sidebar from '~/components/sidebar.vue';
+import Sidebar from '~/components/adminSidebar.vue';
     const exampleBorrow = {
         user: 'Grelo',
         book: 'Entendo Algoritmos',

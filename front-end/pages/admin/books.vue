@@ -1,28 +1,21 @@
 <template>
-    <Header />
     <div class="flex min-h-screen">
-        <Sidebar />
-        <main class="p-6 w-full">
-            <p>Acervo</p>
-            <h1 class="text-2xl font-semibold">Gerenciar livros</h1>
-            <AddNewBookModal />
-            <!-- <NuxtLink href="./add/book">
-                <Button class="mt-4 w-48">
-                    <i class="pi pi-plus-circle"></i>
-                    Adicionar livro
-                </Button>
-            </NuxtLink> -->
-            <SearchBooks class="mt-4"/>
-            <BooksGrid :books="books"/>
-            <Paginator :rows="25" :total-records="120" class="mt-6"/>
-            <EditBookModal :book="book" v-if="route.query.editBook" v-on:close="() => router.push('./books')"/>
-        </main>
+        <p>Acervo</p>
+        <h1 class="text-2xl font-semibold">Gerenciar livros</h1>
+        <AddNewBookModal />
+        <SearchBooks class="mt-4"/>
+        <BooksGrid :books="books"/>
+        <Paginator :rows="25" :total-records="120" class="mt-6"/>
+        <EditBookModal :book="book" v-if="route.query.editBook" v-on:close="() => router.push('./books')"/>
     </div>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+    layout: 'admin'
+})
 import SearchBooks from '~/components/searchBooks.vue';
-import Sidebar from '~/components/sidebar.vue';
+import Sidebar from '~/components/adminSidebar.vue';
     const book = {
         isbn: '978xxxxxxxxxx',
         title: 'Entendendo algoritmos',

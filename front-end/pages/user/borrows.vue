@@ -1,18 +1,18 @@
 <template>
-  <Header />  
-  <main class="flex gap-4">
-    <UserSidebar/>
-    <div class="flex flex-col gap-4">
-      <Borrow :book="exampleBook" class="mt-8"/>
-      <Borrow :book="exampleBook"/>
-      <Borrow :book="exampleBook"/>
-      <Borrow :book="exampleBook"/>
-      <Borrow :book="exampleBook"/>
-    </div>
-  </main>
+  <div class="flex flex-col gap-4">
+    <Borrow :book="exampleBook" class="mt-8"/>
+    <Borrow :book="exampleBook"/>
+    <Borrow :book="exampleBook"/>
+    <Borrow :book="exampleBook"/>
+    <Borrow :book="exampleBook"/>
+  </div>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+    layout: 'user'
+})
+
 import Borrow from '~/components/borrow.vue';
 import UserSidebar from '~/components/userSidebar.vue';
 const exampleBook = { 

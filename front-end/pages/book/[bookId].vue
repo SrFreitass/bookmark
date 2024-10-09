@@ -1,5 +1,4 @@
 <template>
-    <Header/>
     <main class="flex flex-col max-w-[1600px] justify-center h-[80vh] mx-32 m-auto">
         <div class="flex gap-2 items-center mb-8">
             <i class="pi pi-arrow-left"></i>

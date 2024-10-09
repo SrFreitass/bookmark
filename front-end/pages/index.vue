@@ -13,7 +13,6 @@ for(let i = 0; i < 25; i++) {
 </script>
 
 <template>
-    <Header />
     <BookCarousel :label="{title: 'Romance', category: 'romance'}" :books="books"/>
     <BookCarousel :label="{title: 'Contos', category: 'contos'}" :books="books"/>
     <BookCarousel :label="{title: 'Ficção', category: 'Ficção'}" :books="books"/>
