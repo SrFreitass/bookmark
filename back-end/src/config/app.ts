@@ -2,8 +2,15 @@ import jwt from '@elysiajs/jwt';
 import { swagger } from '@elysiajs/swagger';
 import { Elysia, t } from 'elysia';
 import { Router } from '../application/routers/router';
+import { cors } from '@elysiajs/cors'
 
 const App = new Elysia({})
+  .use(
+    cors({
+      origin: '*',
+      methods: '*'
+    })
+  )
   .use(
     swagger({
       version: '0.1.0',
