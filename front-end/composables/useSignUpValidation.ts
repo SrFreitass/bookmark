@@ -1,19 +1,30 @@
 interface FormInputs {
+    username: string;
     name: string;
     email: string;
+    birthDay: string;
     password: string;
     confirmPassword: string;
 }
 
-const useSignUpValidation = ({ name, email, password, confirmPassword }: FormInputs) => {
+const useSignUpValidation = ({ username, name, email, birthDay, password, confirmPassword }: FormInputs) => {
     let containsErrors = false;
 
     const formErrors = reactive({
+        username: {
+            message: '',
+            error: false,
+        },
+
         name: {
             message: '',
             error: false,
         },
         email: {
+            message: '',
+            error: false,
+        },
+        birthDay: {
             message: '',
             error: false,
         },
@@ -27,10 +38,22 @@ const useSignUpValidation = ({ name, email, password, confirmPassword }: FormInp
         }
     });
 
+    const usernameErr = formErrors.username;
+    const birthDayErr = formErrors.birthDay;
     const nameErr = formErrors.name;
     const emailErr = formErrors.email;
     const passwordErr = formErrors.password;
     const confirmPasswordErr = formErrors.confirmPassword;
+    
+    if(username.length < 3) {
+        containsErrors = true;
+        usernameErr.error = true;
+        usernameErr.message = 'Apelido inválido! Menor que três caracteres'
+    } else {
+        usernameErr.error = false;
+        usernameErr.message = '';
+    }
+
 
     if (name.length < 3) {
         containsErrors = true;
@@ -51,6 +74,15 @@ const useSignUpValidation = ({ name, email, password, confirmPassword }: FormInp
         emailErr.error = false;
         emailErr.message = '';
     };
+
+
+    if(!birthDay) {
+        birthDayErr.error = true;
+        birthDayErr.message = 'Insira um data válida!'
+    } else {
+        birthDayErr.error = false;
+        birthDayErr.message = '';
+    }
 
     const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g;
 

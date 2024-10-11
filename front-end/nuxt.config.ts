@@ -8,11 +8,14 @@ export default defineNuxtConfig({
   modules: [
     "@primevue/nuxt-module", 
     "@nuxtjs/google-fonts",
-    "@nuxtjs/axios",
     "nuxt-swiper"
   ],
 
-  axios: {},
+  runtimeConfig: {
+    public: {
+      baseUrlApi: ''
+    }
+  },
 
   $production: {
     routeRules: {

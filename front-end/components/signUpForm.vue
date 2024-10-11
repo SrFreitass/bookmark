@@ -27,7 +27,14 @@
 </template>
 
 <script setup lang="ts">
+import { createAccount } from '~/http/auth/createAccount';
+
     const inputs = {
+        username: {
+            placeholder: 'Seu apelido',
+            icon: 'pi pi-at',
+            type: 'text'
+        },
         name: {
             placeholder: 'Seu nome',
             icon: 'pi pi-user',
@@ -37,6 +44,11 @@
             placeholder: 'Seu melhor e-mail',
             icon: 'pi pi-envelope',
             type: 'text'
+        },
+        birthDay: {
+            placeholder: 'Sua data de nascimento',
+            icon: 'pi pi-calendar',
+            type: 'date'
         },
         password: {
             placeholder: 'Sua senha',
@@ -51,14 +63,21 @@
     }
 
     const form = reactive({
+        username: '',
         name: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        birthDay: ''
     });
 
     const formErrors = reactive({ 
         errors: {    
+            username: {
+                message: '',
+                error: false,
+            },
+
             name: {
                 message: '',
                 error: false
@@ -71,6 +90,10 @@
                 message: '',
                 error: false
             },
+            birthDay: {
+                message: '',
+                error: false
+            },
             confirmPassword: {
                 message: '',
                 error: false
@@ -79,14 +102,20 @@
     });
 
 
-    const onSubmit = (e: Event) => {
+    const onSubmit = async (e: Event) => {
         e.preventDefault();
         const { formErrors: formErr, containsErrors } = useSignUpValidation(form);
+        formErrors.errors = { ...formErr };
         
-        if (containsErrors) {
-            formErrors.errors = { ...formErr };
-            return;
-        }
+        if (containsErrors) return;
+
+        await createAccount({
+            username: form.username,
+            name: form.name,
+            password: form.password,
+            birthDay: form.birthDay,
+            email: form.email,
+        });
 
     };
 </script>
