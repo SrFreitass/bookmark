@@ -24,7 +24,6 @@ const createAccount = async (body: Body): Promise<HTTPResponse<Response> | null>
 
         return json;
     } catch (err) {
-        console.error(err, 'ALERTA ALERTA');
         return null;
     }
 

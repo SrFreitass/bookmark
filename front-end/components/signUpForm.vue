@@ -27,6 +27,11 @@
             <label>Lembrar de mim</label>
         </div>
          <Button type="submit">Registrar</Button>
+         <p class="text-gray-400">Já tem uma conta? 
+            <u class="text-white">
+                <NuxtLink href="./signin">Entrar</NuxtLink>
+            </u>
+        </p>
     </form>
 </template>
 
