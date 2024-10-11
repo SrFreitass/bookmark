@@ -1,24 +1,24 @@
 <template>
     <form class="flex flex-col gap-4" @submit="onSubmit">
-        <div v-for="input in Object.keys(inputs)">
+        <div v-for="(config, key) in inputs">
             <InputGroup>
                 <InputGroupAddon>
-                    <i :class="inputs[input as keyof typeof inputs]['icon']"></i>
+                    <i :class="config['icon']"></i>
                 </InputGroupAddon>
                 <InputText 
-                    :type="inputs[input as keyof typeof inputs]['type']"
+                    :type="config['type']"
                     :class="
-                    `${formErrors['errors'][input as keyof typeof formErrors['errors']].error && '!border-red-500'}`
+                    `${formErrors['errors'][key]['error'] ? '!border-red-500' : ''}`
                     "
-                    :placeholder="inputs[input as keyof typeof inputs]['placeholder']" 
-                    v-model:model-value="form[input as keyof typeof form]"
+                    :placeholder="config['placeholder']" 
+                    v-model:model-value="form[key]"
                 />
             </InputGroup>
             <p 
-                v-if="formErrors['errors'][input as keyof typeof formErrors['errors']]"
+                v-if="formErrors['errors'][key]['error']"
                 class="text-red-500 mt-2"
             >
-                {{ formErrors['errors'][input as keyof typeof formErrors['errors']].message  }}
+                {{ formErrors['errors'][key].message }}
             </p>
         </div>
 
