@@ -11,7 +11,7 @@ class UserEntity {
   readonly username: string;
   readonly email: string;
   readonly password: string;
-  readonly dateBirthday: Date;
+  readonly birthday: Date;
   readonly avatarURL: string;
   readonly role: role;
   readonly isVerified: boolean;
@@ -21,7 +21,7 @@ class UserEntity {
     name,
     email,
     password,
-    dateBirthday,
+    birthday,
     avatarURL,
     username,
   }: Omit<UserEntity, 'id' | 'role' | 'createdAt' | 'isVerified'>) {
@@ -30,7 +30,7 @@ class UserEntity {
     this.name = name;
     this.email = email;
     this.password = password;
-    this.dateBirthday = dateBirthday;
+    this.birthday = birthday;
     this.avatarURL = avatarURL;
     this.role = 'STUDENT'; // default role
     this.isVerified = false;
