@@ -3,7 +3,7 @@ import { client } from "../client";
 interface Body {
     username: string;
     name: string;
-    birthDay: string;
+    birthday: string;
     email: string;
     password: string;
 }

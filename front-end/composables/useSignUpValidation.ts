@@ -2,12 +2,12 @@ interface FormInputs {
     username: string;
     name: string;
     email: string;
-    birthDay: string;
+    birthday: string;
     password: string;
     confirmPassword: string;
 }
 
-const useSignUpValidation = ({ username, name, email, birthDay, password, confirmPassword }: FormInputs) => {
+const useSignUpValidation = ({ username, name, email, birthday, password, confirmPassword }: FormInputs) => {
     let containsErrors = false;
 
     const formErrors = reactive({
@@ -24,7 +24,7 @@ const useSignUpValidation = ({ username, name, email, birthDay, password, confir
             message: '',
             error: false,
         },
-        birthDay: {
+        birthday: {
             message: '',
             error: false,
         },
@@ -39,7 +39,7 @@ const useSignUpValidation = ({ username, name, email, birthDay, password, confir
     });
 
     const usernameErr = formErrors.username;
-    const birthDayErr = formErrors.birthDay;
+    const birthdayErr = formErrors.birthday;
     const nameErr = formErrors.name;
     const emailErr = formErrors.email;
     const passwordErr = formErrors.password;
@@ -76,12 +76,13 @@ const useSignUpValidation = ({ username, name, email, birthDay, password, confir
     };
 
 
-    if(!birthDay) {
-        birthDayErr.error = true;
-        birthDayErr.message = 'Insira um data válida!'
+    if(!birthday) {
+        containsErrors = true;
+        birthdayErr.error = true;
+        birthdayErr.message = 'Insira um data válida!'
     } else {
-        birthDayErr.error = false;
-        birthDayErr.message = '';
+        birthdayErr.error = false;
+        birthdayErr.message = '';
     }
 
     const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g;

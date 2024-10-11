@@ -17,7 +17,7 @@ const users = pgTable('users', {
   username: varchar('username', { length: 100 }).notNull(),
   email: text('email').notNull(),
   password: text('password').notNull(),
-  dateBirthday: timestamp('date_birthday').notNull(),
+  birthday: timestamp('date_birthday').notNull(),
   avatarURL: text('avatar_url').notNull(),
   isVerified: boolean('is_verified').notNull(),
   role: roleEnum("role").default("STUDENT").notNull(),
@@ -48,7 +48,7 @@ const borrowBooks = pgTable('borrow_books', {
   createdAt: timestamp('created_at').notNull(),
   statusUpdateAt: timestamp("status_update_at").notNull(),
   limitDate: timestamp("limit_date").notNull()
-})
+});
 
 
 export { books, borrowBooks, roleEnum, users };
