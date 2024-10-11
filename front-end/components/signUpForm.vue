@@ -1,42 +1,55 @@
 <template>
     <form class="flex flex-col gap-4" @submit="onSubmit">
-        <UiInputForm
-            :model-value="form.name"
-            :error="formErrors.errors.name.error"
-            :message="formErrors.errors.name.message"
-            place-holder="Seu nome"
-            icon="pi pi-user"
-        />
-
-        <UiInputForm
-            :model-value="form.email"
-            :error="formErrors.errors.email.error"
-            :message="formErrors.errors.email.message"
-            place-holder="Seu melhor e-maiil"
-            icon="pi pi-envelope"
-         />
-
-        <UiInputForm
-            :model-value="form.password"
-            :error="formErrors.errors.password.error"
-            :message="formErrors.errors.password.message"
-            place-holder="Sua senha"
-            icon="pi pi-lock"
-         />
-
-         <UiInputForm
-            :model-value="form.confirmPassword"
-            :error="formErrors.errors.confirmPassword.error"
-            :message="formErrors.errors.confirmPassword.message"
-            place-holder="Confirmar sua senha"
-            icon="pi pi-lock"
-         />
+        <div v-for="input in Object.keys(inputs)">
+            <InputGroup>
+                <InputGroupAddon>
+                    <i :class="inputs[input as keyof typeof inputs]['icon']"></i>
+                </InputGroupAddon>
+                <InputText 
+                    :type="inputs[input as keyof typeof inputs]['type']"
+                    :class="
+                    `${formErrors['errors'][input as keyof typeof formErrors['errors']].error && '!border-red-500'}`
+                    "
+                    :placeholder="inputs[input as keyof typeof inputs]['placeholder']" 
+                    v-model:model-value="form[input as keyof typeof form]"
+                />
+            </InputGroup>
+            <p 
+                v-if="formErrors['errors'][input as keyof typeof formErrors['errors']]"
+                class="text-red-500 mt-2"
+            >
+                {{ formErrors['errors'][input as keyof typeof formErrors['errors']].message  }}
+            </p>
+        </div>
 
          <Button type="submit">Registrar</Button>
     </form>
 </template>
 
 <script setup lang="ts">
+    const inputs = {
+        name: {
+            placeholder: 'Seu nome',
+            icon: 'pi pi-user',
+            type: 'text'
+        },
+        email: {
+            placeholder: 'Seu melhor e-mail',
+            icon: 'pi pi-envelope',
+            type: 'text'
+        },
+        password: {
+            placeholder: 'Sua senha',
+            icon: 'pi pi-lock',
+            type: 'password'
+        },
+        confirmPassword: {
+            placeholder: 'Confirme sua senha',
+            icon: 'pi pi-lock',
+            type: 'password'
+        },
+    }
+
     const form = reactive({
         name: '',
         email: '',
@@ -68,8 +81,12 @@
 
     const onSubmit = (e: Event) => {
         e.preventDefault();
-        const { formErrors: formErr } = useSignUpValidation(form);
-        console.log(formErrors);
-        formErrors.errors = { ...formErr };
+        const { formErrors: formErr, containsErrors } = useSignUpValidation(form);
+        
+        if (containsErrors) {
+            formErrors.errors = { ...formErr };
+            return;
+        }
+
     };
 </script>

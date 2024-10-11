@@ -1,3 +1,8 @@
+<script setup lang="ts">
+    import AdminSidebar from '~/components/adminSidebar.vue';
+    import 'primeicons/primeicons.css';
+</script>
+
 <template>
     <Header/>
     <div class="flex gap-4 min-h-screen">
@@ -8,10 +13,3 @@
     </div>
     
 </template>
-
-<script>
-import AdminSidebar from '~/components/adminSidebar.vue';
-import Sidebar from '~/components/adminSidebar.vue';
-
-
-</script>

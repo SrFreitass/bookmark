@@ -6,6 +6,8 @@ interface FormInputs {
 }
 
 const useSignUpValidation = ({ name, email, password, confirmPassword }: FormInputs) => {
+    let containsErrors = false;
+
     const formErrors = reactive({
         name: {
             message: '',
@@ -31,6 +33,7 @@ const useSignUpValidation = ({ name, email, password, confirmPassword }: FormInp
     const confirmPasswordErr = formErrors.confirmPassword;
 
     if (name.length < 3) {
+        containsErrors = true;
         nameErr.error = true;
         nameErr.message = 'Nome inválido! Menor que três caracteres'
     } else {
@@ -41,7 +44,7 @@ const useSignUpValidation = ({ name, email, password, confirmPassword }: FormInp
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/g;
 
     if (!regexEmail.test(email) || email.length < 3) {
-
+        containsErrors = true;
         emailErr.error = true;
         emailErr.message = 'E-mail inválido!'
     } else {
@@ -52,7 +55,7 @@ const useSignUpValidation = ({ name, email, password, confirmPassword }: FormInp
     const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g;
 
     if (!regexPassword.test(password)) {
-
+        containsErrors = true;
         passwordErr.error = true;
         passwordErr.message = 'A senha deve conter 8 caracteres, 1 número e 1 caracter especial!'
     } else {
@@ -62,6 +65,7 @@ const useSignUpValidation = ({ name, email, password, confirmPassword }: FormInp
 
     console.log(password != confirmPassword)
     if (password != confirmPassword) {
+        containsErrors = true;
         confirmPasswordErr.error = true;
         confirmPasswordErr.message = 'A senha não se coincidem';
     } else {
@@ -69,7 +73,7 @@ const useSignUpValidation = ({ name, email, password, confirmPassword }: FormInp
         confirmPasswordErr.message = '';
     }
 
-    return { formErrors };
+    return { formErrors, containsErrors };
 }
 
 export { useSignUpValidation }
