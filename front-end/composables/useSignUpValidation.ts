@@ -10,100 +10,59 @@ interface FormInputs {
 const useSignUpValidation = ({ username, name, email, birthday, password, confirmPassword }: FormInputs) => {
     let containsErrors = false;
 
-    const formErrors = reactive({
-        username: {
-            message: '',
-            error: false,
-        },
+    const formErrors: Record<string, { error: boolean, message: string }> = { };
 
-        name: {
-            message: '',
-            error: false,
-        },
-        email: {
-            message: '',
-            error: false,
-        },
-        birthday: {
-            message: '',
-            error: false,
-        },
-        password: {
-            message: '',
-            error: false,
-        },
-        confirmPassword: {
-            message: '',
-            error: false,
+    const validateField = (condition: boolean, field: string, message: string) => {
+        if(condition) {
+            containsErrors = true;
+
+            formErrors[field] = {
+                error: true,
+                message
+            };
+        } else {
+            formErrors[field] = {
+                error: false,
+                message: ''
+            }
         }
-    });
-
-    const usernameErr = formErrors.username;
-    const birthdayErr = formErrors.birthday;
-    const nameErr = formErrors.name;
-    const emailErr = formErrors.email;
-    const passwordErr = formErrors.password;
-    const confirmPasswordErr = formErrors.confirmPassword;
-    
-    if(username.length < 3) {
-        containsErrors = true;
-        usernameErr.error = true;
-        usernameErr.message = 'Apelido inválido! Menor que três caracteres'
-    } else {
-        usernameErr.error = false;
-        usernameErr.message = '';
     }
 
+    validateField(
+        username.length < 3, 
+        'username', 
+        'Apelido inválido! Menor que três caracteres'
+    );
 
-    if (name.length < 3) {
-        containsErrors = true;
-        nameErr.error = true;
-        nameErr.message = 'Nome inválido! Menor que três caracteres'
-    } else {
-        nameErr.error = false;
-        nameErr.message = '';
-    };
+    validateField(
+        name.length < 3,
+        'name',
+        'Nome inválido! Menor que três caracteres'
+    )
 
-    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/g;
+    validateField(
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/g.test(email), 
+        'email', 
+        'E-mail inválido!'
+    );
 
-    if (!regexEmail.test(email) || email.length < 3) {
-        containsErrors = true;
-        emailErr.error = true;
-        emailErr.message = 'E-mail inválido!'
-    } else {
-        emailErr.error = false;
-        emailErr.message = '';
-    };
+    validateField(
+        !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g.test(email), 
+        'password', 
+        'A senha deve conter 8 caracteres, 1 número e 1 caracter especial!'
+    );
 
+    validateField(
+        Number.isNaN(new Date(birthday).getTime()),
+        'birthday',
+        'Data de nascimento inválida!'
+    )
 
-    if(!birthday) {
-        containsErrors = true;
-        birthdayErr.error = true;
-        birthdayErr.message = 'Insira um data válida!'
-    } else {
-        birthdayErr.error = false;
-        birthdayErr.message = '';
-    }
-
-    const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g;
-
-    if (!regexPassword.test(password)) {
-        containsErrors = true;
-        passwordErr.error = true;
-        passwordErr.message = 'A senha deve conter 8 caracteres, 1 número e 1 caracter especial!'
-    } else {
-        passwordErr.error = false;
-        passwordErr.message = '';
-    };
-
-    if (password != confirmPassword) {
-        containsErrors = true;
-        confirmPasswordErr.error = true;
-        confirmPasswordErr.message = 'A senha não se coincidem';
-    } else {
-        confirmPasswordErr.error = false;
-        confirmPasswordErr.message = '';
-    }
+    validateField(
+        password != confirmPassword,
+        'confirmPassword',
+        'As senhas não se coincidem'
+    )
 
     return { formErrors, containsErrors };
 }

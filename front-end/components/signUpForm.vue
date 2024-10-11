@@ -129,7 +129,7 @@ import { createAccount } from '~/http/auth/createAccount';
     const onSubmit = async (e: Event) => {
         e.preventDefault();
         const { formErrors: formErr, containsErrors } = useSignUpValidation(form);
-        formErrors.errors = { ...formErr };
+        formErrors.errors = { ...formErr as typeof formErrors.errors };
         
         if (containsErrors) return;
         const res = await createAccount({
