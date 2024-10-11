@@ -22,12 +22,31 @@
             </p>
         </div>
 
+        <div class="flex gap-2">
+            <Checkbox v-model:model-value="checkbox" :binary="true"/>
+            <label>Lembrar de mim</label>
+        </div>
          <Button type="submit">Registrar</Button>
     </form>
 </template>
 
 <script setup lang="ts">
+import Checkbox from 'primevue/checkbox';
+import { useRegisterTokens } from '~/composables/useRgisterTokens';
 import { createAccount } from '~/http/auth/createAccount';
+
+    const errors  = {
+        'Username already exists': () => { 
+            formErrors.errors.username.error = true;
+            formErrors.errors.username.message = 'Apelido de usuário já existe!'
+        },
+        'Email already exists': () => {
+            formErrors.errors.email.error = true;
+            formErrors.errors.email.message = 'E-mail já registrado na plataforma!'
+        }
+    }
+
+    const checkbox = ref(false);
 
     const inputs = {
         username: {
@@ -45,7 +64,7 @@ import { createAccount } from '~/http/auth/createAccount';
             icon: 'pi pi-envelope',
             type: 'text'
         },
-        birthDay: {
+        birthday: {
             placeholder: 'Sua data de nascimento',
             icon: 'pi pi-calendar',
             type: 'date'
@@ -68,7 +87,7 @@ import { createAccount } from '~/http/auth/createAccount';
         email: '',
         password: '',
         confirmPassword: '',
-        birthDay: ''
+        birthday: ''
     });
 
     const formErrors = reactive({ 
@@ -90,7 +109,7 @@ import { createAccount } from '~/http/auth/createAccount';
                 message: '',
                 error: false
             },
-            birthDay: {
+            birthday: {
                 message: '',
                 error: false
             },
@@ -108,14 +127,28 @@ import { createAccount } from '~/http/auth/createAccount';
         formErrors.errors = { ...formErr };
         
         if (containsErrors) return;
-
-        await createAccount({
+        const res = await createAccount({
             username: form.username,
             name: form.name,
             password: form.password,
-            birthDay: form.birthDay,
+            birthday: form.birthday,
             email: form.email,
         });
+
+        if (res && !res?.success) {
+            const message = res?.message as keyof typeof errors;
+
+            if(errors[message]) {
+                errors[message]();
+            }
+        }
+
+        if(res && checkbox.value) {
+            const { token, refreshToken  } = res?.data;
+            console.log(token, refreshToken);
+
+            useRegisterTokens(token, refreshToken);
+        }
 
     };
 </script>

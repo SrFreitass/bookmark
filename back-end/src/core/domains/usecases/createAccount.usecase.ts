@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { IJWT } from '../../../@types/interfaces';
 import { signUpDTO } from '../../../application/dto/auth.dto';
 import { ErrorHandler } from '../../../application/utils/error.handle';
@@ -13,11 +14,11 @@ class CreateAccountUseCase {
       username: body.username,
     });
 
-    if (user?.email === body.email) {
+    if (user?.username === body.username) {
       throw new ErrorHandler('Username already exists', 400);
     }
 
-    if (user?.name === body.name) {
+    if (user?.email === body.email) {
       throw new ErrorHandler('Email already exists', 400);
     }
 
@@ -31,7 +32,7 @@ class CreateAccountUseCase {
       username: body.username,
       email: body.email,
       password: body.password,
-      dateBirthday: new Date(body.dateBirthday),
+      birthday: new Date(body.birthday),
       avatarURL:
         'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
     });
@@ -46,9 +47,14 @@ class CreateAccountUseCase {
       role: newUserEntity.role,
     });
 
+    const refreshToken = await jwt.sign({
+      sub: newUserEntity.id,
+      exp: dayjs().add(7, 'days').unix()
+    })
+
     return {
-      message: 'User created',
       token,
+      refreshToken,
     };
   }
 }

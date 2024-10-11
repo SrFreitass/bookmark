@@ -96,7 +96,6 @@ const useSignUpValidation = ({ username, name, email, birthday, password, confir
         passwordErr.message = '';
     };
 
-    console.log(password != confirmPassword)
     if (password != confirmPassword) {
         containsErrors = true;
         confirmPasswordErr.error = true;

@@ -1,8 +1,8 @@
 import { JWTPayloadSpec } from "@elysiajs/jwt";
 
 interface JwtPayload extends JWTPayloadSpec {
-    email: string;
-    role: "DEVELOPER" | "ADMIN" | "LIBRARIAN" | "STUDENT";
+    email?: string;
+    role?: "DEVELOPER" | "ADMIN" | "LIBRARIAN" | "STUDENT";
 }
 
 interface IJWT {

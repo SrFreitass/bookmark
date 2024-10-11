@@ -13,6 +13,7 @@
     "@nuxtjs/google-fonts": "^3.2.0",
     "@primevue/themes": "^4.0.5",
     "chart.js": "^4.4.4",
+    "dayjs": "^1.11.13",
     "nuxt": "^3.13.0",
     "nuxt-swiper": "^1.2.2",
     "primeicons": "^7.0.0",

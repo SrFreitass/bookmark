@@ -8,6 +8,7 @@ import { users } from '../../infra/db/schema';
 import { UserRepositoryImpl } from '../../infra/repositories/user.repository';
 import { refreshTokenDTO, signInDTO, signUpDTO } from '../dto/auth.dto';
 import { errorResponse } from '../utils/error.response';
+import { successResponse } from '../utils/success.response';
 
 class AuthController {
   constructor(private readonly app: typeof App) {
@@ -20,11 +21,7 @@ class AuthController {
           );
           const output = await usecase.execute(context.body, context.jwt as IJWT);
 
-          return {
-            status: 201,
-            message: output.message,
-            tokenAccess: output.token,
-          };
+          return successResponse(201, output, 'User created')
         } catch (err) {
           return errorResponse(err);
         }
