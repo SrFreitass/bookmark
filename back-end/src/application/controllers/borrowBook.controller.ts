@@ -1,5 +1,5 @@
 import { App } from "../../config/app";
-import { BorrowBookUseCase } from "../../core/domains/usecases/BorrowBook.usecase";
+import { BorrowBookUseCase } from "../../core/domains/usecases/borrowBook.usecase";
 import { db } from "../../infra/db/connect";
 import { books, borrowBooks } from "../../infra/db/schema";
 import { BookRepositoryImpl } from "../../infra/repositories/book.repository";
