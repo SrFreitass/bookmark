@@ -45,11 +45,7 @@ class AuthController {
           const usecase = new SignInAccount(new UserRepositoryImpl(db, users));
           const output = await usecase.execute(context.body, context.jwt as IJWT);
 
-          return {
-            status: 200,
-            message: output.message,
-            tokenAccess: output.token,
-          };
+          return successResponse(200, output, 'User signed in');
         } catch (err) {
           return errorResponse(err);
         }

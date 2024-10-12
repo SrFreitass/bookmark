@@ -2,9 +2,6 @@ import { client } from "../client";
 import type { HTTPResponse } from "../types/http.response";
 
 interface Body {
-    username: string;
-    name: string;
-    birthday: string;
     email: string;
     password: string;
 }
@@ -14,19 +11,17 @@ interface Response {
     refreshToken: string;
 };
 
-const createAccount = async (body: Body): Promise<HTTPResponse<Response> | null> => {
+const signInAccount = async (body: Body): Promise<HTTPResponse<Response> | null> => {
     try {
-        console.log(body);
-
-        const json = await client("POST", "/auth/signup", {
+        const json = client("POST", "/auth/signin", {
             ...body
-        });
+        })
 
         return json;
-    } catch (err) {
+    } catch (error) {
+        console.error(error);
         return null;
     }
-
 }
 
-export { createAccount }
+export { signInAccount }

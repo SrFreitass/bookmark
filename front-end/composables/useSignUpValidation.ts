@@ -47,7 +47,7 @@ const useSignUpValidation = ({ username, name, email, birthday, password, confir
     );
 
     validateField(
-        !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/g.test(email), 
+        !(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/g.test(password)), 
         'password', 
         'A senha deve conter 8 caracteres, 1 número e 1 caracter especial!'
     );

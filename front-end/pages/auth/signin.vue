@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts">
-import SignInForm from '~/components/signInForm.vue';
 
 definePageMeta({
     layout: 'auth'

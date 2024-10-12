@@ -140,20 +140,19 @@ import { createAccount } from '~/http/auth/createAccount';
             email: form.email,
         });
 
-        if (res && !res?.success) {
+        if (!res?.success) {
             const message = res?.message as keyof typeof errors;
 
             if(errors[message]) {
                 errors[message]();
             }
+
+            return;
         }
 
-        if(res && checkbox.value) {
-            const { token, refreshToken  } = res?.data;
-            console.log(token, refreshToken);
+        const { token, refreshToken  } = res?.data;
 
-            useRegisterTokens(token, refreshToken);
-        }
+        useRegisterTokens(token, refreshToken, checkbox.value);
 
     };
 </script>
