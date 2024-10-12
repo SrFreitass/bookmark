@@ -9,9 +9,9 @@
                     <li><span class="pi pi-search" @click="changeStatusSidebar"></span></li>
                     <li>
                         <UserOptions
-                            :avatar="'https://github.com/srfreitass.png'"
-                            :username="'Freitasdev'"
-                            :role="'Estudante'"
+                            :avatar="globalState.user?.avatarURL || ''"
+                            :username="globalState.user?.name || ''"
+                            :role="globalState.user?.role || ''"
                         />
                     </li>
                 </ul>
@@ -26,6 +26,8 @@
     import 'primeicons/primeicons.css'
     import UserOptions from './userOptions.vue';
     const sidebarStatus = ref(false);
+
+    const globalState = useGlobalState()
 
     const changeStatusSidebar = () => {
         sidebarStatus.value = !sidebarStatus.value;
