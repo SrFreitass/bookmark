@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { getUserById } from "~/http/user/getUserById";
+import { verifyToken } from "~/http/user/verifyToken";
 
 interface Tokens {
     token: string;
@@ -11,14 +11,11 @@ const middleware = defineNuxtRouteMiddleware(async (to, from) => {
 
     const tokens = useCookie<Tokens>('tokens').value || JSON.parse(sessionStorage.getItem('tokens') || '{}') as Tokens;
 
-    if(to.path.includes("/signup") || to.path.includes("/signin") && tokens.token) {
+    if(to.path.includes("/signup") || to.path.includes("/signin") && tokens.token) {; 
 
-        const tokenDecoded = jwtDecode(tokens.token || ''); 
+        const verify = await verifyToken(tokens.token);
 
-
-        const user = await getUserById(tokenDecoded.sub || '');
-
-        if(user?.success) return navigateTo("/");
+        if(verify?.success) return navigateTo("/");
     }
 })
 

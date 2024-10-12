@@ -1,5 +1,9 @@
 import { t } from 'elysia';
 
+const verifyTokenDTO = t.Object({
+    token: t.String()
+})
+
 const signUpDTO = t.Object({
   name: t.String({ minLength: 3, maxLength: 50 }),
   username: t.String({ minLength: 3, maxLength: 50 }),
@@ -26,5 +30,5 @@ const refreshTokenDTO = t.Object(
   { errorMessage: 'Refresh token is required' },
 );
 
-export { refreshTokenDTO, signInDTO, signUpDTO };
+export { refreshTokenDTO, signInDTO, signUpDTO, verifyTokenDTO };
 
