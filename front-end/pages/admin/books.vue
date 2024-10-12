@@ -1,8 +1,10 @@
 <template>
-    <div class="flex min-h-screen">
-        <p>Acervo</p>
-        <h1 class="text-2xl font-semibold">Gerenciar livros</h1>
-        <AddNewBookModal />
+    <div class="flex flex-col min-h-screen">
+        <div>
+            <p>Acervo</p>
+            <h1 class="text-2xl font-semibold">Gerenciar livros</h1>
+            <AddNewBookModal />
+        </div>
         <SearchBooks class="mt-4"/>
         <BooksGrid :books="books"/>
         <Paginator :rows="25" :total-records="120" class="mt-6"/>
