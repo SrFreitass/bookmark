@@ -12,7 +12,7 @@ type HttpMethod =
   | 'TRACE';
 
 
-const client = async (method: HttpMethod, route: string, body: unknown) => {
+const client = async (method: HttpMethod, route: string, body?: unknown) => {
     const runtime = useRuntimeConfig();
     const baseURL = runtime.public.baseUrlApi || 'localhost:8080/api/v1'
 
