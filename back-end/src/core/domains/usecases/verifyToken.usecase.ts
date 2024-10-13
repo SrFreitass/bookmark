@@ -5,9 +5,7 @@ class VerifyTokenUseCase {
     constructor(private readonly jwt: IJWT) {}
 
     async execute(token: string) {
-        const isValid = await this.jwt.verify(token)
-
-        console.log(isValid, token)
+        const isValid = await this.jwt.verify(token);
 
         if(!isValid) {
             throw new ErrorHandler("Token invalid!")

@@ -20,7 +20,7 @@ const App = new Elysia({})
     jwt({
       name: 'jwt',
       secret: process.env.JWT_SECRET || '',
-      expiresIn: '1h',
+      exp: '1h'
     }),
   );
 

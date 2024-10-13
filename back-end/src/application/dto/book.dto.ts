@@ -1,7 +1,7 @@
 import { t } from 'elysia';
 
 const getBooksDTO = t.Object({
-  page: t.Number({ minimum: 1 }),
+  page: t.Number({ minimum: 1 })
 });
 
 const createBookDTO = t.Object({

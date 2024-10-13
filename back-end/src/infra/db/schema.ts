@@ -7,6 +7,7 @@ import {
   text,
   timestamp,
   varchar,
+
 } from 'drizzle-orm/pg-core';
 
 const roleEnum = pgEnum("role", ["DEVELOPER", "ADMIN", "LIBRARIAN", "STUDENT"])
@@ -33,12 +34,18 @@ const books = pgTable('books', {
   coverURL: text('cover_url').notNull(),
   publisher: text('publisher').notNull(),
   publishedAt: timestamp('published_at').notNull(),
+  categoryId: varchar('category_id', { length: 36 }).references(() => categories.id),
   pages: integer('pages').notNull(),
   quantity: smallint('quantity').notNull(),
   available: smallint('available').notNull(),
   createdAt: timestamp('created_at').notNull(),
   updatedAt: timestamp('updated_at'),
 });
+
+const categories = pgTable('categories', {
+  id: varchar('id', { length: 36 }).primaryKey(),
+  name: varchar('name', { length: 100 }).notNull().unique(),
+})
 
 const borrowBooks = pgTable('borrow_books', {
   id: varchar('id', { length: 36 }).primaryKey(),
@@ -51,5 +58,5 @@ const borrowBooks = pgTable('borrow_books', {
 });
 
 
-export { books, borrowBooks, roleEnum, users };
+export { categories, books, borrowBooks, roleEnum,users };
 

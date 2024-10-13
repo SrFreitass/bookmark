@@ -1,4 +1,4 @@
-import { eq, like, or, sql } from 'drizzle-orm';
+import { eq, like, or, SQL, sql } from 'drizzle-orm';
 import { BookEntity } from '../../core/domains/entities/book.entity';
 import { BookRepository } from '../../core/repositories/IBook.repository';
 import { db } from '../db/connect';
@@ -45,13 +45,22 @@ class BookRepositoryImpl implements BookRepository {
     return book;
   }
 
-  async findBooks(page: number): Promise<BookEntity[]> {
-    const books = await this.database.query.books.findMany({
-      offset: page * 20 - 20,
-      limit: page * 20,
-    });
+  async findBooks(page: number, categoryId?: string): Promise<BookEntity[]> {
+    const limit = page * 20
+    const offset = limit - 20
 
-    return books;
+    if(categoryId) {
+      return await this.database.query.books.findMany({
+        offset,
+        limit,
+        where: eq(this.book.categoryId, categoryId)
+      });
+    }
+
+    return await this.database.query.books.findMany({
+      offset,
+      limit,
+    });
   }
 }
 

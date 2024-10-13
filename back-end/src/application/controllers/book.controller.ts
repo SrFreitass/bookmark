@@ -1,3 +1,4 @@
+import { error, t } from 'elysia';
 import { App } from '../../config/app';
 import { CreateBookUseCase } from '../../core/domains/usecases/createBook.usecase';
 import { DeleteBookUseCase } from '../../core/domains/usecases/deleteBook.usecase';
@@ -84,13 +85,15 @@ class BookController {
           const usecase = new GetBooksUseCase(
             new BookRepositoryImpl(db, books),
           );
-          const output = await usecase.execute(context.params.page);
+
+          const output = await usecase.execute(context.params.page, context.query.categoryId);
           return successResponse(200, output, 'Books found');
         } catch (err) {
           return errorResponse(err);
         }
       },
       {
+        query: t.Optional(t.Object({ categoryId: t.String({ format: 'uuid' }) })),
         params: getBooksDTO,
         error: (err) => {
           return errorResponse(err.error);
