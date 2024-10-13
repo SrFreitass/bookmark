@@ -1,9 +1,9 @@
 <template>
-    <DataTable show-gridlines class="mt-4":value="[{ username: 'Freitasdev', name: 'Guilherme F.', role: 'Desenvolvedor', email: 'freitas@google.com', createdAt: '01/01/2025' }]">
+    <DataTable show-gridlines class="mt-4" :value="users">
         <Column key="username" header="Usuário">
             <template #body="user">
                 <div class="flex items-center gap-2">
-                    <img src="https://github.com/srfreitass.png" width="42px" height="42px" class="rounded-md"/>
+                    <img :src="user.data.avatarURL" width="42px" height="42px" class="rounded-md"/>
                     <p>{{ user.data.username }}</p>
                 </div>
             </template>
@@ -14,3 +14,11 @@
         <Column key="createdAt" header="Criada" field="createdAt"></Column>
     </DataTable>
 </template>
+
+<script setup lang="ts">
+import type { User } from '~/models/IUser';
+
+    const { users } = defineProps<{
+        users: User[]
+    }>()
+</script>
