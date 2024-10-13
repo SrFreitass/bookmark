@@ -8,18 +8,25 @@ import { db } from "../../infra/db/connect";
 import { users } from "../../infra/db/schema";
 import { successResponse } from "../utils/success.response";
 import { BookRepositoryImpl } from "../../infra/repositories/book.repository";
+import { GetUsersUseCase } from "../../core/domains/usecases/getUsers.usecase";
 
 
 class UserController {
     constructor(private readonly app: typeof App) {
         this.app.get("/api/v1/users/:page", async (context) => {
             try {
-               
+               const useCase = new GetUsersUseCase(new UserRepositoryImpl(db, users));
+               const output = await useCase.execute({
+                    page: context.params.page,
+                     borrow: !!context.query.borrow, 
+                     pendency: !!context.query.pendency 
+
+                });
+               return successResponse(200, output, "Users found");
             } catch (error) {
                 return errorResponse(error);
             }
         }, {
-            query: t.Optional(t.Object({ pedency: t.Boolean(), borrow: t.Boolean() })),
             params: getUsersDTO,
         })
 

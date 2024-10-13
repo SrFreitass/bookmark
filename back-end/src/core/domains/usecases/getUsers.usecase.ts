@@ -1,11 +1,16 @@
+import { ErrorHandler } from "../../../application/utils/error.handle";
 import { UserRepository } from "../../repositories/IUser.repository";
 
-class GetUserUseCase {
+class GetUsersUseCase {
     constructor(private readonly userRepository: UserRepository) {}
     
-    async execute() {
-        this.userRepository.findUsers()
+    async execute({ borrow, pendency, page}: { borrow: boolean, pendency: boolean, page: number }) {
+        if(borrow && pendency) {
+            throw new ErrorHandler("Borrow and pendency is invalid!")
+        }
+
+        return await this.userRepository.findUserWhere({ borrow, pendency, page });
     }
 }
 
-export { GetUserUseCase }
+export { GetUsersUseCase }
