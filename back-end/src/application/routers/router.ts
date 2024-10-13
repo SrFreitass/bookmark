@@ -2,6 +2,7 @@ import { App } from '../../config/app';
 import { AuthController } from '../controllers/auth.controller';
 import { BookController } from '../controllers/book.controller';
 import { BorrowBookController } from '../controllers/borrowBook.controller';
+import { CategoryController } from '../controllers/category.controller';
 import { UserController } from '../controllers/user.controller';
 import { successResponse } from '../utils/success.response';
 
@@ -17,5 +18,6 @@ export class Router {
     new BookController(this.server);
     new BorrowBookController(this.server);
     new UserController(this.server);
+    new CategoryController(this.server);
   }
 }
