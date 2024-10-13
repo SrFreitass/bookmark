@@ -34,7 +34,7 @@ class BorrowBookUseCase {
             bookId: body.bookId,
             limitDate: body.type === 'SHORT' ? dayjs().add(1, 'day').toDate() : dayjs().add(14, 'day').toDate(),
        })
-
+       console.log(borrowBookEntity)
        await this.bookRepository.updateBook(body.bookId, { available: bookExists.available - 1 });
        await this.borrowBookRepository.create(borrowBookEntity);
 

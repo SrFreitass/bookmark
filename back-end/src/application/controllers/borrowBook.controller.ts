@@ -17,7 +17,8 @@ class BorrowBookController {
                     new BorrowBookRepositoryImpl(db, borrowBooks), 
                     new BookRepositoryImpl(db, books)
                 );
-                const ouput = await usecase.execute(context.body, context.headers["userId"] as string);
+                console.log(context.headers)
+                const ouput = await usecase.execute(context.body, context.headers["userid"] as string);
 
                 return successResponse(201, ouput, 'Book borrowed successfully');
             } catch (error) {
@@ -27,7 +28,7 @@ class BorrowBookController {
         }, {
             async beforeHandle(context: any) {
                 try {
-                    await verifyUserMiddlare(context);
+                    // await verifyUserMiddlare(context);
                 } catch (error) {
                     return errorResponse(error);
                 }

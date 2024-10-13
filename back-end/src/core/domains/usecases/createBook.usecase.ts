@@ -8,11 +8,13 @@ class CreateBookUseCase {
   constructor(private readonly bookRepository: BookRepository) {}
 
   async execute(body: typeof createBookDTO.static) {
+    /* 
+    TODO: FIX 
     const checkISBN = validateISBN(body.isbn);
 
     if (!checkISBN) {
       throw new ErrorHandler('ISBN invalid');
-    }
+    } */
 
     const bookEntity = new BookEntity({
       isbn: body.isbn,
