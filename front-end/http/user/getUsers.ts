@@ -3,7 +3,7 @@ import { client } from "../client";
 import type { HTTPResponse } from "../types/http.response";
 
 
-const getUsers = async (page: number, filter?: { borrow?: boolean, pendency?: boolean}): Promise<HTTPResponse<User[]> | null> => {
+const getUsers = async (page: number, filter?: { borrow?: boolean, pendency?: boolean}): Promise<HTTPResponse<User[] & { total?: number }[]> | null> => {
     try {
         if(filter?.borrow && filter?.pendency) {
             return null;

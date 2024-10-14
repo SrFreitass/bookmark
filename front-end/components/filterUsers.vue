@@ -5,11 +5,21 @@
         </InputGroupAddon>
         <InputText placeholder="Pesquisar usuário ou nome"/>
     </InputGroup>
-    <Menu ref="menu" :popup="true" id="overlay_options" :model="filterOptions" class="!mt-5 -ml-3" />
+    <Menu ref="menu" :popup="true" id="overlay_options" :model="filterOptions" class="!mt-5 -ml-3">
+        <template #item=item>
+            <div class="flex gap-2 items-center p-2" @click="() => onFilter(item.label?.toString() || '')">
+                <i :class="item.item.icon+' text-gray-400'"></i>
+                <p>{{ item.label }}</p>
+            </div>
+        </template>
+    </Menu>
 </template>
 
 <script setup lang="ts">
     import { ref } from 'vue';
+    const { onFilter } = defineProps<{
+        onFilter: (type: string) => void;
+    }>()
 
     const menu = ref();
 
@@ -19,6 +29,10 @@
 
     const filterOptions = [
         {
+            icon: 'pi pi-times',
+            label: 'Resetar filtro'
+        },
+        {
             icon: 'pi pi-exclamation-circle',
             label: 'Devedores'
         },
@@ -27,5 +41,6 @@
             label: 'Pendentes'
         },
     ]
+
 
 </script>

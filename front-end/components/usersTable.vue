@@ -1,5 +1,5 @@
 <template>
-    <DataTable show-gridlines class="mt-4" :value="users">
+    <DataTable show-gridlines class="mt-4" paginator :value="users.list" :rows="15" :total-records="users.total" lazy @page="onChangePage">
         <Column key="username" header="Usuário">
             <template #body="user">
                 <div class="flex items-center gap-2">
@@ -16,9 +16,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Reactive } from 'vue';
 import type { User } from '~/models/IUser';
 
-    const { users } = defineProps<{
-        users: User[]
-    }>()
+const { users, onChangePage } = defineProps<{
+    users: Reactive<{ list: User[], total: number}>;
+    onChangePage: (event: { page: number, rows: number, first: number }) => void;
+}>()
+
+console.log(users)
 </script>

@@ -1,4 +1,4 @@
-import { eq, or, sql } from 'drizzle-orm';
+import { count, eq, or, sql } from 'drizzle-orm';
 import { UserEntity } from '../../core/domains/entities/user.entity';
 import { UserRepository } from '../../core/repositories/IUser.repository';
 import { db } from '../db/connect';
@@ -10,7 +10,28 @@ export class UserRepositoryImpl implements UserRepository {
     private readonly user: typeof users,
   ) {}
 
-  async findUserWhere({ borrow, pendency, page }: { borrow: boolean; pendency: boolean; page: number }): Promise<UserEntity[] | null> {
+  async countUsers(filter?: { borrow?: boolean, pendency?: boolean }): Promise<Number> {
+    console.log(filter)
+
+    const usersCountWithFilter = this.database.
+    select({ count: count() })
+    .from(this.user)
+    .innerJoin(borrowBooks, eq(this.user.id, borrowBooks.userId))
+
+    if(filter?.borrow) {
+      console.log("1")
+      return (await usersCountWithFilter.where(sql`limit_date < now()`))[0].count;
+    } 
+
+    if(filter?.pendency) {
+      return (await usersCountWithFilter.where(eq(borrowBooks.borrow, true)))[0].count;
+    }
+
+    
+    return (await this.database.select({ count: count() }).from(this.user))[0].count;
+  }
+
+  async findUserWhere({ borrow, pendency, page, name, username }: { borrow: boolean; pendency: boolean; page: number, name: string, username: string }): Promise<UserEntity[] | null> {
     if(borrow) {
       const users =
              await this.database

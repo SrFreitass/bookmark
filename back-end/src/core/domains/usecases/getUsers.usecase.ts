@@ -9,7 +9,25 @@ class GetUsersUseCase {
             throw new ErrorHandler("Borrow and pendency is invalid!")
         }
 
-        return await this.userRepository.findUserWhere({ borrow, pendency, page });
+        const total = await this.userRepository.countUsers({ borrow, pendency });
+        const users = await this.userRepository.findUsersWhere({ borrow, pendency, page });
+
+        if(!users) {
+            return [
+                { 
+                    total,
+                    requestedAt: new Date()
+                }
+            ]
+        }
+
+        return [
+            ...users,
+            { 
+                total,
+                requestedAt: new Date()
+            }
+        ]
     }
 }
 
