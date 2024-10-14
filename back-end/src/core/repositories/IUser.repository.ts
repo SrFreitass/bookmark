@@ -4,10 +4,11 @@ interface UserRepository {
   countUsers(filter?: { borrow?: boolean, pendency?: boolean }): Promise<Number>;
   create(user: UserEntity): Promise<void>;
   findUser(fields: {
+    name?: string;
     email?: string;
     username?: string;
     id?: string;
-  }): Promise<UserEntity | null>;
+  }): Promise<UserEntity[] | null>;
   findUsers(): Promise<UserEntity[]>;
   findUsersWhere(
     { borrow, pendency, page }: 

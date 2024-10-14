@@ -3,7 +3,7 @@
     <div>
         <p>Gerencie todos os usuários da biblioteca</p>
         <h1 class="text-2xl font-semibold">Gerenciar usuários</h1>
-        <FilterUsers @filter="filter" />
+        <FilterUsers @filter="filter" @change="filterInput" />
         <UsersTable 
             :users="users"
             @changePage="onChangePage"
@@ -13,6 +13,7 @@
 
 <script setup lang="ts">
 import type { Reactive } from 'vue';
+import { getUserByName } from '~/http/user/getUserByName';
 import { getUsers } from '~/http/user/getUsers';
 import type { User } from '~/models/IUser';
 
@@ -46,6 +47,20 @@ const fetchUsers = async (page: number = 1, filter?: { borrow?: boolean, pendenc
     };
 }
 
+const searchUser = async (name: string) => {
+    if(!name) {
+        await fetchUsers();
+        return;
+    }
+    console.log(name, 'name')
+    const res = await getUserByName(name);
+
+    console.log(res, 'res');
+    if(!res?.success) return;
+
+    users.list = res.data;
+}
+
 
 const onChangePage = async (e: { page: number }) => {
     if(users.filterActive === 'BORROW') {
@@ -59,6 +74,11 @@ const onChangePage = async (e: { page: number }) => {
     }
 
     await fetchUsers(e.page+1);
+}
+
+const filterInput = async (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    await searchUser(target.value);
 }
 
 const filter = async (type: string) => {
@@ -77,7 +97,6 @@ const filter = async (type: string) => {
         await fetchUsers(1);
     }
 }
-
 
 fetchUsers();
 </script>

@@ -3,7 +3,7 @@
         <InputGroupAddon>
             <i class="pi pi-filter" @click="toggle" aria-controls="overlay_options" aria-haspopup="true"></i>
         </InputGroupAddon>
-        <InputText placeholder="Pesquisar usuário ou nome"/>
+        <InputText placeholder="Pesquisar usuário ou nome" @change="onChange"/>
     </InputGroup>
     <Menu ref="menu" :popup="true" id="overlay_options" :model="filterOptions" class="!mt-5 -ml-3">
         <template #item=item>
@@ -17,7 +17,8 @@
 
 <script setup lang="ts">
     import { ref } from 'vue';
-    const { onFilter } = defineProps<{
+    const { onFilter, onChange } = defineProps<{
+        onChange: (e: Event) => void;
         onFilter: (type: string) => void;
     }>()
 

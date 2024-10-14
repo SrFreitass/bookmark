@@ -1,4 +1,4 @@
-import { count, eq, or, sql } from 'drizzle-orm';
+import { count, eq, like, or, sql } from 'drizzle-orm';
 import { UserEntity } from '../../core/domains/entities/user.entity';
 import { UserRepository } from '../../core/repositories/IUser.repository';
 import { db } from '../db/connect';
@@ -81,15 +81,17 @@ export class UserRepositoryImpl implements UserRepository {
   }
 
   async findUser(fields: {
+    name?: string;
     email?: string;
     username?: string;
     id?: string;
-  }): Promise<UserEntity | null> {
-    const user = await this.database.query.users.findFirst({
+  }): Promise<UserEntity[] | null> {
+    const user = await this.database.query.users.findMany({
       where: or(
+        like(users.username, fields.username || ''),
+        like(users.name, fields.name || ''),
         eq(users.id, fields.id || ''),
         eq(users.email, fields.email || ''),
-        eq(users.username, fields.username || ''),
       ),
     });
 
