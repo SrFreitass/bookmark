@@ -1,4 +1,4 @@
-import { eq, like, or, SQL, sql } from 'drizzle-orm';
+import { count, eq, like, or, SQL, sql } from 'drizzle-orm';
 import { BookEntity } from '../../core/domains/entities/book.entity';
 import { BookRepository } from '../../core/repositories/IBook.repository';
 import { db } from '../db/connect';
@@ -9,6 +9,16 @@ class BookRepositoryImpl implements BookRepository {
     private readonly database: typeof db,
     private readonly book: typeof books,
   ) {}
+  
+  async countBooks(): Promise<number> {
+    const total = await this.database.select({
+      total: count(),
+    }).from(this.book)
+
+    return total[0].total;
+  }
+
+
 
   async updateBook(id: string, bookEntity: Partial<BookEntity>): Promise<void> {
       await this.database.update(this.book).set({
@@ -33,8 +43,8 @@ class BookRepositoryImpl implements BookRepository {
     title?: string;
     isbn?: string;
     id?: string;
-  }): Promise<BookEntity | undefined> {
-    const book = await this.database.query.books.findFirst({
+  }): Promise<BookEntity[] | undefined> {
+    const book = await this.database.query.books.findMany({
       where: or(
         eq(this.book.id, fields.id || ''),
         eq(this.book.isbn, fields.isbn || ''),

@@ -43,7 +43,7 @@ const fetchUsers = async (page: number = 1, filter?: { borrow?: boolean, pendenc
     if(res.data[lastIndex]?.total || res.data[lastIndex]?.total === 0) {
         users.total = res.data[lastIndex].total as number;
         users.list = res.data as User[];
-        users.list.splice(lastIndex, 1);
+        users.list.pop();
     };
 }
 

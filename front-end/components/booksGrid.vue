@@ -7,6 +7,7 @@
                 <h3 class="mt-2 text-gray-100">{{ book.title }}</h3>
             </NuxtLink>
         </div>
+        <!-- <Paginator :totalRecords="books.length" :rows="5" /> -->
     </div>
 </template>
 

@@ -10,8 +10,13 @@ class GetBooksUseCase {
     }
 
     const books = await this.bookRepository.findBooks(page, categoryId);
+    const total = await this.bookRepository.countBooks();
 
-    return books;
+    if (!books) {
+      throw new ErrorHandler('Books not found', 404);
+    }
+
+    return [...books, { total }];
   }
 }
 

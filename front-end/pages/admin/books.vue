@@ -6,9 +6,12 @@
             <AddNewBookModal />
         </div>
         <SearchBooks class="mt-4"/>
-        <BooksGrid :books="books"/>
-        <Paginator :rows="25" :total-records="120" class="mt-6"/>
-        <EditBookModal :book="book" v-if="route.query.editBook" v-on:close="() => router.push('./books')"/>
+        <BooksGrid :books="books.list"/>
+        <EditBookModal 
+            :book="book" 
+            v-if="route.query.editBook" 
+            v-on:close="() => router.push('./books')"
+        />
     </div>
 </template>
 
@@ -17,33 +20,38 @@ definePageMeta({
     layout: 'admin'
 })
 import SearchBooks from '~/components/searchBooks.vue';
-import Sidebar from '~/components/adminSidebar.vue';
-    const book = {
-        isbn: '978xxxxxxxxxx',
-        title: 'Entendendo algoritmos',
-        authors: ['John Doe'],
-        category: 'Computação',
-        language: 'Português',
-        pages: 260,
-        publisher: 'Inovatec',
-        publishedAt: '2022',
-        coverURL: 'https://m.media-amazon.com/images/I/71Vkg7GfPFL._AC_UF1000,1000_QL80_.jpg',
-        quantity: 1,
-        bookShelf: 5,
-    }
+import { getBooks } from '~/http/user/getBooks';
+import type { IBook } from '~/models/IBook';
 
-    const books: { id: string, title: string; coverURL: string, url: string }[] = [];
+    const books = reactive<{
+        list: IBook[],
+        total: number
+    }>({
+        list: [],
+        total: 0
+    })
+
     const route = ref(useRoute());
     const router = useRouter();
 
-    for(let i = 0; i < 21; i++) {
-        books.push({
-            id: 'abc123',
-            title: 'Entendendo Algoritmos',
-            coverURL: 'https://m.media-amazon.com/images/I/71Vkg7GfPFL._AC_UF1000,1000_QL80_.jpg',
-            url: `?editBook=abc123`
-        })
+    const fetchBooks = async () => {
+        const res = await getBooks();
+
+        if(!res?.success) return;
+
+        const lastIndex = res.data.length-1;
+
+        console.log(res)
+
+        if(res.data[lastIndex]?.total || res.data[lastIndex]?.total === 0) {
+            books.total = res.data[lastIndex].total as number;
+            books.list = res.data as IBook[];
+            books.list.pop();
+        }
+
     }
+
+    fetchBooks();
 </script>
 
 <style lang="css">
