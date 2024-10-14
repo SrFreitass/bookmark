@@ -31,7 +31,7 @@ export class UserRepositoryImpl implements UserRepository {
     return (await this.database.select({ count: count() }).from(this.user))[0].count;
   }
 
-  async findUserWhere({ borrow, pendency, page, name, username }: { borrow: boolean; pendency: boolean; page: number, name: string, username: string }): Promise<UserEntity[] | null> {
+  async findUsersWhere({ borrow, pendency, page }: { borrow: boolean; pendency: boolean; page: number }): Promise<UserEntity[] | null> {
     if(borrow) {
       const users =
              await this.database
