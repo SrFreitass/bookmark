@@ -8,7 +8,6 @@
         <SearchBooks class="mt-4"/>
         <BooksGrid :books="books"/>
         <EditBookModal 
-            :book="books.list[0]"
             v-if="route.query.editBook" 
             v-on:close="() => router.push('./books')"
         />
@@ -23,7 +22,6 @@ import SearchBooks from '~/components/searchBooks.vue';
 import { getBooks } from '~/http/user/getBooks';
 import type { IBook } from '~/models/IBook';
 
-    const book = reactive<IBook | null>(null);
     const books = reactive<{
         list: IBook[],
         total: number

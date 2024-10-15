@@ -4,82 +4,161 @@
             <i class="pi pi-times" @click="onClose"></i>
         </template>
         <div class="flex gap-4">
-            <img class="rounded-md" src="https://m.media-amazon.com/images/I/71Vkg7GfPFL._AC_UF1000,1000_QL80_.jpg" alt="" width="500"/>
+            <img class="rounded-md" :src="book?.coverURL" alt="" width="500" />
             <form class="flex flex-col gap-4 w-[30rem]">
                 <InputGroup>
-                    <InputText placeholder="ISBN" :value="book?.isbn || ''"/>
-                </InputGroup>
-    
-                <InputGroup>
-                    <InputText placeholder="Título" :value="book?.title || ''"/>
-                </InputGroup>
-    
-                <InputGroup>
-                    <InputText placeholder="Autores" :value="authors || ''"/>
+                    <InputText
+                        placeholder="ISBN"
+                        v-model:model-value="book.isbn"
+                    />
                 </InputGroup>
 
                 <InputGroup>
-                    <InputText placeholder="Categoria" :value="book?.category || ''"/>
+                    <InputText
+                        placeholder="Título"
+                        v-model:model-value="book.title"
+                    />
                 </InputGroup>
-    
+
                 <InputGroup>
-                    <InputText placeholder="Editora" :value="book?.publisher || ''"/>
+                    <InputText
+                        placeholder="Autores"
+                        v-model:model-value="book.authors"
+                    />
                 </InputGroup>
-    
+
                 <InputGroup>
-                    <Select placeholder="Linguagem" :value="book?.language || ''"/>
+                    <InputText
+                        placeholder="Categoria"
+                        v-model:model-value="book.category"
+                    />
                 </InputGroup>
-    
+
                 <InputGroup>
-                    <InputText type="number" placeholder="Ano de edição" :value="book?.publishedAt || ''"/>
+                    <InputText
+                        placeholder="Editora"
+                        v-model:model-value="book.publisher"
+                    />
                 </InputGroup>
-    
-                
+
                 <InputGroup>
-                    <InputText type="number" placeholder="Número de páginas" :value="pages || ''"/>
+                    <Select
+                        placeholder="Linguagem"
+                        v-model:model-value="book.language"
+                        :options="[
+                            'Português',
+                            'Inglês',
+                            'Alemão',
+                            'Espanhol',
+                            'Francês',
+                        ]"
+                    />
                 </InputGroup>
-                
+
                 <InputGroup>
-                    <InputText type="number" placeholder="Quantidade" :value="quantity || ''"/>
+                    <InputText
+                        type="number"
+                        placeholder="Ano de edição"
+                        v-model:model-value="book.publishedAt"
+                    />
                 </InputGroup>
-                
+
+                <InputGroup>
+                    <InputNumber
+                        placeholder="Número de páginas"
+                        v-model:model-value="book.pages"
+                    />
+                </InputGroup>
+
+                <InputGroup>
+                    <InputNumber
+                        type="number"
+                        placeholder="Quantidade"
+                        v-model:model-value="book.quantity"
+                    />
+                </InputGroup>
+
                 <!-- <InputGroup>
                     <InputText type="number" placeholder="Prateleira" :value="bookShelf"/>
                 </InputGroup> -->
-                
+
                 <FileUpload>
                     <template #empty>
                         <h2>Clique em escolher ou arraste a capa</h2>
                     </template>
                 </FileUpload>
-    
-                <Button>Editar livro</Button>
+
+                <Button @click="editBook">Editar livro</Button>
             </form>
         </div>
     </Dialog>
 </template>
 
 <script setup lang="ts">
-import type { RouteLocationNormalizedLoaded } from 'vue-router';
-import { getBookById } from '~/http/user/getBookById';
-import type { IBook } from '~/models/IBook';
+import type { RouteLocationNormalizedLoaded } from "vue-router";
+import { getBookById } from "~/http/user/getBookById";
+import type { IBook } from "~/models/IBook";
 
-    const { onClose } = defineProps<{
-        onClose: () => void;
-    }>();
+const { onClose } = defineProps<{
+    onClose: () => void;
+}>();
 
-    const route = ref(useRoute());
-    const book = ref<IBook | null>(null);
+const route = ref(useRoute());
+const book = ref<IBook>({
+    id: "",
+    isbn: (route.value.query.editBook as string) || "",
+    title: "",
+    description: "",
+    coverURL: "",
+    authors: [],
+    pages: 0,
+    category: "",
+    publishedAt: "",
+    publisher: "",
+    quantity: 0,
+    language: "",
+});
 
-    const fetchBook = async () => {
-        const res = await getBookById(route.value.query.editBook as string);
+const bookCopy = ref<IBook>({ ...book.value });
 
-        if(!res?.success) return;
+const fetchBook = async () => {
+    const res = await getBookById(book.value.isbn);
+    console.log("ué!");
 
-        console.log(res, "CARALHO");
+    if (!res.success) return;
 
-        book.value = res.data;
-    }
+    console.log(res, "CARALHO");
 
-    if(route.value.query.editBook) fetchBook();
+    book.value = res.data;
+    bookCopy.value = {
+        ...res.data,
+    };
+
+    if (!book.value) return;
+
+    book.value.publishedAt = new Date(book.value?.publishedAt)
+        .getFullYear()
+        .toString();
+};
+
+if (route.value.query.editBook) fetchBook();
+
+const editBook = async () => {
+    if (!book.value) return;
+
+    const keys = Object.keys(book.value);
+
+    const propModifieds: Record<string, unknown> = {};
+
+    keys.forEach((key) => {
+        if (
+            book.value[key as keyof typeof book.value] !=
+            bookCopy.value[key as keyof typeof bookCopy.value]
+        ) {
+            propModifieds[key] = book.value[key as keyof typeof book.value];
+        }
+    });
+
+    console.log(propModifieds);
+};
 </script>

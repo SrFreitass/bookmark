@@ -15,6 +15,7 @@ const createBookDTO = t.Object({
   pages: t.Number({ minimum: 1, maximum: 10000 }),
   quantity: t.Number({ minimum: 1 }),
   available: t.Number({ minimum: 1 }),
+  categoryId: t.String({ format: 'uuid' })
 });
 
 const editBookDTO = t.Object({
@@ -28,6 +29,7 @@ const editBookDTO = t.Object({
   pages: t.MaybeEmpty(t.Number({ minimum: 1, maximum: 10000 })),
   quantity: t.MaybeEmpty(t.Number({ minimum: 1 })),
   available: t.MaybeEmpty(t.Number({ minimum: 1 })),
+  categoryId: t.MaybeEmpty(t.String({ format: 'uuid' }))
 })
 
 const deleteBookDTO = t.Object({

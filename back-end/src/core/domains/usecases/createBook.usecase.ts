@@ -27,6 +27,7 @@ class CreateBookUseCase {
       publisher: body.publisher,
       publishedAt: new Date(body.publishedAt),
       coverURL: body.coverURL,
+      categoryId: body.categoryId,
     });
 
     await this.bookRepository.create(bookEntity);

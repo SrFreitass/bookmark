@@ -1,36 +1,42 @@
-import { count, eq, like, or, SQL, sql } from 'drizzle-orm';
-import { BookEntity } from '../../core/domains/entities/book.entity';
-import { BookRepository } from '../../core/repositories/IBook.repository';
-import { db } from '../db/connect';
-import { books } from '../db/schema';
+import { count, eq, like, or, SQL, sql } from "drizzle-orm";
+import { BookEntity } from "../../core/domains/entities/book.entity";
+import { BookRepository } from "../../core/repositories/IBook.repository";
+import { db } from "../db/connect";
+import { books, categories } from "../db/schema";
 
 class BookRepositoryImpl implements BookRepository {
   constructor(
     private readonly database: typeof db,
     private readonly book: typeof books,
   ) {}
-  
+
   async countBooks(): Promise<number> {
-    const total = await this.database.select({
-      total: count(),
-    }).from(this.book)
+    const total = await this.database
+      .select({
+        total: count(),
+      })
+      .from(this.book);
 
     return total[0].total;
   }
 
-
-
   async updateBook(id: string, bookEntity: Partial<BookEntity>): Promise<void> {
-      await this.database.update(this.book).set({
-        ...bookEntity
-      }).where(eq(this.book.id, id));
+    await this.database
+      .update(this.book)
+      .set({
+        ...bookEntity,
+      })
+      .where(eq(this.book.id, id));
   }
 
   async deleteBook(id: string, quantity: number): Promise<void> {
-    await this.database.update(this.book).set({
-      quantity: sql`${this.book.quantity} - ${quantity}`,
-      available: sql`${this.book.quantity} - ${quantity}`
-    }).where(eq(this.book.id, id))
+    await this.database
+      .update(this.book)
+      .set({
+        quantity: sql`${this.book.quantity} - ${quantity}`,
+        available: sql`${this.book.quantity} - ${quantity}`,
+      })
+      .where(eq(this.book.id, id));
   }
 
   async create(book: BookEntity): Promise<void> {
@@ -44,26 +50,47 @@ class BookRepositoryImpl implements BookRepository {
     isbn?: string;
     id?: string;
   }): Promise<BookEntity[] | undefined> {
-    const book = await this.database.query.books.findMany({
-      where: or(
-        eq(this.book.id, fields.id || ''),
-        eq(this.book.isbn, fields.isbn || ''),
-        like(this.book.title, fields.title || '')
+    const book = await this.database
+      .select({
+        id: this.book.id,
+        title: this.book.title,
+        isbn: this.book.isbn,
+        description: this.book.description,
+        authors: this.book.authors,
+        coverURL: this.book.coverURL,
+        publisher: this.book.publisher,
+        publishedAt: this.book.publishedAt,
+        pages: this.book.pages,
+        quantity: this.book.quantity,
+        available: this.book.available,
+        language: this.book.language,
+        createdAt: this.book.createdAt,
+        updatedAt: this.book.updatedAt,
+        categoryId: this.book.categoryId,
+        category: categories.name,
+      })
+      .from(this.book)
+      .where(
+        or(
+          eq(this.book.id, fields.id || ""),
+          eq(this.book.isbn, fields.isbn || ""),
+          like(this.book.title, fields.title || ""),
+        ),
       )
-    })
+      .innerJoin(categories, eq(this.book.categoryId, categories.id));
 
     return book;
   }
 
   async findBooks(page: number, categoryId?: string): Promise<BookEntity[]> {
-    const limit = page * 20
-    const offset = limit - 20
+    const limit = page * 20;
+    const offset = limit - 20;
 
-    if(categoryId) {
+    if (categoryId) {
       return await this.database.query.books.findMany({
         offset,
         limit,
-        where: eq(this.book.categoryId, categoryId)
+        where: eq(this.book.categoryId, categoryId),
       });
     }
 
@@ -75,4 +102,3 @@ class BookRepositoryImpl implements BookRepository {
 }
 
 export { BookRepositoryImpl };
-

@@ -12,6 +12,8 @@ class BookEntity {
   readonly available: number;
   readonly createdAt: Date;
   readonly updatedAt: Date | null;
+  readonly categoryId: string;
+  readonly category?: string;
 
   constructor({
     title,
@@ -20,6 +22,7 @@ class BookEntity {
     coverURL,
     publisher,
     publishedAt,
+    categoryId,
     isbn,
     available,
     quantity,
@@ -38,6 +41,8 @@ class BookEntity {
     this.pages = pages;
     this.createdAt = new Date();
     this.updatedAt = new Date();
+    this.categoryId = categoryId
+    this.category = '';
   }
 }
 
