@@ -11,6 +11,7 @@ import { createBookDTO, deleteBookDTO, editBookDTO, getBooksDTO } from '../dto/b
 import { errorResponse } from '../utils/error.response';
 import { successResponse } from '../utils/success.response';
 import { GetBookByTitleUsecase } from '../../core/domains/usecases/getBookByTitle.usecase';
+import { GetBookByIdUseCase } from '../../core/domains/usecases/getBookById.usecase';
 
 class BookController {
   constructor(private readonly app: typeof App) {
@@ -78,6 +79,19 @@ class BookController {
         },
       },
     );
+
+    this.app.get(
+      '/api/v1/book/:id',
+      async (context) => {
+        try {
+          const useCase = new GetBookByIdUseCase(new BookRepositoryImpl(db, books));
+          const output = await useCase.execute(context.params.id || '');
+          return successResponse(200, output, 'Book found');
+        } catch (error) {
+          return errorResponse(error);
+        }
+      }
+    )
 
     this.app.get(
       '/api/v1/book',
