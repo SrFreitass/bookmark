@@ -6,7 +6,7 @@ class BookEntity {
   readonly authors: string[];
   readonly coverURL: string;
   readonly publisher: string;
-  readonly publishedAt: Date;
+  readonly publishedAt: string;
   readonly pages: number;
   readonly quantity: number;
   readonly available: number;
