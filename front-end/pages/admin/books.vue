@@ -11,6 +11,7 @@
             v-if="route.query.editBook" 
             v-on:close="() => router.push('./books')"
         />
+        <Toast position="bottom-right"/>
     </div>
 </template>
 
@@ -18,6 +19,7 @@
 definePageMeta({
     layout: 'admin'
 })
+import Toast from 'primevue/toast';
 import SearchBooks from '~/components/searchBooks.vue';
 import { getBooks } from '~/http/user/getBooks';
 import type { IBook } from '~/models/IBook';

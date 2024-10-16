@@ -4,11 +4,11 @@
             <i class="pi pi-times" @click="onClose"></i>
         </template>
         <div class="flex gap-4">
-            <img class="rounded-md" :src="book?.coverURL" alt="" width="500" />
+            <img class="rounded-md" :src="book.coverUrl" alt="" width="500" />
             <form class="flex flex-col gap-4 w-[30rem]">
                 <div>
                     <InputText
-                        class="w-full"
+                        :class="`w-full ${bookErrors?.isbn?.error ? '!border-red-500' : ''}`"
                         placeholder="ISBN"
                         v-model:model-value="book.isbn"
                     />
@@ -19,7 +19,7 @@
 
                 <div>
                     <InputText
-                        class="w-full"
+                        :class="`w-full ${bookErrors?.title?.error ? '!border-red-500' : ''}`"
                         placeholder="Título"
                         v-model:model-value="book.title"
                     />
@@ -30,7 +30,7 @@
 
                 <div>
                     <InputText
-                        class="w-full"
+                        :class="`w-full ${bookErrors?.authors?.error ? '!border-red-500' : ''}`"
                         placeholder="Autores"
                         v-model:model-value="book.authors"
                     />
@@ -52,7 +52,7 @@
 
                 <div>
                     <InputText
-                        class="w-full"
+                        :class="`w-full ${bookErrors?.category?.error ? '!border-red-500' : ''}`"
                         placeholder="Editora"
                         v-model:model-value="book.publisher"
                     />
@@ -63,7 +63,7 @@
 
                 <div>
                     <Select
-                        class="w-full"
+                        :class="`w-full ${bookErrors?.language?.error ? '!border-red-500' : ''}`"
                         placeholder="Linguagem"
                         v-model:model-value="book.language"
                         :options="[
@@ -81,7 +81,7 @@
 
                 <div>
                     <InputText
-                        class="w-full"
+                        :class="`w-full ${bookErrors?.publishedAt?.error ? '!border-red-500' : ''}`"
                         type="number"
                         placeholder="Ano de edição"
                         v-model:model-value="book.publishedAt"
@@ -93,7 +93,7 @@
 
                 <div>
                     <InputNumber
-                        class="w-full"
+                        :class="`w-full ${bookErrors?.pages?.error ? '!border-red-500' : ''}`"
                         :useGrouping="false"
                         type="number"
                         placeholder="Número de páginas"
@@ -106,7 +106,7 @@
 
                 <div>
                     <InputNumber
-                        class="w-full"
+                        :class="`w-full ${bookErrors?.quantity?.error ? '!border-red-500' : ''}`"
                         :useGrouping="false"
                         type="number"
                         placeholder="Quantidade"
@@ -121,10 +121,11 @@
                     <InputText type="number" placeholder="Prateleira" :value="bookShelf"/>
                 </div> -->
 
-                <FileUpload>
-                    <template #empty>
-                        <h2>Clique em escolher ou arraste a capa</h2>
-                    </template>
+                <FileUpload 
+                    mode="basic" 
+                    :max-file-size="1024 * 1024 * 5" 
+                    custom-upload 
+                    @select="(e) => onUpload(e.files)" :file-limit="1">
                 </FileUpload>
 
                 <Button @click="editBook">Editar livro</Button>
@@ -134,23 +135,24 @@
 </template>
 
 <script setup lang="ts">
-import type { RouteLocationNormalizedLoaded } from "vue-router";
 import { getBookById } from "~/http/user/getBookById";
 import type { IBook } from "~/models/IBook";
 import { updateBookById } from "~/http/user/updateBookById";
 import { useEditBookValidation } from "~/composables/useEditBookValidation";
+import { uploadCoverBook } from "~/http/user/uploadCoverBook";
 
 const { onClose } = defineProps<{
     onClose: () => void;
 }>();
 
+const toast = useToast()
 const route = ref(useRoute());
-const book = ref<IBook>({
+const book = reactive<IBook>({
     id: "",
     isbn: (route.value.query.editBook as string) || "",
     title: "",
     description: "",
-    coverURL: "",
+    coverUrl: "",
     authors: "",
     pages: 0,
     category: "",
@@ -165,52 +167,83 @@ const bookErrors = ref<Record<
     { message: string; error: boolean }
 > | null>(null);
 
-const bookCopy = ref<IBook>({ ...book.value });
+const bookCopy = ref<IBook>({ ...book });
 
 const fetchBook = async () => {
-    const res = await getBookById(book.value.isbn);
+    const res = await getBookById(book.isbn);
     console.log("ué!");
+    
+    // fix this
+    book.id = res.data.id;
+    book.isbn = res.data.isbn;
+    book.title = res.data.title;
+    book.description = res.data.description;
+    book.coverUrl = res.data.coverURL;
+    book.pages = res.data.pages;
+    book.category = res.data.category;
+    book.publishedAt = res.data.publishedAt;
+    book.publisher = res.data.publisher;
+    book.quantity = res.data.quantity;
+    book.language = res.data.language;
 
     if (!res.success) return;
 
-    book.value = res.data;
-    book.value.authors = res?.data?.authors.join(",");
+    
+    book.authors = res?.data?.authors.join(",");
     bookCopy.value = {
         ...res.data,
     };
 
-    if (!book.value) return;
-
-    book.value.publishedAt = new Date(book.value?.publishedAt)
-        .getFullYear()
-        .toString();
+    if (!book) return;
 };
 
 if (route.value.query.editBook) fetchBook();
 
 const editBook = async () => {
-    if (!book.value) return;
+    if (!book) return;
 
-    const { containsErrors, formErrors } = useEditBookValidation(book.value);
+    const { containsErrors, formErrors } = useEditBookValidation(book);
 
     if (containsErrors) {
         bookErrors.value = formErrors;
         return;
     }
 
-    const keys = Object.keys(book.value);
+    const keys = Object.keys(book);
 
     const propModifieds: Record<string, unknown> = {};
+    let notModified = false;
 
     keys.forEach((key) => {
         if (
-            book.value[key as keyof typeof book.value].toString().trim() !=
+            book[key as keyof typeof book].toString().trim() !=
             bookCopy.value[key as keyof typeof bookCopy.value]
         ) {
-            propModifieds[key] = book.value[key as keyof typeof book.value];
+            propModifieds[key] = book[key as keyof typeof book];
+            notModified = true;
         }
     });
 
-    await updateBookById(book.value.id, propModifieds);
+    if (!notModified) return toast.add({ severity: "info", summary: "Info", detail: "Nenhum campo foi modificado" });
+
+    await updateBookById(book.id, propModifieds);
+
+    toast.add({ severity: "success", summary: "Sucesso", detail: "Livro editado com sucesso" });
 };
+
+const onUpload = async (e: File[]) => {
+    const res = await uploadCoverBook(e[0], book.title);
+
+    if(res) {
+        console.log(res);
+        book.coverUrl = `http://localhost:8080${res.data.cover}`;
+    }
+
+}
 </script>
+
+<style lang="css" scoped>
+    .p-fileupload-basic {
+        justify-content: start
+    }
+</style>

@@ -12,16 +12,19 @@ class EditBookUseCase {
       throw new ErrorHandler("Book don't exists");
     }
 
-    const fieldsModifieds: Record<string, string> | typeof body = {};
+    const fieldsModifieds: Record<string, string> = {};
 
     const keys = Object.keys(body);
 
     keys.forEach((key: string) => {
       if (body[key as keyof typeof body]) {
-        fieldsModifieds[key] = body[key as keyof typeof body] as string;
+        const snakeCaseKey = key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+      
+        fieldsModifieds[snakeCaseKey] = body[key as keyof typeof body] as string; // todo: fix this
       }
     });
 
+    console.log(fieldsModifieds)
     await this.bookRepository.updateBook(book[0].id, fieldsModifieds);
 
     return {

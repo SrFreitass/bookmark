@@ -56,7 +56,7 @@ class BookController {
           const useCase = new EditBookUseCase(
             new BookRepositoryImpl(db, books),
           );
-          const output = await useCase.execute(context.params.id, context.body);
+          const output = await useCase.execute(context.params.id, context.body || {});
           return successResponse(200, output, "Edited book successfully");
         } catch (error) {
           return errorResponse(error);

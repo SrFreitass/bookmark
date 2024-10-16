@@ -3,7 +3,7 @@ interface IBook {
   isbn: string;
   title: string;
   description: string;
-  coverURL: string;
+  coverUrl: string;
   authors: string;
   pages: number;
   category: string;
