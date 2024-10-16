@@ -32,7 +32,7 @@ const books = pgTable("books", {
   authors: text("authors").array().notNull(),
   coverURL: text("cover_url").notNull(),
   publisher: text("publisher").notNull(),
-  publishedAt: timestamp("published_at").notNull(),
+  publishedAt: varchar("published_at", { length: 4 }).notNull(),
   categoryId: varchar("category_id", { length: 36 })
     .references(() => categories.id)
     .notNull(),
