@@ -16,7 +16,7 @@ class SignInAccount {
 
     const isPasswordCorrect = Bun.password.verifySync(
       body.password,
-      user.password,
+      user[0].password,
       'bcrypt',
     );
 
@@ -25,13 +25,13 @@ class SignInAccount {
     }
 
     const token = await jwt.sign({
-      sub: user.id,
-      email: user.email,
-      role: user.role,
+      sub: user[0].id,
+      email: user[0].email,
+      role: user[0].role,
     });
 
     const refreshToken = await jwt.sign({
-      sub: user.id,
+      sub: user[0].id,
       exp: dayjs().add(7, 'days').unix()
     })
 
