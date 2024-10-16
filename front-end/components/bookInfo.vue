@@ -52,6 +52,6 @@ const bookProperties = [
   { label: "Ano de publicação", value: book.publishedAt },
   { label: "Páginas", value: book.pages },
   { label: "ISBN", value: book.isbn },
-  { label: "Categoria", value: book.category, link: true },
+  { label: "Categoria", value: book.category, link: "?q" },
 ];
 </script>
