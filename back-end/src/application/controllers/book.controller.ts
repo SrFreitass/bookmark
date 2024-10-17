@@ -131,7 +131,11 @@ class BookController {
 
           const output = await usecase.execute(
             context.params.page,
-            context.query.categoryId,
+            {
+              categoryId: context.query.categoryId || "",
+              borrow: !!context.query.borrow,
+              club: !!context.query.club,
+            }
           );
           return successResponse(200, output, "Books found");
         } catch (err) {
@@ -139,9 +143,6 @@ class BookController {
         }
       },
       {
-        query: t.Optional(
-          t.Object({ categoryId: t.String({ format: "uuid" }) }),
-        ),
         params: getBooksDTO,
         error: (err) => {
           return errorResponse(err.error);

@@ -42,6 +42,7 @@ const books = pgTable("books", {
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at"),
   language: varchar("language", { length: 100 }).notNull().default("Português"),
+  club: boolean("club").notNull().default(false),
 });
 
 const categories = pgTable("categories", {

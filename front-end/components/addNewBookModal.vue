@@ -123,6 +123,18 @@
                     </p>
                 </div>
 
+                <div>
+                    <InputNumber
+                        :class="`w-full ${bookErrors?.available?.error ? '!border-red-500' : ''}`"
+                        :useGrouping="false"
+                        type="number"
+                        placeholder="Disponíveis"
+                        v-model:model-value="book.available"
+                    />
+                    <p class="text-red-500 mt-2">
+                        {{ bookErrors?.available.message }}
+                    </p>
+                </div>
                 <!-- <div>
                     <InputText type="number" placeholder="Prateleira" :value="bookShelf"/>
                 </div> -->
@@ -168,7 +180,8 @@ const fetchCategories = async () => {
 
 fetchCategories();
 
-const book = reactive<Omit<IBook, "id"> & { categoryId: string }>({
+// FIX
+const book = reactive<Omit<IBook, "id"> & { categoryId: string , available: number}>({
     isbn: "",
     title: "",
     authors: "",
@@ -178,6 +191,7 @@ const book = reactive<Omit<IBook, "id"> & { categoryId: string }>({
     coverURL: "",
     description: "",
     language: "",
+    available: 0,
     publishedAt: "0",
     pages: 0,
     quantity: 0,
@@ -200,7 +214,7 @@ const onSubmit = async () => {
 
     const res = await createBook({
         ...book,
-        available: book.quantity,
+        available: book.available,
         categoryId: categories.value[book.category],
     });
 

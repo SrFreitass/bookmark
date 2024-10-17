@@ -1,7 +1,7 @@
 import { BookEntity } from '../domains/entities/book.entity';
 
 interface BookRepository {
-  countBooks(): Promise<number>;
+  countBooks(filter?: { categoryId?: string, borrow?: boolean, club?: boolean }): Promise<number>;
   create(book: BookEntity): Promise<void>;
   findBook(fields: {
     title?: string;
@@ -9,7 +9,7 @@ interface BookRepository {
     id?: string;
   }): Promise<BookEntity[] | undefined>;
   updateBook(id: string, bookEntity: Partial<BookEntity>): Promise<void>;
-  findBooks(page: number, categoryId?: string): Promise<BookEntity[]>;
+  findBooks(page: number, filters?: { categoryId?: string, borrow?: boolean, club?: boolean }): Promise<BookEntity[]>;
   deleteBook(id: string, quantity: number): Promise<void>;
 }
 
