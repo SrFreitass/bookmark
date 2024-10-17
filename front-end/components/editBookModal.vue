@@ -117,6 +117,19 @@
                     </p>
                 </div>
 
+                <div>
+                    <InputNumber
+                        :class="`w-full ${bookErrors?.available?.error ? '!border-red-500' : ''}`"
+                        :useGrouping="false"
+                        type="number"
+                        placeholder="Disponíveis"
+                        v-model:model-value="book.available"
+                    />
+                    <p class="text-red-500 mt-2">
+                        {{ bookErrors?.available.message }}
+                    </p>
+                </div>
+
                 <!-- <div>
                     <InputText type="number" placeholder="Prateleira" :value="bookShelf"/>
                 </div> -->
@@ -148,7 +161,7 @@ const { onClose } = defineProps<{
 const toast = useToast()
 const route = ref(useRoute());
 const router = useRouter();
-const book = reactive<IBook>({
+const book = reactive<IBook & { available: number }>({
     id: "",
     isbn: (route.value.query.editBook as string) || "",
     title: "",
@@ -161,10 +174,11 @@ const book = reactive<IBook>({
     publisher: "",
     quantity: 0,
     language: "",
+    available: 0
 });
 
 const bookErrors = ref<Record<
-    keyof IBook,
+    keyof IBook | 'available',
     { message: string; error: boolean }
 > | null>(null);
 
@@ -186,6 +200,7 @@ const fetchBook = async () => {
     book.publisher = res.data.publisher;
     book.quantity = res.data.quantity;
     book.language = res.data.language;
+    book.available = res.data.available;
 
     if (!res.success) return;
 

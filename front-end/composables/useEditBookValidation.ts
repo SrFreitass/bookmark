@@ -10,7 +10,8 @@ const useEditBookValidation = ({
   language,
   pages,
   quantity,
-}: Partial<IBook>) => {
+  available,
+}: Partial<IBook & { available: number }>) => {
   let containsErrors = false;
 
   const formErrors: Record<string, { error: boolean; message: string }> = {};
@@ -60,6 +61,12 @@ const useEditBookValidation = ({
   console.log(quantity, "validatiooonn");
 
   validateField(!quantity || quantity < 1, "quantity", "Quantidade inválida");
+
+  validateField(
+    !available || available < 1 || quantity && available > quantity || available > 1000,
+    "available",
+    "Quantidade disponível inválida",
+  );
 
   return { containsErrors, formErrors };
 };
