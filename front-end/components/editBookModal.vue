@@ -4,7 +4,7 @@
             <i class="pi pi-times" @click="onClose"></i>
         </template>
         <div class="flex gap-4">
-            <img class="rounded-md" :src="book.coverUrl" alt="" width="500" />
+            <img class="rounded-md" :src="book.coverURL" alt="" width="500" />
             <form class="flex flex-col gap-4 w-[30rem]">
                 <div>
                     <InputText
@@ -137,7 +137,7 @@
 <script setup lang="ts">
 import { getBookById } from "~/http/user/getBookById";
 import type { IBook } from "~/models/IBook";
-import { updateBookById } from "~/http/user/updateBookById";
+import { updateBookById } from "~/http/book/updateBookById";
 import { useEditBookValidation } from "~/composables/useEditBookValidation";
 import { uploadCoverBook } from "~/http/user/uploadCoverBook";
 
@@ -147,12 +147,13 @@ const { onClose } = defineProps<{
 
 const toast = useToast()
 const route = ref(useRoute());
+const router = useRouter();
 const book = reactive<IBook>({
     id: "",
     isbn: (route.value.query.editBook as string) || "",
     title: "",
     description: "",
-    coverUrl: "",
+    coverURL: "",
     authors: "",
     pages: 0,
     category: "",
@@ -178,7 +179,7 @@ const fetchBook = async () => {
     book.isbn = res.data.isbn;
     book.title = res.data.title;
     book.description = res.data.description;
-    book.coverUrl = res.data.coverURL;
+    book.coverURL = res.data.coverURL;
     book.pages = res.data.pages;
     book.category = res.data.category;
     book.publishedAt = res.data.publishedAt;
@@ -224,11 +225,16 @@ const editBook = async () => {
         }
     });
 
-    if (!notModified) return toast.add({ severity: "info", summary: "Info", detail: "Nenhum campo foi modificado" });
+    if (!notModified) {
+        router.push('./books');
+
+        return toast.add({ severity: "info", summary: "Info", detail: "Nenhum campo foi modificado" });
+    }
 
     await updateBookById(book.id, propModifieds);
 
     toast.add({ severity: "success", summary: "Sucesso", detail: "Livro editado com sucesso" });
+    router.push('./books');
 };
 
 const onUpload = async (e: File[]) => {
@@ -236,7 +242,7 @@ const onUpload = async (e: File[]) => {
 
     if(res) {
         console.log(res);
-        book.coverUrl = `http://localhost:8080${res.data.cover}`;
+        book.coverURL = `http://localhost:8080${res.data.cover}`;
     }
 
 }

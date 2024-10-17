@@ -7,8 +7,10 @@ const updateBookById = async (
   book: Partial<IBook>,
 ): Promise<HTTPResponse<IBook> | null> => {
   try {
-    console.log(id, book, "aa");
-    return await client("PUT", `/book/${id}`, book);
+    return await client("PUT", `/book/${id}`, {
+      ...book,
+      authors: book.authors?.split(","),
+    });
   } catch (err) {
     console.error(err);
     return null;

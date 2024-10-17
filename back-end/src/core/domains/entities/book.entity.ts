@@ -4,7 +4,7 @@ class BookEntity {
   readonly title: string;
   readonly description: string | null;
   readonly authors: string[];
-  readonly coverUrl: string;
+  readonly coverURL: string;
   readonly publisher: string;
   readonly publishedAt: string;
   readonly pages: number;
@@ -19,7 +19,7 @@ class BookEntity {
     title,
     description,
     authors,
-    coverUrl,
+    coverURL,
     publisher,
     publishedAt,
     categoryId,
@@ -32,7 +32,7 @@ class BookEntity {
     this.title = title;
     this.description = description;
     this.authors = authors;
-    this.coverUrl = coverUrl;
+    this.coverURL = coverURL;
     this.publisher = publisher;
     this.publishedAt = publishedAt;
     this.quantity = quantity;

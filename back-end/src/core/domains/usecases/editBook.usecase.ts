@@ -18,9 +18,7 @@ class EditBookUseCase {
 
     keys.forEach((key: string) => {
       if (body[key as keyof typeof body]) {
-        const snakeCaseKey = key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
-      
-        fieldsModifieds[snakeCaseKey] = body[key as keyof typeof body] as string; // todo: fix this
+        fieldsModifieds[key] = body[key as keyof typeof body] as string; // todo: fix this
       }
     });
 
