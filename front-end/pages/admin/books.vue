@@ -6,7 +6,7 @@
             <AddNewBookModal />
         </div>
         <SearchBooks class="mt-4" @change="onSearch" @filter="onFilter" />
-        <BooksGrid :books="books" />
+        <BooksGrid :books="books" @change-page="onChangePage" />
         <EditBookModal
             v-if="route.query.editBook"
             v-on:close="() => router.push('./books')"
@@ -28,9 +28,11 @@ import type { IBook } from "~/models/IBook";
 const books = reactive<{
     list: IBook[];
     total: number;
+    filterActive: string;
 }>({
     list: [],
     total: 0,
+    filterActive: '',
 });
 
 const route = ref(useRoute());
@@ -53,6 +55,20 @@ const fetchBooks = async () => {
 };
 
 fetchBooks();
+
+const onChangePage = async (e: { page: number }) => {
+    if(books.filterActive === 'BORROW') {
+        await getBooks(e.page+1, { borrow: true });
+        return;
+    }
+
+    if(books.filterActive === 'CLUB') {
+        await getBooks(e.page+1, { club: true });
+        return;
+    }
+
+    await getBooks(e.page+1);
+}
 
 const onSearch = async (e: Event) => {
   const target = e.target as HTMLInputElement;
