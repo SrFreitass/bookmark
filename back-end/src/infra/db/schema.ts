@@ -65,4 +65,11 @@ const borrowBooks = pgTable("borrow_books", {
   limitDate: timestamp("limit_date").notNull(),
 });
 
-export { categories, books, borrowBooks, roleEnum, users };
+const favoritiesBooks = pgTable("favorities_books", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  userId: varchar("user_id", { length: 36 }).references(() => users.id).notNull(),
+  bookId: varchar("book_id", { length: 36 }).references(() => books.id).notNull(),
+  createdAt: timestamp("created_at").notNull(),
+});
+
+export { categories, books, borrowBooks, roleEnum, users, favoritiesBooks };
