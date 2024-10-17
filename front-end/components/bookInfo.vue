@@ -9,7 +9,7 @@
           <div class="flex items-center justify-between">
             <h1 class="text-4xl font-semibold">{{ book.title }}</h1>
             <div class="flex gap-4">
-              <i class="pi pi-heart text-2xl"></i>
+              <button><i class="pi pi-heart text-2xl"></i></button>
               <i class="pi pi-share-alt text-2xl"></i>
             </div>
           </div>

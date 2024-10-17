@@ -14,10 +14,10 @@
             </div>
         </template>
         <template #item="{ item, props }">
-            <div class="flex gap-2 items-center p-3 w-64">
+            <NuxtLink :href="item.url" class="flex gap-2 items-center p-3 w-64">
                 <i :class="item.icon"></i>
                 <p>{{ item.label }}</p>
-            </div>
+            </NuxtLink>
         </template>
     </Menu>
 </template>
@@ -32,19 +32,23 @@
     const userOptions = [
         {
             icon: 'pi pi-bookmark',
-            label: 'Emprestimos'
+            label: 'Emprestimos',
+            url:  '/user/borrows'
         },
         {
             icon: 'pi pi-heart',
-            label: 'Livros favoritados'
+            label: 'Livros favoritados',
+            url:  '/user/favorites'
         },
         {
             icon: 'pi pi-user',
-            label: 'Minha conta'
+            label: 'Minha conta',
+            url:  '/user/account'
         },
         {
             icon: 'pi pi-bell',
-            label: 'Notificações'
+            label: 'Notificações',
+            url:  '/user/notifications'
         }
     ]
 
