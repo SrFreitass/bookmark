@@ -1,10 +1,15 @@
 <template>
-    <Button @click="() => visible = !visible" class="mt-4">
+    <Button @click="() => (visible = !visible)" class="mt-4">
         Adicionar livro
     </Button>
     <Dialog v-model:visible="visible" modal header="Adicionar um novo livro">
         <div class="flex gap-4">
-            <img class="rounded-md" src="https://m.media-amazon.com/images/I/71Vkg7GfPFL._AC_UF1000,1000_QL80_.jpg" alt="" width="500"/>
+            <img
+                class="rounded-md"
+                :src="book.coverURL || '/book-placeholder.jpg'"
+                alt=""
+                width="500"
+            />
             <form class="flex flex-col gap-4 w-[30rem]">
                 <div>
                     <InputText
@@ -40,10 +45,11 @@
                 </div>
 
                 <div>
-                    <InputText
+                    <Select
                         class="w-full"
                         placeholder="Categoria"
                         v-model:model-value="book.category"
+                        :options="Object.keys(categories)"
                     />
                     <p class="text-red-500 mt-2">
                         {{ bookErrors?.category.message }}
@@ -121,45 +127,119 @@
                     <InputText type="number" placeholder="Prateleira" :value="bookShelf"/>
                 </div> -->
 
-                <FileUpload 
-                    mode="basic" 
-                    :max-file-size="1024 * 1024 * 5" 
-                    custom-upload 
-                    @select="(e) => onUpload(e.files)" :file-limit="1">
+                <FileUpload
+                    mode="basic"
+                    :max-file-size="1024 * 1024 * 5"
+                    custom-upload
+                    @select="(e) => onUpload(e.files)"
+                    :file-limit="1"
+                >
                 </FileUpload>
 
-                <Button @click="createBook">Editar livro</Button>
+                <Button @click="onSubmit">Editar livro</Button>
             </form>
         </div>
     </Dialog>
 </template>
 
 <script setup lang="ts">
-import Select from 'primevue/select';
-import type { IBook } from '~/models/IBook';
+import Select from "primevue/select";
+import { uploadCoverBook } from "~/http/user/uploadCoverBook";
+import type { IBook } from "~/models/IBook";
+import { createBook } from "~/http/book/createBook";
+import { getCategories } from "~/http/category/getCategories";
+const toast = useToast();
 
-    const visible = ref(false);
-    const book = reactive<Omit<IBook, 'id'>>({
-        isbn: '',
-        title: '',
-        authors: '',
-        category: '',
-        publisher: '',
-        coverURL: '',
-        description: '',
-        language: '',
-        publishedAt: '0',
-        pages: 0,
-        quantity: 0,
-    })
+const visible = ref(false);
+const categories = ref<Record<string, string>>({});
 
-    const bookErrors: Record<string, { error: boolean, message: string }> = {}
+const fetchCategories = async () => {
+    const res = await getCategories();
 
-    const createBook = async () => {
-        console.log(book)
+    if (!res?.success) {
+        console.error(res?.message);
+        return;
     }
 
-    const onUpload = async (files: File[]) => {
+    res.data.map(({ id, name }) => {
+        categories.value[name] = id;
+    });
+};
 
+fetchCategories();
+
+const book = reactive<Omit<IBook, "id"> & { categoryId: string }>({
+    isbn: "",
+    title: "",
+    authors: "",
+    categoryId: "",
+    category: "",
+    publisher: "",
+    coverURL: "",
+    description: "",
+    language: "",
+    publishedAt: "0",
+    pages: 0,
+    quantity: 0,
+});
+
+const bookErrors = ref<Record<
+    string,
+    { error: boolean; message: string }
+> | null>();
+
+const onSubmit = async () => {
+    if (!book) return;
+
+    const { containsErrors, formErrors } = useEditBookValidation(book);
+
+    if (containsErrors) {
+        bookErrors.value = formErrors;
+        return;
     }
+
+    const res = await createBook({
+        ...book,
+        available: book.quantity,
+        categoryId: categories.value[book.category],
+    });
+
+    if (!res?.success) {
+        console.error(res?.message);
+        toast.add({
+            severity: "error",
+            summary: "Erro",
+            detail: "Erro ao criar livro",
+        });
+
+        return;
+    }
+
+    toast.add({
+        severity: "success",
+        summary: "Sucesso",
+        detail: "Livro criado com sucesso",
+    });
+
+    visible.value = false;
+};
+
+const onUpload = async (files: File[]) => {
+    console.log("files", files);
+
+    const res = await uploadCoverBook(files[0], book.title);
+
+    if (!res?.success) {
+        console.error(res?.message);
+        return;
+    }
+
+    book.coverURL = `http://localhost:8080${res.data.cover}`;
+};
 </script>
+
+<style scoped lang="css">
+.p-fileupload-basic {
+    justify-content: start;
+}
+</style>
