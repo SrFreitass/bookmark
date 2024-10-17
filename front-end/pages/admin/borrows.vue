@@ -9,6 +9,7 @@
             <SearchBorrows/>
             <BorrowTable :borrows="borrows"/>
         </div>
+        <Toast position="bottom-right" />
     </div>
 </template>
 

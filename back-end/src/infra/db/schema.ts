@@ -61,6 +61,7 @@ const borrowBooks = pgTable("borrow_books", {
   borrow: boolean("borrow").notNull(),
   createdAt: timestamp("created_at").notNull(),
   statusUpdateAt: timestamp("status_update_at").notNull(),
+  quantity: smallint("quantity").notNull(),
   limitDate: timestamp("limit_date").notNull(),
 });
 

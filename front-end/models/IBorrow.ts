@@ -2,7 +2,7 @@ interface IBorrow {
     id: string,
     bookId: string,
     userId: string,
-    borrow: boolean,
+    borrow: boolean | string,
     createdAt: string,
     statusUpdateAt: string,
     limitDate: string

@@ -39,6 +39,7 @@ class BorrowBookRepositoryImpl implements BorrowBookRepository {
             userName: users.name,
             limitDate: this.borrowBook.limitDate,
             borrow: this.borrowBook.borrow,
+            quantity: this.borrowBook.quantity,
             statusUpdateAt: this.borrowBook.statusUpdateAt,
             createdAt: this.borrowBook.createdAt,
         })

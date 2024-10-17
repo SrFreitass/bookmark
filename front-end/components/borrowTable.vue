@@ -19,4 +19,17 @@ import type { IBorrow } from '~/models/IBorrow';
       borrows: Reactive<{list: IBorrow[]}>;
   }>()
 
+import { watch } from 'vue';
+
+watch(() => borrows.list, (newList) => {
+    newList.forEach((borrow) => {
+        if (new Date(borrow.limitDate) < new Date()) {
+            borrow.borrow = 'Atrasado';
+        } else if (borrow.borrow) {
+            borrow.borrow = 'Emprestado';
+        }
+    });
+}, { deep: true });
+
+
 </script>

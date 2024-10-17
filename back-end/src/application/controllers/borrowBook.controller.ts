@@ -29,7 +29,7 @@ class BorrowBookController {
                     new BookRepositoryImpl(db, books)
                 );
                 console.log(context.headers)
-                const ouput = await usecase.execute(context.body, context.headers["userid"] as string);
+                const ouput = await usecase.execute(context.body);
 
                 return successResponse(201, ouput, 'Book borrowed successfully');
             } catch (error) {

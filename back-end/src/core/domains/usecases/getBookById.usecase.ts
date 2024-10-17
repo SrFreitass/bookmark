@@ -10,7 +10,7 @@ class GetBookByIdUseCase {
             throw new ErrorHandler("Book id is required");
         }
 
-        const book = await this.bookRepository.findBook({ id })
+        const book = await this.bookRepository.findBook({ id, isbn: id });
 
         if(book) {
             return book[0];

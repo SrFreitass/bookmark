@@ -8,8 +8,9 @@ class BorrowBookEntity {
     readonly createdAt: Date;
     readonly statusUpdateAt: Date;
     readonly limitDate: Date;
+    readonly quantity: number;
 
-    constructor({ bookId, userId, limitDate }: Omit<BorrowBookEntity, "id" | "createdAt" | "borrow" | "statusUpdateAt">) {
+    constructor({ bookId, userId, limitDate, quantity }: Omit<BorrowBookEntity, "id" | "createdAt" | "borrow" | "statusUpdateAt">) {
         this.id = crypto.randomUUID();
         this.userId = userId;
         this.bookId = bookId;
@@ -17,6 +18,7 @@ class BorrowBookEntity {
         this.createdAt = new Date();
         this.limitDate = limitDate;
         this.statusUpdateAt = new Date();
+        this.quantity = quantity;
     }
 }
 
