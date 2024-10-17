@@ -1,12 +1,12 @@
 <template>
     <div>
-        <h1 class="text-2xl font-semibold">Bom dia, {{ user.name }}!</h1>
+        <h1 class="text-2xl font-semibold">Bom dia, {{ user?.name }}!</h1>
         <p>Dashboard</p>
         <div class="grid grid-cols-dashboard gap-8">
-            <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
-            <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
-            <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
-            <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos p/mês"/>
+            <Card title="Empréstimos ativos" icon="pi pi-bookmark" value="54" description="Emprestimos pendentes p/mês"/>
+            <Card title="Empréstimos" icon="pi pi-bookmark" value="54" description="Emprestimos totais p/mês"/>
+            <Card title="Caloteiros" icon="pi pi-bookmark" value="54" description="Caloteiros do mês"/>
+            <Card title="Usuários" icon="pi pi-bookmark" value="54" description="Usuários na plataforma"/>
             <BorrowTable :borrows="[exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow]" class="col-span-3"/>
             <Chart class="bg-card-bg border border-border rounded-md p-4" type="pie" :data="exampleChartData" :options="exampleChartOptions"/>
         </div>
@@ -31,9 +31,7 @@ import Sidebar from '~/components/adminSidebar.vue';
     }
 
 
-    const user = {
-        name: 'Guilherme Freitas'
-    }
+    const { value: { user } } = useGlobalState();
 
     const exampleChartData = {
         labels: ['Romance', 'Contos', 'Ficção', 'Outros'],

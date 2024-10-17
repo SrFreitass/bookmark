@@ -10,7 +10,7 @@ class SignInAccount {
   async execute(body: typeof signInDTO.static, jwt: IJWT) {
     const user = await this.userRepository.findUser({ email: body.email });
 
-    if (!user) {
+    if (!user || !user[0]) {
       throw new ErrorHandler('Incorrect email or password', 400);
     }
 
