@@ -18,9 +18,8 @@ class GetBorrowsUseCase {
       }
 
       const books = await this.borrowRepository.findBorrowBooks({ from, to });
-      const total = await this.borrowRepository.countBorrowBooks({ borrow: true });  
 
-      return [...books, { total }];
+      return books;
   }
 }
 

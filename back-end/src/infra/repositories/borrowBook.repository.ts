@@ -2,7 +2,7 @@ import { and, between, count, eq, lte, or } from "drizzle-orm";
 import { BorrowBookEntity } from "../../core/domains/entities/borrowBook.entity";
 import { BorrowBookRepository } from "../../core/repositories/IBorrowBook.repository";
 import { db } from "../db/connect";
-import { borrowBooks } from "../db/schema";
+import { books, borrowBooks, users } from "../db/schema";
 
 type BorrowBook = typeof borrowBooks;
 
@@ -31,11 +31,25 @@ class BorrowBookRepositoryImpl implements BorrowBookRepository {
     
 
     async findBorrowBooks({ from, to }: { from: Date; to: Date }): Promise<BorrowBookEntity[]> {
-        return await this.database.query.borrowBooks.findMany({
-            where: and(
-                between(this.borrowBook.createdAt, from, to),
+        return await this.database.select({
+            id: this.borrowBook.id,
+            userId: this.borrowBook.userId,
+            bookId: this.borrowBook.bookId,
+            bookTitle: books.title,
+            userName: users.name,
+            limitDate: this.borrowBook.limitDate,
+            borrow: this.borrowBook.borrow,
+            statusUpdateAt: this.borrowBook.statusUpdateAt,
+            createdAt: this.borrowBook.createdAt,
+        })
+        .from(this.borrowBook)
+        .innerJoin(books, eq(this.borrowBook.bookId, books.id))
+        .innerJoin(users, eq(this.borrowBook.userId, users.id))
+        .where(
+            and(
+                between(this.borrowBook.limitDate, from, to),
             )
-        });
+        )
     }
 
     async findBorrowBook(fields: { userId?: string; bookId?: string; borrow: boolean }): Promise<BorrowBookEntity | null> {

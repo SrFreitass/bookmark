@@ -7,7 +7,7 @@
         </div>
         <div class="mt-6 flex flex-col gap-4">
             <SearchBorrows/>
-            <BorrowTable />
+            <BorrowTable :borrows="borrows"/>
         </div>
     </div>
 </template>
@@ -20,5 +20,27 @@ import BorrowTable from '~/components/borrowTable.vue';
 import CreateBorrowModal from '~/components/createBorrowModal.vue';
 import SearchBorrows from '~/components/searchBorrows.vue';
 import Sidebar from '~/components/adminSidebar.vue';
+import { getBorrows } from '~/http/borrow/getBorrows';
+import type { IBorrow } from '~/models/IBorrow';
+
+const borrows = reactive<{ list: IBorrow[] }>({
+    list: [],
+});
+
+const fetchBorrows = async () => {
+    console.log('fetching borrows');
+    const res = await getBorrows();
+
+    if(!res?.success) {
+        console.log('error fetching borrows');
+        return;
+    }
+
+    console.log('borrows fetched');
+    console.log(res.data);
+    borrows.list = res.data;
+}
+
+fetchBorrows();
 
 </script>

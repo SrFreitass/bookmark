@@ -8,14 +8,14 @@ import { BorrowBookEntity } from "../entities/borrowBook.entity";
 class BorrowBookUseCase {
     constructor(private readonly borrowBookRepository: BorrowBookRepository, private readonly bookRepository: BookRepository) {}
 
-    async execute(body: typeof borrowBookDTO.static, userId: string) {
+    async execute(body: typeof borrowBookDTO.static, userId: string = '0dc534da-495e-400e-a51a-df166ffe0b98') {
        if(body.type != "SHORT" && body.type != "LONG") { 
             throw new ErrorHandler('Invalid borrow type');
        }
     
        const bookExists = await this.bookRepository.findBook({ id: body.bookId });
 
-       if (!bookExists) {
+       if (!bookExists || !bookExists[0]) {
             throw new ErrorHandler('Book not found');
        }
 
@@ -25,7 +25,7 @@ class BorrowBookUseCase {
           throw new ErrorHandler('User already have a book borrowed');
        }
 
-       if (bookExists.available <= 0) {
+       if (bookExists[0].available <= 0) {
             throw new ErrorHandler('Book not available');
        }
 
@@ -35,7 +35,7 @@ class BorrowBookUseCase {
             limitDate: body.type === 'SHORT' ? dayjs().add(1, 'day').toDate() : dayjs().add(14, 'day').toDate(),
        })
        console.log(borrowBookEntity)
-       await this.bookRepository.updateBook(body.bookId, { available: bookExists.available - 1 });
+       await this.bookRepository.updateBook(body.bookId, { available: bookExists[0].available - 1 });
        await this.borrowBookRepository.create(borrowBookEntity);
 
        return {
