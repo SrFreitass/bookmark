@@ -32,7 +32,7 @@ const books = pgTable("books", {
   authors: text("authors").array().notNull(),
   coverURL: text("cover_url").notNull(),
   publisher: text("publisher").notNull(),
-  publishedAt: timestamp("published_at").notNull(),
+  publishedAt: varchar("published_at", { length: 4 }).notNull(),
   categoryId: varchar("category_id", { length: 36 })
     .references(() => categories.id)
     .notNull(),
@@ -42,6 +42,7 @@ const books = pgTable("books", {
   createdAt: timestamp("created_at").notNull(),
   updatedAt: timestamp("updated_at"),
   language: varchar("language", { length: 100 }).notNull().default("Português"),
+  club: boolean("club").notNull().default(false),
 });
 
 const categories = pgTable("categories", {
@@ -60,7 +61,15 @@ const borrowBooks = pgTable("borrow_books", {
   borrow: boolean("borrow").notNull(),
   createdAt: timestamp("created_at").notNull(),
   statusUpdateAt: timestamp("status_update_at").notNull(),
+  quantity: smallint("quantity").notNull(),
   limitDate: timestamp("limit_date").notNull(),
 });
 
-export { categories, books, borrowBooks, roleEnum, users };
+const favoritiesBooks = pgTable("favorities_books", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  userId: varchar("user_id", { length: 36 }).references(() => users.id).notNull(),
+  bookId: varchar("book_id", { length: 36 }).references(() => books.id).notNull(),
+  createdAt: timestamp("created_at").notNull(),
+});
+
+export { categories, books, borrowBooks, roleEnum, users, favoritiesBooks };

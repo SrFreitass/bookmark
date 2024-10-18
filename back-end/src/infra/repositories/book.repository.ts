@@ -2,7 +2,7 @@ import { count, eq, like, or, SQL, sql } from "drizzle-orm";
 import { BookEntity } from "../../core/domains/entities/book.entity";
 import { BookRepository } from "../../core/repositories/IBook.repository";
 import { db } from "../db/connect";
-import { books, categories } from "../db/schema";
+import { books, borrowBooks, categories } from "../db/schema";
 
 class BookRepositoryImpl implements BookRepository {
   constructor(
@@ -10,7 +10,39 @@ class BookRepositoryImpl implements BookRepository {
     private readonly book: typeof books,
   ) {}
 
-  async countBooks(): Promise<number> {
+  async countBooks(filters?: { categoryId?: string, borrow?: boolean, club?: boolean }): Promise<number> {
+    if(filters?.categoryId) {
+      const total = await this.database.select({
+        total: count(),
+      })
+      .from(this.book)
+      .where(eq(this.book.categoryId, filters.categoryId));
+
+      return total[0].total;
+    }
+
+    if(filters?.borrow) {
+      const total = await this.database
+        .select({
+          total: count(),
+        })
+        .from(this.book)
+        .innerJoin(borrowBooks, eq(this.book.id, borrowBooks.bookId));
+
+      return total[0].total;
+    }
+
+    if(filters?.club) {
+      const total = await this.database
+        .select({
+          total: count(),
+        })
+        .from(this.book)
+        .where(eq(this.book.club, filters.club));
+
+      return total[0].total;
+    }
+
     const total = await this.database
       .select({
         total: count(),
@@ -82,7 +114,7 @@ class BookRepositoryImpl implements BookRepository {
     return book;
   }
 
-  async findBooks(page: number, categoryId?: string): Promise<BookEntity[]> {
+  async findBooks(page: number, { borrow, categoryId, club }: { categoryId?: string, borrow?: boolean, club?: boolean }): Promise<BookEntity[]> {
     const limit = page * 20;
     const offset = limit - 20;
 
@@ -91,6 +123,37 @@ class BookRepositoryImpl implements BookRepository {
         offset,
         limit,
         where: eq(this.book.categoryId, categoryId),
+      });
+    }
+
+    if (borrow) {
+      return await this.database.select({
+        id: this.book.id,
+        title: this.book.title,
+        isbn: this.book.isbn,
+        description: this.book.description,
+        authors: this.book.authors,
+        coverURL: this.book.coverURL,
+        publisher: this.book.publisher,
+        publishedAt: this.book.publishedAt,
+        pages: this.book.pages,
+        quantity: this.book.quantity,
+        available: this.book.available,
+        createdAt: this.book.createdAt,
+        updatedAt: this.book.updatedAt,
+        categoryId: this.book.categoryId,
+      }).from(this.book)
+      .innerJoin(borrowBooks, eq(this.book.id, borrowBooks.bookId))
+      .where(eq(borrowBooks.userId, borrowBooks.userId))
+      .limit(limit)
+      .offset(offset);
+    }
+
+    if(club) {
+      return await this.database.query.books.findMany({
+        offset,
+        limit,
+        where: eq(this.book.club, club),
       });
     }
 

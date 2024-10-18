@@ -1,5 +1,6 @@
 import { App } from "../../config/app";
 import { BorrowBookUseCase } from "../../core/domains/usecases/borrowBook.usecase";
+import { GetBorrowsUseCase } from "../../core/domains/usecases/getBorrows.usecase";
 import { db } from "../../infra/db/connect";
 import { books, borrowBooks } from "../../infra/db/schema";
 import { BookRepositoryImpl } from "../../infra/repositories/book.repository";
@@ -11,6 +12,16 @@ import { successResponse } from "../utils/success.response";
 
 class BorrowBookController {
     constructor(private readonly app: typeof App) {
+        this.app.get("/api/v1/borrows", async (context) => {
+            try {
+                const useCase = new GetBorrowsUseCase(new BorrowBookRepositoryImpl(db, borrowBooks));
+                const output = await useCase.execute({ to: context.query.to as string, from: context.query.from as string });
+                return successResponse(200, output, 'Borrows retrieved successfully');
+            } catch (error) {
+                return errorResponse(error);
+            }
+        });
+
         this.app.post("/api/v1/borrow", async (context) => {
             try {
                 const usecase = new BorrowBookUseCase(
@@ -18,7 +29,7 @@ class BorrowBookController {
                     new BookRepositoryImpl(db, books)
                 );
                 console.log(context.headers)
-                const ouput = await usecase.execute(context.body, context.headers["userid"] as string);
+                const ouput = await usecase.execute(context.body);
 
                 return successResponse(201, ouput, 'Book borrowed successfully');
             } catch (error) {

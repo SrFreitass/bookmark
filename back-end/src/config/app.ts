@@ -3,8 +3,13 @@ import { swagger } from '@elysiajs/swagger';
 import { Elysia, t } from 'elysia';
 import { Router } from '../application/routers/router';
 import { cors } from '@elysiajs/cors'
+import staticPlugin from '@elysiajs/static';
 
 const App = new Elysia({})
+  .use(staticPlugin({
+    assets: './static',
+    prefix: '/static'
+  }))
   .use(
     cors({
       origin: '*',

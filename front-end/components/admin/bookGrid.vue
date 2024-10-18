@@ -8,7 +8,7 @@
             </NuxtLink>
         </div>
     </div>
-    <Paginator :totalRecords="books.total" :rows="5" />
+    <Paginator :totalRecords="books.total" :rows="5" lazy @page="onChangePage"/>
 </template>
 
 <script setup lang="ts">
@@ -23,6 +23,7 @@ const { books, iconButton, onClickBook } = defineProps<{
     }>;
     iconButton?: string;
     onClickBook?: () => void;
+    onChangePage: (event: { page: number, rows: number, first: number }) => void;
 }>();
     console.log(books);
 </script>

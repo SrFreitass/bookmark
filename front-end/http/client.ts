@@ -1,33 +1,49 @@
 import { useAuthorization } from "~/composables/useAuthorization";
 
-type HttpMethod = 
-  | 'GET' 
-  | 'POST' 
-  | 'PUT' 
-  | 'DELETE' 
-  | 'PATCH' 
-  | 'OPTIONS' 
-  | 'HEAD' 
-  | 'CONNECT' 
-  | 'TRACE';
+type HttpMethod =
+  | "GET"
+  | "POST"
+  | "PUT"
+  | "DELETE"
+  | "PATCH"
+  | "OPTIONS"
+  | "HEAD"
+  | "CONNECT"
+  | "TRACE";
 
+const client = async (method: HttpMethod, route: string, body?: unknown, contentType: string = 'application/json', header: Record<string, string> = {}) => {
+  const runtime = useRuntimeConfig();
+  const baseURL = runtime.public.baseUrlApi || "localhost:8080/api/v1";
+  
+  const headers: Record<string, string> = {};
 
-const client = async (method: HttpMethod, route: string, body?: unknown) => {
-    const runtime = useRuntimeConfig();
-    const baseURL = runtime.public.baseUrlApi || 'localhost:8080/api/v1'
+  if(contentType === 'application/json') { 
+    header['Content-Type'] = contentType;
+  }
 
-    const { token, refreshToken } = useAuthorization();
-
+  if(method === 'GET') {
     const res = await fetch(`${baseURL}${route}`, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        method,
-        body: JSON.stringify(body)
-    });
+      headers: {
+        ...header,
+        Authorization: `Bearer ${''}`,
+      },
+      method,
+    });  
 
-    return await res.json();
-}
+    return res.json();
+  }
+
+  const res = await fetch(`${baseURL}${route}`, {
+    headers: {
+      ...header,
+      Authorization: `Bearer ${''}`,
+    },
+    method,
+    body: contentType === 'application/json' ? JSON.stringify(body) : body as BodyInit,
+  });
+
+
+  return await res.json();
+};
 
 export { client };
