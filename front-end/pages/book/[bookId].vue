@@ -1,36 +1,36 @@
 <template>
-    <main class="flex flex-col max-w-[1600px] justify-center h-[80vh] mx-32 m-auto">
-        <div class="flex gap-2 items-center mb-8">
-            <i class="pi pi-arrow-left"></i>
-            <p>Voltar</p>
-        </div>
-        <BookInfo :book="book"/>
-    </main>
-    <BookCarousel 
-        class="max-w-[1600px] m-auto p-0"
-        :label="{ category: '', title: 'Livro similares' }" 
-        :books="books"
-    />
-    <!-- <BookCarousel :label="{ title: 'Livro similares', category: '#' }"/> -->
+  <main
+    class="flex flex-col max-w-[1600px] justify-center h-[80vh] mx-32 m-auto"
+  >
+    <div class="flex gap-2 items-center mb-8">
+      <i class="pi pi-arrow-left"></i>
+      <p>Voltar</p>
+    </div>
+    <BookInfo :book="book" />
+  </main>
+  <BookCarousel
+    class="max-w-[1600px] m-auto p-0"
+    :label="{ category: '', title: 'Livro similares' }"
+    :books="books"
+  />
+  <!-- <BookCarousel :label="{ title: 'Livro similares', category: '#' }"/> -->
 </template>
 
 <script lang="ts" setup>
-import BookCarousel from '~/components/bookCarousel.vue';
-import BookInfo from '~/components/bookInfo.vue';
-import Header from '~/components/header.vue';
-    const books: { 
-        id: string;
-        title: string;
-        coverURL: string; 
-    }[] = []
+const books: {
+  id: string;
+  title: string;
+  coverURL: string;
+}[] = [];
 
-    for(let i = 0; i < 25; i++) {
-        books.push({ 
-            id: '2b',
-            coverURL: 'https://m.media-amazon.com/images/I/81IGFC6oFmL._AC_UF1000,1000_QL80_.jpg',
-            title: 'Design Patterns: Elements of Reusable Object Oriented Software'
-        })
-    }
+for (let i = 0; i < 25; i++) {
+  books.push({
+    id: "2b",
+    coverURL:
+      "https://m.media-amazon.com/images/I/81IGFC6oFmL._AC_UF1000,1000_QL80_.jpg",
+    title: "Design Patterns: Elements of Reusable Object Oriented Software",
+  });
+}
 
     const book = {
         id: 'b167aa9c-a964-4c0f-a69b-b3188047f01a',
