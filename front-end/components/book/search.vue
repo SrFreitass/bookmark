@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-4">
+    <div>
         <InputGroup>
             <InputGroupAddon>
                 <i class="pi pi-bars" @click="toggle"></i>
