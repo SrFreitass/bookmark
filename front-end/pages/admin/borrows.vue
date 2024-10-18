@@ -14,6 +14,9 @@
 </template>
 
 <script setup lang="ts">
+import { getBorrows } from '~/http/borrow/getBorrows';
+import type { IBorrow } from '~/models/IBorrow';
+
 definePageMeta({
   layout: "admin",
 });

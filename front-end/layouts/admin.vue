@@ -1,5 +1,4 @@
 <script setup lang="ts">
-    import AdminSidebar from '~/components/adminSidebar.vue';
     import 'primeicons/primeicons.css';
 </script>
 

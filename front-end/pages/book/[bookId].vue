@@ -1,6 +1,6 @@
 <template>
   <main
-    class="flex flex-col max-w-[70rem] justify-center min-h-[80vh] mx-32 max-lg:mx-10 m-auto"
+    class="flex flex-col max-w-[80rem] justify-center min-h-[80vh] max-lg:mx-10 m-auto"
   >
     <div class="flex gap-2 items-center mb-8">
       <i class="pi pi-arrow-left"></i>
@@ -9,40 +9,46 @@
     <BookInfo :book="book" />
   </main>
   <BookCarousel
-    class="max-w-[1600px] m-auto p-0"
+    class="max-w-[85rem] m-auto p-0"
     :label="{ category: '', title: 'Livro similares' }"
-    :books="books"
+    :books="[]"
   />
   <!-- <BookCarousel :label="{ title: 'Livro similares', category: '#' }"/> -->
 </template>
 
 <script lang="ts" setup>
-const books: {
-  id: string;
-  title: string;
-  coverURL: string;
-}[] = [];
+import { getBookById } from '~/http/user/getBookById';
+import type { IBook } from '~/models/IBook';
 
-for (let i = 0; i < 25; i++) {
-  books.push({
-    id: "2b",
-    coverURL:
-      "https://m.media-amazon.com/images/I/81IGFC6oFmL._AC_UF1000,1000_QL80_.jpg",
-    title: "Design Patterns: Elements of Reusable Object Oriented Software",
+  const route = ref(useRoute());
+  const router = useRouter();
+
+  const book = reactive<{ item: IBook }>({
+    item: {
+      id: route.value.params.bookId as string,
+      isbn: "",
+      title: "",
+      authors: "",
+      description: "",
+      coverURL: "",
+      pages: 0,
+      category: "",
+      publisher: "",
+      publishedAt: "",
+      language: "",
+      quantity: 0,
+    }
   });
-}
 
-const book = {
-    id: 'b167aa9c-a964-4c0f-a69b-b3188047f01a',
-    coverURL: 'https://m.media-amazon.com/images/I/71Vkg7GfPFL._AC_UF1000,1000_QL80_.jpg', 
-    title: 'Entendendo algoritmos',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, dignissimos quis? Dolores eaque aliquid reiciendis repellat illo tenetur asperiores aperiam maxime ducimus? Ipsam odit, cum atque tempora fugiat qui et!',
-    category: 'Computação',
-    authors: ['John Doe', 'Grelo da Silva Neto', 'Fabio Akita'],
-    publisher: 'Novatec',
-    pages: 250,
-    publishedAt: 2022,
-    isbn: '978xxxxxxxxxx'
-}
+  const fetchBook = async () => {
+    const res = await getBookById(book.item.id);
 
+    if(!res?.success) return router.push("/404");
+
+    book.item = res.data;
+
+    
+  }
+
+  fetchBook();
 </script>

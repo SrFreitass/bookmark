@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import BookCarousel from '~/components/bookCarousel.vue';
 const books: { coverURL: string; title: string; id: string }[] = [];
 
 for(let i = 0; i < 25; i++) {

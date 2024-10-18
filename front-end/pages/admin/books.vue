@@ -16,6 +16,10 @@
 </template>
 
 <script setup lang="ts">
+import { getBooksByTitle } from '~/http/book/getBooksByTitle';
+import { getBooks } from '~/http/user/getBooks';
+import type { IBook } from '~/models/IBook';
+
 definePageMeta({
   layout: "admin",
 });

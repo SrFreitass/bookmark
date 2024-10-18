@@ -1,45 +1,30 @@
-
-<!-- TODO: REFACTOR COMPONENT -->
 <template>
   <div class="flex gap-8 max-lg:flex-col">
     <div class="max-md:flex max-md:justify-center">
-      <img :src="book.coverURL" class="w-96 rounded-lg" />
+      <img :src="book.item.coverURL" class="w-[30rem] h-[30rem] rounded-lg" />
     </div>
     <div class="flex flex-col items-start gap-6 w-full">
       <div class="flex flex-col w-full">
         <div
           class="flex w-full items-center justify-between max-md:flex-col max-md:items-start max-md:gap-4"
         >
-          <div class="flex items-center justify-between">
-            <h1 class="text-4xl font-semibold">{{ book.title }}</h1>
-            <div class="flex gap-4">
-              <button @click="() => favoriteBook(book?.id)">
-                <i :class="`pi ${isFavorite ? 'pi-heart-fill text-green-500' : 'pi-heart'} text-2xl`"></i>
-              </button>
-              <i class="pi pi-share-alt text-2xl"></i>
-            </div>
-          </div>
-          <div class="mt-1">
-            <NuxtLink
-              v-for="(author, i) in book.authors"
-              :href="`/query?author=${author}`"
-              class="text-gray-400 hover:text-green-500 transition-all"
-            >
-              {{ author }}{{ i < book.authors.length - 1 ? ", " : "" }}
-            </NuxtLink>
+          <h1 class="text-4xl font-semibold">{{ book.item.title }}</h1>
+          <div class="flex gap-4">
+            <i :class="`pi ${isFavorite ? 'pi-heart-fill text-green-500' : 'pi-heart'} text-2xl`"></i>
+            <i class="pi pi-share-alt text-2xl"></i>
           </div>
         </div>
         <div class="mt-1">
           <NuxtLink
-            v-for="(author, i) in book.authors"
+            v-for="(author, i) in book.item.authors"
             :href="`/query?author=${author}`"
             class="text-gray-400 hover:text-green-500 transition-all"
           >
-            {{ author }}{{ i < book.authors.length - 1 ? ", " : "" }}
+            {{ author }}{{ i < book.item.authors.length - 1 ? ", " : "" }}
           </NuxtLink>
         </div>
       </div>
-      <p>{{ book.description }}</p>
+      <p>{{ book.item.description }}</p>
     </div>
   </div>
   <div class="flex flex-col w-full gap-5 mt-5">
@@ -59,23 +44,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { favoriteBook } from '~/http/favorities/favoriteBook';
+import type { Reactive } from 'vue';
 import { getFavoriteBook } from '~/http/favorities/getFavoriteBook';
+import type { IBook } from '~/models/IBook';
+
 const isFavorite = ref(false);
 const { book } = defineProps<{
-  book: any;
+  book: Reactive<{ item: IBook }>;
 }>();
-const bookProperties = [
-  { label: "Editora", value: book.publisher },
-  { label: "Ano de publicação", value: book.publishedAt },
-  { label: "Páginas", value: book.pages },
-  { label: "ISBN", value: book.isbn },
-  { label: "Categoria", value: book.category, link: "?q" },
-];
+
+const bookProperties = ref([
+  { label: "Editora", value: book.item.publisher },
+  { label: "Ano de publicação", value: book.item.publishedAt },
+  { label: "Páginas", value: book.item.pages },
+  { label: "ISBN", value: book.item.isbn },
+  { label: "Categoria", value: book.item.category, link: "?q" },
+])
 
 const fetchFavoriteStatus = async (): Promise<void> => {
-  const res = await getFavoriteBook(book.id);
+  const res = await getFavoriteBook(book.item.id);
   console.log(res);
 
   if(!res?.success) return;
