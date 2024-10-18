@@ -1,11 +1,15 @@
+
+<!-- TODO: REFACTOR COMPONENT -->
 <template>
-  <div class="flex gap-8">
-    <div>
+  <div class="flex gap-8 max-lg:flex-col">
+    <div class="max-md:flex max-md:justify-center">
       <img :src="book.coverURL" class="w-96 rounded-lg" />
     </div>
-    <div class="w-2/3 flex flex-col items-start gap-6 justify-between">
-      <div class="w-full">
-        <div class="flex flex-col flex-grow">
+    <div class="flex flex-col items-start gap-6 w-full">
+      <div class="flex flex-col w-full">
+        <div
+          class="flex w-full items-center justify-between max-md:flex-col max-md:items-start max-md:gap-4"
+        >
           <div class="flex items-center justify-between">
             <h1 class="text-4xl font-semibold">{{ book.title }}</h1>
             <div class="flex gap-4">
@@ -25,13 +29,22 @@
             </NuxtLink>
           </div>
         </div>
-        <p class="mt-5">{{ book.description }}</p>
+        <div class="mt-1">
+          <NuxtLink
+            v-for="(author, i) in book.authors"
+            :href="`/query?author=${author}`"
+            class="text-gray-400 hover:text-green-500 transition-all"
+          >
+            {{ author }}{{ i < book.authors.length - 1 ? ", " : "" }}
+          </NuxtLink>
+        </div>
       </div>
+      <p>{{ book.description }}</p>
     </div>
   </div>
   <div class="flex flex-col w-full gap-5 mt-5">
     <hr class="border-border w-full" />
-    <div class="flex gap-8 w-full items-center">
+    <div class="flex gap-8 flex-wrap w-full">
       <div class="flex-grow" v-for="prop in bookProperties">
         <label class="text-gray-400">{{ prop.label }}</label>
         <NuxtLink v-if="prop.link" :href="prop.link">
@@ -46,6 +59,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { favoriteBook } from '~/http/favorities/favoriteBook';
 import { getFavoriteBook } from '~/http/favorities/getFavoriteBook';
 const isFavorite = ref(false);
