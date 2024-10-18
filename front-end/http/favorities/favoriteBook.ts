@@ -1,15 +1,10 @@
 import { client } from "../client";
 
 const favoriteBook = async (bookId: string) => {
-    const toast = useToast();
+    console.log("bookId", bookId);
     const globalState = useGlobalState();
 
     if(!globalState) {
-        toast.add({
-            severity: 'error',
-            summary: "Erro",
-            detail: "Você precisa estar logado para favoritar um livro"
-        })
         return null;
     };
 
@@ -17,11 +12,14 @@ const favoriteBook = async (bookId: string) => {
 
     try {
         return await client("POST", "/favorite", {
-            userId: user?.id,
-            bookId
+            bookId,
+        }, 'application/json', {
+            'userid': user?.id || '',
         });
     } catch (error) {
         console.error(error);
         return null;
     }
 }
+
+export { favoriteBook };

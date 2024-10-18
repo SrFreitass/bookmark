@@ -9,7 +9,9 @@
           <div class="flex items-center justify-between">
             <h1 class="text-4xl font-semibold">{{ book.title }}</h1>
             <div class="flex gap-4">
-              <button><i class="pi pi-heart text-2xl"></i></button>
+              <button @click="() => favoriteBook(book?.id)">
+                <i :class="`pi ${isFavorite ? 'pi-heart-fill text-green-500' : 'pi-heart'} text-2xl`"></i>
+              </button>
               <i class="pi pi-share-alt text-2xl"></i>
             </div>
           </div>
@@ -44,6 +46,9 @@
 </template>
 
 <script setup lang="ts">
+import { favoriteBook } from '~/http/favorities/favoriteBook';
+import { getFavoriteBook } from '~/http/favorities/getFavoriteBook';
+const isFavorite = ref(false);
 const { book } = defineProps<{
   book: any;
 }>();
@@ -54,4 +59,15 @@ const bookProperties = [
   { label: "ISBN", value: book.isbn },
   { label: "Categoria", value: book.category, link: "?q" },
 ];
+
+const fetchFavoriteStatus = async (): Promise<void> => {
+  const res = await getFavoriteBook(book.id);
+  console.log(res);
+
+  if(!res?.success) return;
+
+  isFavorite.value = true;
+};
+
+fetchFavoriteStatus();
 </script>

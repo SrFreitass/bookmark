@@ -11,7 +11,8 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     async addFavorite(favoriteEntity: FavoriteEntity): Promise<void> {
         await db.insert(favoritiesBooks).values(favoriteEntity)
     }
-    removeFavorite(userId: string, bookId: string): Promise<void> {
+
+    async removeFavorite(userId: string, bookId: string): Promise<void> {
         throw new Error("Method not implemented.");
     }
 }

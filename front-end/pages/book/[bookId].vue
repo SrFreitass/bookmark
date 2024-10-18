@@ -33,6 +33,7 @@ import Header from '~/components/header.vue';
     }
 
     const book = {
+        id: 'b167aa9c-a964-4c0f-a69b-b3188047f01a',
         coverURL: 'https://m.media-amazon.com/images/I/71Vkg7GfPFL._AC_UF1000,1000_QL80_.jpg', 
         title: 'Entendendo algoritmos',
         description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, dignissimos quis? Dolores eaque aliquid reiciendis repellat illo tenetur asperiores aperiam maxime ducimus? Ipsam odit, cum atque tempora fugiat qui et!',
