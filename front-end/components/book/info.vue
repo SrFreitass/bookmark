@@ -24,7 +24,7 @@
           </NuxtLink>
         </div>
       </div>
-      <p>{{ book.item.description }}</p>
+      <p>{{ book.item.description ? book.item.description : 'Sem descrição' }}</p>
     </div>
   </div>
   <div class="flex flex-col w-full gap-5 mt-5">
@@ -60,6 +60,16 @@ const bookProperties = ref([
   { label: "ISBN", value: book.item.isbn },
   { label: "Categoria", value: book.item.category, link: "?q" },
 ])
+
+watch(book, () => {
+  bookProperties.value = [
+    { label: "Editora", value: book.item.publisher },
+    { label: "Ano de publicação", value: book.item.publishedAt },
+    { label: "Páginas", value: book.item.pages },
+    { label: "ISBN", value: book.item.isbn },
+    { label: "Categoria", value: book.item.category, link: "?q" },
+  ];
+})
 
 const fetchFavoriteStatus = async (): Promise<void> => {
   const res = await getFavoriteBook(book.item.id);

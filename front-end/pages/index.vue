@@ -1,18 +1,36 @@
-<script setup lang="ts">
-const books: { coverURL: string; title: string; id: string }[] = [];
-
-for(let i = 0; i < 25; i++) {
-    books.push({ 
-        coverURL: 'https://m.media-amazon.com/images/I/71Vkg7GfPFL._AC_UF1000,1000_QL80_.jpg', 
-        id: '1', 
-        title: 'Entendendo algoritmos'
-     })
-}
-
-</script>
 
 <template>
-    <BookCarousel :label="{title: 'Romance', category: 'romance'}" :books="books"/>
-    <BookCarousel :label="{title: 'Contos', category: 'contos'}" :books="books"/>
-    <BookCarousel :label="{title: 'Ficção', category: 'Ficção'}" :books="books"/>
+    <BookCarousel v-for="book in books" :books="book.list" :key="book.category" :label="{ title: book.category, category: book.category }" />
 </template>
+
+<script setup lang="ts">
+import { getBooksByCategory } from '~/http/book/getBooksByCategory';
+import { getCategories } from '~/http/category/getCategories';
+import type { IBook } from '~/models/IBook';
+
+
+const books = reactive<{
+        list: IBook[],
+        category: string
+}[]>([]);
+
+const fetchBooks = async () => {
+    const res = await getCategories();
+
+    if(!res?.data) return;
+
+    
+    for(const { id, name } of res?.data) {
+        const res = await getBooksByCategory(id);
+        if(!res?.success) return;
+        books.push({
+            list: res.data,
+            category: name,
+        });
+    }
+
+};
+
+fetchBooks();
+
+</script>
