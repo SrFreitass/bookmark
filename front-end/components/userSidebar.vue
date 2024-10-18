@@ -20,25 +20,25 @@
                     class: 'mt-3 text-lg px-4 font-medium',
                     icon: 'pi pi-bookmark',
                     label: 'Emprestimos',
-                    url: '/admin/borrows'
+                    url: '/user/borrows'
                 },
                 {   
                     class: 'mt-3 text-lg px-4 font-medium',
                     icon: 'pi pi-heart',
                     label: 'Livros favoritados',
-                    url: '/admin/books'
+                    url: '/user/favorites'
                 },
                 {   
                     class: 'mt-3 text-lg px-4 font-medium',
                     icon: 'pi pi-user',
                     label: 'Minha conta',
-                    url: '/admin/users'
+                    url: '/user/account'
                 }, 
                 {   
                     class: 'mt-3 text-lg px-4 font-medium',
                     icon: 'pi pi-bell',
                     label: 'Notificações',
-                    url: '/admin/users'
+                    url: '/user/notifications'
                 }, 
             ]
         }
