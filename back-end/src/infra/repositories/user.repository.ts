@@ -20,10 +20,11 @@ export class UserRepositoryImpl implements UserRepository {
 
     if(filter?.borrow) {
       console.log("1")
-      return (await usersCountWithFilter.where(sql`limit_date < now()`))[0].count;
+      return (await usersCountWithFilter.where(sql`limit_date < now() and borrow = true`))[0].count;
     } 
 
     if(filter?.pendency) {
+      console.log("2")
       return (await usersCountWithFilter.where(eq(borrowBooks.borrow, true)))[0].count;
     }
 
@@ -63,6 +64,7 @@ export class UserRepositoryImpl implements UserRepository {
             })
             .from(this.user)
             .innerJoin(borrowBooks, eq(this.user.id, borrowBooks.userId))
+            .where(eq(borrowBooks.borrow, true))
             .offset(page * 20 - 20)
             .limit(page * 20)
         

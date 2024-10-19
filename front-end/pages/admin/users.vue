@@ -3,11 +3,15 @@
     <p>Gerencie todos os usuários da biblioteca</p>
     <h1 class="text-2xl font-semibold">Gerenciar usuários</h1>
     <AdminBooksFilterUsers @filter="filter" @change="filterInput" />
-    <AdminBooksUsersTable :users="users" @changePage="onChangePage" />
+    <AdminBookUsersTable :users="users" @changePage="onChangePage" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { getUserByName } from '~/http/user/getUserByName';
+import { getUsers } from '~/http/user/getUsers';
+import type { User } from '~/models/IUser';
+
 definePageMeta({
   layout: "admin",
 });
