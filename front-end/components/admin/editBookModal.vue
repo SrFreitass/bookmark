@@ -4,7 +4,7 @@
             <i class="pi pi-times" @click="onClose"></i>
         </template>
         <div class="flex gap-4">
-            <img class="rounded-md" :src="book.coverURL" alt="" width="500" />
+            <img class="rounded-md" :src="`${book.coverURL}.png`" alt="" width="500" />
             <form class="flex flex-col gap-4 w-[30rem]">
                 <div>
                     <InputText
@@ -201,7 +201,7 @@ const fetchBook = async () => {
         book.publisher = res.data.publisher;
         book.quantity = res.data.quantity;
         book.language = res.data.language;
-        book.available = res.data.available;
+        book.available = res.data.available || 0;
 
         if (!res.success) return;
 
@@ -233,6 +233,8 @@ const editBook = async () => {
 
     keys.forEach((key) => {
         if (
+            book[key as keyof typeof book] &&
+            // @ts-ignore
             book[key as keyof typeof book].toString().trim() !=
             bookCopy.value[key as keyof typeof bookCopy.value]
         ) {

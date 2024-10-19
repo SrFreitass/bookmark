@@ -11,7 +11,7 @@ const useEditBookValidation = ({
   pages,
   quantity,
   available,
-}: Partial<IBook & { available: number }>) => {
+}: Partial<IBook>) => {
   let containsErrors = false;
 
   const formErrors: Record<string, { error: boolean; message: string }> = {};

@@ -5,13 +5,13 @@ interface IBook {
   description: string;
   coverURL: string;
   authors: string;
-  pages: number;
+  pages: number | null;
   category: string;
   publishedAt: string;
   publisher: string;
-  quantity: number;
+  quantity: number | null;
   language: string;
-  available: number;
+  available: number | null;
 }
 
 export type { IBook };

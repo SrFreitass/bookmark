@@ -6,7 +6,7 @@
         <div class="flex gap-4">
             <img
                 class="rounded-md"
-                :src="book.coverURL || '/book-placeholder.jpg'"
+                :src="book.coverURL && `${book.coverURL}.png` || 'https://placehold.co/250x380'"
                 alt=""
                 width="500"
             />
@@ -148,7 +148,7 @@
                 >
                 </FileUpload>
 
-                <Button @click="onSubmit">Editar livro</Button>
+                <Button @click="onSubmit">Adicionar livro</Button>
             </form>
         </div>
     </Dialog>
@@ -181,7 +181,7 @@ const fetchCategories = async () => {
 fetchCategories();
 
 // FIX
-const book = reactive<Omit<IBook, "id"> & { categoryId: string , available: number}>({
+const book = reactive<Omit<IBook, "id"> & { categoryId: string }>({
     isbn: "",
     title: "",
     authors: "",
@@ -191,10 +191,10 @@ const book = reactive<Omit<IBook, "id"> & { categoryId: string , available: numb
     coverURL: "",
     description: "",
     language: "",
-    available: 0,
-    publishedAt: "0",
-    pages: 0,
-    quantity: 0,
+    available: null,
+    publishedAt: "",
+    pages: null,
+    quantity: null,
 });
 
 const bookErrors = ref<Record<
@@ -214,7 +214,7 @@ const onSubmit = async () => {
 
     const res = await createBook({
         ...book,
-        available: book.available,
+        available: book.available || 0,
         categoryId: categories.value[book.category],
     });
 
