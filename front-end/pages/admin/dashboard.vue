@@ -2,37 +2,42 @@
   <div>
     <h1 class="text-2xl font-semibold">Bom dia, {{ user?.name }}!</h1>
     <p>Dashboard</p>
-    <div class="grid grid-cols-dashboard gap-8">
+    <div class="grid grid-cols-dashboard gap-8 max-2xl:grid-cols-dashboard-2 max-2xl:gap-4">
       <AdminBooksCard
         title="Empréstimos ativos"
         icon="pi pi-bookmark"
         value="25"
-        description="Emprestimos pendentes p/mês"
+        description="E. pendentes/mês"
+        class="max-2xl:w-[19rem]"
       />
       <AdminBooksCard
         title="Empréstimos"
         icon="pi pi-bookmark"
         value="60"
-        description="Emprestimos totais p/mês"
+        description="E. totais/mês"
+        class="max-2xl:w-[19rem]"
       />
       <AdminBooksCard
         title="Devedores"
         icon="pi pi-bookmark"
         value="10"
-        description="Caloteiros do mês"
+        description="Devedores na plataforma"
+        class="max-2xl:w-[19rem]"
+
       />
       <AdminBooksCard
         title="Usuários"
         icon="pi pi-bookmark"
         value="40"
         description="Usuários na plataforma"
+        class="max-2xl:hidden"
       />
       <BorrowTable
         :borrows="borrow"
         class="col-span-3"
       />
       <Chart
-        class="bg-card-bg border border-border rounded-md p-4"
+        class="bg-card-bg border border-border rounded-md p-4 max-2xl:hidden"
         type="pie"
         :data="exampleChartData"
         :options="exampleChartOptions"

@@ -17,6 +17,7 @@ export default {
 
       gridTemplateColumns: {
         'dashboard': 'repeat(4, 22rem)',
+        'dashboard-2': 'repeat(3, 19rem)',
       },
 
       animation: {

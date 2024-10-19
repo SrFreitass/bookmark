@@ -9,9 +9,18 @@
             </template>
         </Column>
         <Column key="name" header="Nome" field="name"></Column>
-        <Column key="role" header="Cargo" field="role"></Column>
+        <Column key="role" header="Cargo" field="role">
+            <template #body="user">
+                <span v-if="user.data.role === 'STUDENT'">Aluno</span>
+                <span v-else>Funcionário</span>
+            </template>
+        </Column>
         <Column key="email" header="E-mail" field="email"></Column>
-        <Column key="createdAt" header="Criada" field="createdAt"></Column>
+        <Column key="createdAt" header="Criada" field="createdAt">
+            <template #body="user">
+                <p>{{ new Date(user.data.createdAt).toLocaleDateString() }}</p>
+            </template>
+        </Column>
     </DataTable>
 </template>
 

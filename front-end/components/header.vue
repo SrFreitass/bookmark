@@ -4,14 +4,14 @@
             <Logo :width-logo="32" :height-logo="32" font-size="xl" />
             <nav>
                 <ul class="flex items-center gap-4">
-                    <li><span class="pi pi-home"></span></li>
-                    <li><span class="pi pi-bell"></span></li>
-                    <li><span class="pi pi-search" @click="changeStatusSidebar"></span></li>
+                    <li><NuxtLink href="/"><span class="pi pi-home"></span></NuxtLink></li>
+                    <li><NuxtLink href="/user/notifications"><span class="pi pi-bell"></span></NuxtLink></li>
+                    <li><NuxtLink href="/query"><span class="pi pi-search"></span></NuxtLink></li>
                     <li>
                         <UserOptions
-                            :avatar="globalState.user?.avatarURL || ''"
+                            :avatar="globalState.user?.avatarURL || 'https://via.placeholder.com/64'"
                             :username="globalState.user?.name || ''"
-                            :role="globalState.user?.role || ''"
+                            :role="globalState.user?.role === 'STUDENT' ? 'Aluno' : 'Funcionário'"
                         />
                     </li>
                 </ul>
