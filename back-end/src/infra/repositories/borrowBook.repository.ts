@@ -11,6 +11,9 @@ class BorrowBookRepositoryImpl implements BorrowBookRepository {
         private readonly database: typeof db,
         private readonly borrowBook: BorrowBook
     ) {}
+    async updateBorrowBook(id: string, fields: { borrow: boolean; updatedAt: Date }): Promise<void> {
+        await this.database.update(this.borrowBook).set({ ...fields }).where(eq(this.borrowBook.id, id));
+    }
     async countBorrowBooks(filter?: { borrow?: boolean; }): Promise<Number> {
         if (filter?.borrow) {
             const total = await this.database.select({
