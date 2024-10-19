@@ -1,6 +1,7 @@
 import { App } from "../../config/app";
 import { AddFavoriteBookUseCase } from "../../core/domains/usecases/addFavoriteBook.usecase";
 import { GetFavoriteBookUseCase } from "../../core/domains/usecases/getFavoriteBook.usecase";
+import { GetFavoritesBooksUseCase } from "../../core/domains/usecases/getFavoritesBooks.usecase";
 import { db } from "../../infra/db/connect";
 import { books } from "../../infra/db/schema";
 import { BookRepositoryImpl } from "../../infra/repositories/book.repository";
@@ -38,6 +39,16 @@ class FavoriteController {
             }
         }
         );
+
+        this.app.get("/api/v1/favorites", async (context) => {
+            try {
+                const useCase = new GetFavoritesBooksUseCase(new FavoriteRepositoryImpl());
+                const output = await useCase.execute(context.headers?.userid || '');
+                return successResponse(200, output, 'Favorite books found');
+            } catch (error) {
+                return errorResponse(error);
+            }
+        });
     }
 }
 

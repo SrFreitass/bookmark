@@ -38,6 +38,7 @@ import type { IBook } from '~/models/IBook';
       publishedAt: "",
       language: "",
       quantity: 0,
+      available: 0
     }
   });
 

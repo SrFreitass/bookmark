@@ -7,7 +7,7 @@
         >
             <SwiperSlide v-for="book in books" :key="book.id" class="!w-44">
                 <NuxtLink :href="`/book/${book.id}`">
-                    <img :src="book.coverURL" class="rounded-lg max-w-44 min-h-64"/>
+                    <img :src="`${book.coverURL}.png`" class="rounded-lg max-w-44 min-h-64" v-if="book.id"/>
                     <p class="text-slate-200 mt-2">{{ book.title }}</p>
                 </NuxtLink>
             </SwiperSlide>

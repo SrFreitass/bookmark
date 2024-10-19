@@ -9,9 +9,12 @@
 </template>
 
 <script setup lang="ts">
+import { getBorrows } from '~/http/borrow/getBorrows';
+
 definePageMeta({
   layout: "user",
 });
+
 
 const exampleBook = {
   title: "Design patterns",

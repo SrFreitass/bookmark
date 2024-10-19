@@ -1,7 +1,7 @@
 <template>
   <div class="flex gap-8 max-lg:flex-col">
     <div class="max-md:flex max-md:justify-center">
-      <img :src="book.item.coverURL" class="w-[30rem] h-[30rem] rounded-lg" />
+      <img :src="`${book.item.coverURL}.png`" class="max-w-[22rem] max-h-[30rem] min-w-[22rem] min-h-[30rem] rounded-lg" />
     </div>
     <div class="flex flex-col items-start gap-6 w-full">
       <div class="flex flex-col w-full">
@@ -10,14 +10,16 @@
         >
           <h1 class="text-4xl font-semibold">{{ book.item.title }}</h1>
           <div class="flex gap-4">
-            <i :class="`pi ${isFavorite ? 'pi-heart-fill text-green-500' : 'pi-heart'} text-2xl`"></i>
+            <i :class="`pi ${isFavorite ? 'pi-heart-fill text-green-500' : 'pi-heart'} text-2xl`"
+             @click="warning">
+            </i>
             <i class="pi pi-share-alt text-2xl"></i>
           </div>
         </div>
         <div class="mt-1">
           <NuxtLink
             v-for="(author, i) in book.item.authors"
-            :href="`/query?author=${author}`"
+            
             class="text-gray-400 hover:text-green-500 transition-all"
           >
             {{ author }}{{ i < book.item.authors.length - 1 ? ", " : "" }}
@@ -41,6 +43,7 @@
       </div>
     </div>
   </div>
+  <Toast position="bottom-right"/>
 </template>
 
 <script setup lang="ts">
@@ -52,13 +55,14 @@ const isFavorite = ref(false);
 const { book } = defineProps<{
   book: Reactive<{ item: IBook }>;
 }>();
+const toast = useToast();
 
 const bookProperties = ref([
   { label: "Editora", value: book.item.publisher },
   { label: "Ano de publicação", value: book.item.publishedAt },
   { label: "Páginas", value: book.item.pages },
   { label: "ISBN", value: book.item.isbn },
-  { label: "Categoria", value: book.item.category, link: "?q" },
+  { label: "Categoria", value: book.item.category, link: `/category/${book.item.category}` },
 ])
 
 watch(book, () => {
@@ -67,7 +71,7 @@ watch(book, () => {
     { label: "Ano de publicação", value: book.item.publishedAt },
     { label: "Páginas", value: book.item.pages },
     { label: "ISBN", value: book.item.isbn },
-    { label: "Categoria", value: book.item.category, link: "?q" },
+    { label: "Categoria", value: book.item.category, link:  `/category/${book.item.category}` },
   ];
 })
 
@@ -75,10 +79,19 @@ const fetchFavoriteStatus = async (): Promise<void> => {
   const res = await getFavoriteBook(book.item.id);
   console.log(res);
 
-  if(!res?.success) return;
+  if(!res?.success || !res?.data) return;
 
   isFavorite.value = true;
 };
 
 fetchFavoriteStatus();
+
+const warning = () => {
+  toast.add({
+    severity: 'warn',
+    summary: 'Aviso',
+    detail: 'Você precisa estar logado para favoritar um livro | Modo apresentação',
+    life: 5000
+  });
+}
 </script>
