@@ -11,6 +11,7 @@ interface IBook {
   publisher: string;
   quantity: number;
   language: string;
+  available: number;
 }
 
 export type { IBook };

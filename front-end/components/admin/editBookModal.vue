@@ -189,26 +189,27 @@ const fetchBook = async () => {
     console.log("ué!");
     
     // fix this
-    book.id = res.data.id;
-    book.isbn = res.data.isbn;
-    book.title = res.data.title;
-    book.description = res.data.description;
-    book.coverURL = res.data.coverURL;
-    book.pages = res.data.pages;
-    book.category = res.data.category;
-    book.publishedAt = res.data.publishedAt;
-    book.publisher = res.data.publisher;
-    book.quantity = res.data.quantity;
-    book.language = res.data.language;
-    book.available = res.data.available;
+    if (res && res.data) {
+        book.id = res.data.id;
+        book.isbn = res.data.isbn;
+        book.title = res.data.title;
+        book.description = res.data.description;
+        book.coverURL = res.data.coverURL;
+        book.pages = res.data.pages;
+        book.category = res.data.category;
+        book.publishedAt = res.data.publishedAt;
+        book.publisher = res.data.publisher;
+        book.quantity = res.data.quantity;
+        book.language = res.data.language;
+        book.available = res.data.available;
 
-    if (!res.success) return;
+        if (!res.success) return;
 
-    
-    book.authors = res?.data?.authors.join(",");
-    bookCopy.value = {
-        ...res.data,
-    };
+        book.authors = Array.isArray(res.data.authors) ? res.data.authors.join(",") : "";
+        bookCopy.value = {
+            ...res.data,
+        };
+    }
 
     if (!book) return;
 };

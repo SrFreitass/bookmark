@@ -2,6 +2,10 @@
   <div>
     <p>Emprestimos</p>
     <h1 class="text-2xl font-semibold">Overview de emprestimos</h1>
+    <div class="mt-4 flex gap-4">
+      <AdminBorrowModal />
+      <AdminRetunBookModal />
+    </div>
     <div class="mt-4">
       <BooksBorrowModal />
     </div>
