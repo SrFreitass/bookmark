@@ -1,4 +1,4 @@
-import { count, eq, like, or, SQL, sql } from "drizzle-orm";
+import { and, count, eq, like, or, SQL, sql } from "drizzle-orm";
 import { BookEntity } from "../../core/domains/entities/book.entity";
 import { BookRepository } from "../../core/repositories/IBook.repository";
 import { db } from "../db/connect";
@@ -144,7 +144,7 @@ class BookRepositoryImpl implements BookRepository {
         categoryId: this.book.categoryId,
       }).from(this.book)
       .innerJoin(borrowBooks, eq(this.book.id, borrowBooks.bookId))
-      .where(eq(borrowBooks.userId, borrowBooks.userId))
+      .where(and(eq(borrowBooks.userId, borrowBooks.userId), eq(borrowBooks.borrow, true)))
       .limit(limit)
       .offset(offset);
     }
