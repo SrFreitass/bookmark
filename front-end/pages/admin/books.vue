@@ -3,11 +3,12 @@
     <div>
       <p>Acervo</p>
       <h1 class="text-2xl font-semibold">Gerenciar livros</h1>
-      <AdminAddBookModal />
+      <AdminAddBookModal @close="fetchBooks"/>
     </div>
     <BookSearch class="mt-4" @change="onSearch" @filter="onFilter" />
     <AdminBookGrid :books="books" @change-page="onChangePage" />
     <AdminEditBookModal
+      @close="fetchBooks"
       v-if="route.query.editBook"
       v-on:close="() => router.push('./books')"
     />
@@ -111,6 +112,7 @@ const onFilter = async (type: string) => {
     return;
   }
 };
+
 </script>
 
 <style lang="css">

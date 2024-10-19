@@ -3,7 +3,7 @@
     <Dialog v-model:visible="visible" class="w-1/2 min-w-[50rem]" modal header="Realizar emprestimo">
         <div class="flex gap-4">
             <div>
-                <img class="h-full min-w-64 max-w-64 object-cover rounded-md" :src="coverURL || 'https://placehold.co/250x400'"/>
+                <img class="h-full min-w-64 max-w-64 object-cover rounded-md" :src="coverURL && `${coverURL}.png` || 'https://placehold.co/250x400'"/>
             </div>
             <form class="flex flex-col gap-4 w-full">
                 <div>
@@ -69,6 +69,9 @@ import { getUserByName } from '~/http/user/getUserByName';
     const timeoudId = ref();
     const toast = useToast();
     const coverURL = ref('');
+    const { onClose } = defineProps<{
+        onClose?: () => void;
+    }>();
 
     const form = reactive({
         username: '',
@@ -155,6 +158,7 @@ import { getUserByName } from '~/http/user/getUserByName';
             life: 3000
         });
 
+        onClose && onClose();
         visible.value = false;
     }
 

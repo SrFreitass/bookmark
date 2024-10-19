@@ -3,7 +3,7 @@
     <Dialog v-model:visible="visible" class="w-1/2 min-w-[50rem]" modal header="Devolver livro">
         <div class="flex gap-4">
             <div>
-                <img class="h-full min-w-64 max-w-64 object-cover rounded-md" :src="coverURL || 'https://placehold.co/250x400'"/>
+                <img class="h-full min-w-64 max-w-64 object-cover rounded-md" :src="coverURL && `${coverURL}.png` || 'https://placehold.co/250x400'"/>
             </div>
             <form class="w-full flex flex-col gap-4">
                 <div>
@@ -32,7 +32,9 @@
 import { getBookByISBN } from '~/http/book/getBookByISBN';
 import { returnBook } from '~/http/borrow/returnBook';
 import { getUserByName } from '~/http/user/getUserByName';
-
+    const { onClose } = defineProps<{
+        onClose?: () => void;
+    }>();
     const toast = useToast();
 
     const visible = ref(false);
@@ -143,5 +145,15 @@ import { getUserByName } from '~/http/user/getUserByName';
             })
             return;
         };
+
+        toast.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Livro devolvido com sucesso',
+        });
+
+        visible.value = false;
+
+        onClose && onClose();
     };  
 </script>

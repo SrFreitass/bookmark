@@ -1,6 +1,6 @@
 <template>
   <div class="flex gap-4 p-4 hover:outline outline-border rounded-md">
-    <img :src="`${book.coverURL}.png`" width="150"/>
+    <img :src="`${book.coverURL}`" width="150"/>
     <div class="flex flex-col gap-2">
       <h2 class="text-xl font-semibold">{{ book.title }}</h2>
       <p v-for="author in book.authors" class="text-lg font-medium">{{ author }}</p>

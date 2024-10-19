@@ -6,37 +6,29 @@
       <AdminBooksCard
         title="Empréstimos ativos"
         icon="pi pi-bookmark"
-        value="54"
+        value="25"
         description="Emprestimos pendentes p/mês"
       />
       <AdminBooksCard
         title="Empréstimos"
         icon="pi pi-bookmark"
-        value="54"
+        value="60"
         description="Emprestimos totais p/mês"
       />
       <AdminBooksCard
-        title="Caloteiros"
+        title="Devedores"
         icon="pi pi-bookmark"
-        value="54"
+        value="10"
         description="Caloteiros do mês"
       />
       <AdminBooksCard
         title="Usuários"
         icon="pi pi-bookmark"
-        value="54"
+        value="40"
         description="Usuários na plataforma"
       />
       <BorrowTable
-        :borrows="[
-          exampleBorrow,
-          exampleBorrow,
-          exampleBorrow,
-          exampleBorrow,
-          exampleBorrow,
-          exampleBorrow,
-          exampleBorrow,
-        ]"
+        :borrows="borrow"
         class="col-span-3"
       />
       <Chart
@@ -51,17 +43,37 @@
 </template>
 
 <script setup lang="ts">
+import type { IBorrow } from '~/models/IBorrow';
+
 definePageMeta({
   layout: "admin",
 });
+
+// id: string,
+//     bookId: string,
+//     userId: string,
+//     borrow: boolean | string,
+//     createdAt: string,
+//     statusUpdateAt: string,
+//     limitDate: string
+
+
 const exampleBorrow = {
-  user: "Grelo",
-  book: "Entendo Algoritmos",
+  id: "1",
+  userName: "Gabriel",
+  bookTitle: "Harry Potter",
   quantity: 1,
   category: "Computação",
   createdAt: new Date().toLocaleDateString("pt-BR"),
   limitDate: new Date().toLocaleDateString("pt-BR"),
+  borrow: "Emprestado",
+  statusUpdateAt: new Date().toLocaleDateString("pt-BR"),
 };
+
+const borrow = reactive<{ list: IBorrow[] }>({
+  // @ts-ignore FIXME: fix this! URGENCY!
+  list: [exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow],
+});
 
 const {
   value: { user },
@@ -71,7 +83,7 @@ const exampleChartData = {
   labels: ["Romance", "Contos", "Ficção", "Outros"],
   datasets: [
     {
-      data: [540, 325, 702],
+      data: [10, 19, 30, 1],
       backgroundColor: ["#00dc82", "#009658", "#067549"],
     },
   ],

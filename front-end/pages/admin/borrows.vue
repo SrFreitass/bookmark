@@ -3,11 +3,11 @@
     <p>Emprestimos</p>
     <h1 class="text-2xl font-semibold">Overview de emprestimos</h1>
     <div class="mt-4 flex gap-4">
-      <AdminBorrowModal />
-      <AdminRetunBookModal />
+      <AdminBorrowModal @close="fetchBorrows"/>
+      <AdminRetunBookModal @close="fetchBorrows"/>
     </div>
     <div class="mt-4">
-      <BooksBorrowModal />
+      <BooksBorrowModal/>
     </div>
     <div class="mt-6 flex flex-col gap-4">
       <SearchBorrows />

@@ -162,6 +162,10 @@ import { createBook } from "~/http/book/createBook";
 import { getCategories } from "~/http/category/getCategories";
 const toast = useToast();
 
+
+const { onClose } = defineProps<{
+    onClose?: () => void;
+}>();
 const visible = ref(false);
 const categories = ref<Record<string, string>>({});
 
@@ -235,7 +239,9 @@ const onSubmit = async () => {
         detail: "Livro criado com sucesso",
     });
 
+    onClose && onClose();
     visible.value = false;
+
 };
 
 const onUpload = async (files: File[]) => {
