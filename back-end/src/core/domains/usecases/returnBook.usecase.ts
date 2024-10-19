@@ -10,18 +10,21 @@ class ReturnBookUseCase {
         private readonly borrowBookRepository: BorrowBookRepository
     ) {}
 
-    async execute(isbn: string, username: string): Promise<void> {
-        const user = await this.userRepository.findUser({ username });
+    async execute(isbn: string, userId: string): Promise<void> {
+        const user = await this.userRepository.findUser({ id: userId });
+    
 
-        if (!user) {
+        if (!user || !user[0]) {
             throw new ErrorHandler('User not found');
         }
 
         const book = await this.bookRepository.findBook({ isbn });
 
-        if (!book) {
+        if (!book || !book[0]) {
             throw new ErrorHandler('Book not found');
         }
+
+        console.log(user, book);
 
         const borrowBook = await this.borrowBookRepository.findBorrowBook(
             { 
