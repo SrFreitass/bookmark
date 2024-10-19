@@ -48,7 +48,8 @@ class BorrowBookRepositoryImpl implements BorrowBookRepository {
         .innerJoin(users, eq(this.borrowBook.userId, users.id))
         .where(
             and(
-                between(this.borrowBook.limitDate, from, to),
+                between(this.borrowBook.createdAt, from, to),
+                eq(this.borrowBook.borrow, true)
             )
         )
     }
