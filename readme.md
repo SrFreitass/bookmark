@@ -9,7 +9,7 @@
 
 
 <a href="./quickstart.md"> 🔷 Como rodar o projeto. </a> -->
-<img src="./docs/src/images/banner.png"/>
+<img src="./docs/src/images/banner.svg" width="100%"/>
 
 ## Projeto "Bookmark"
 
