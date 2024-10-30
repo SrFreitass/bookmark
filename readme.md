@@ -1,6 +1,6 @@
 
 
-# Bookmark 
+# Bookmark - Biblioteca conectada!
 
 <!-- ## Guia
 <a href="#projeto-Bookmark"> 🔷 Descrição do projeto; </a>
@@ -9,8 +9,7 @@
 
 
 <a href="./quickstart.md"> 🔷 Como rodar o projeto. </a> -->
-
-...
+<img src="./docs/src/images/banner.png"/>
 
 ## Projeto "Bookmark"
 
@@ -23,4 +22,4 @@ Esse projeto, planejado por Guilherme Freitas, estudante do 2º ano do ensino m�
 
 The MIT License (MIT)
 
-Copyright ©️ Ano - Titulo do Projeto
+Copyright ©️ 2024 - BookMark
