@@ -39,6 +39,8 @@
 import Checkbox from 'primevue/checkbox';
 import { useRegisterTokens } from '~/composables/useRgisterTokens';
 import { createAccount } from '~/http/auth/createAccount';
+    
+    const router = useRouter();
 
     const errors  = {
         'Username already exists': () => { 
@@ -153,6 +155,6 @@ import { createAccount } from '~/http/auth/createAccount';
         const { token, refreshToken  } = res?.data;
 
         useRegisterTokens(token, refreshToken, checkbox.value);
-
+        router.push('/')
     };
 </script>

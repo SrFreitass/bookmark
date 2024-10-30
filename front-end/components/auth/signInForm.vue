@@ -56,7 +56,7 @@
 <script setup lang="ts">
 import Checkbox from 'primevue/checkbox';
 import { signInAccount } from '~/http/auth/signInAccount';
-
+    const router = useRouter();
     const checkbox = ref(false);
 
     const form = reactive({
@@ -132,6 +132,6 @@ import { signInAccount } from '~/http/auth/signInAccount';
         const { token, refreshToken } = res.data;
         console.log(token, refreshToken)
         useRegisterTokens(token, refreshToken, checkbox.value);
-        
+        router.push('/')
     }
 </script>
