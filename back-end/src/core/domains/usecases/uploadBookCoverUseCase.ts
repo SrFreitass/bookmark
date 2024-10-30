@@ -11,7 +11,7 @@ class UploadBookCoverUseCase {
 
       return {
         name: data.name,
-        cover: `/static/book-covers/${nameImage}`,
+        cover: `/static/book-covers/${nameImage.split('.png')[0]}.png`,
       };
     }
 }

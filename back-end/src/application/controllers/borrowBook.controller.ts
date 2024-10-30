@@ -1,3 +1,4 @@
+import { Context } from "elysia";
 import { App } from "../../config/app";
 import { BorrowBookUseCase } from "../../core/domains/usecases/borrowBook.usecase";
 import { GetBorrowsUseCase } from "../../core/domains/usecases/getBorrows.usecase";
@@ -12,6 +13,7 @@ import { returnBookDTO } from "../dto/returnBook.dto";
 import { verifyUserMiddlare } from "../middleware/verifyUser.middleware";
 import { errorResponse } from "../utils/error.response";
 import { successResponse } from "../utils/success.response";
+import { IJWT } from "../../@types/interfaces";
 
 class BorrowBookController {
     constructor(private readonly app: typeof App) {
@@ -23,6 +25,17 @@ class BorrowBookController {
             } catch (error) {
                 return errorResponse(error);
             }
+        }, {
+            // Fix: not throw error!
+            async beforeHandle(cx) {
+                try {
+                    await verifyUserMiddlare(cx as Context & { jwt: IJWT });
+                } catch (error) {
+                    const response = errorResponse(error);
+                    cx.set.status = response.statusCode
+                    return response;
+                }
+            },
         });
 
         this.app.put("/api/v1/borrow/return", async (context) => {
