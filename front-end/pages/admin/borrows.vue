@@ -23,6 +23,7 @@ import type { IBorrow } from '~/models/IBorrow';
 
 definePageMeta({
   layout: "admin",
+  middleware: 'admin'
 });
 const borrows = reactive<{ list: IBorrow[] }>({
   list: [],

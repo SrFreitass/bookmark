@@ -9,10 +9,12 @@
                     <li><NuxtLink href="/query"><span class="pi pi-search"></span></NuxtLink></li>
                     <li>
                         <UserOptions
+                            v-if="globalState.user"
                             :avatar="globalState.user?.avatarURL || 'https://via.placeholder.com/64'"
                             :username="globalState.user?.name || ''"
                             :role="globalState.user?.role === 'STUDENT' ? 'Aluno' : 'Funcionário'"
                         />
+                        <NuxtLink href="/auth/signin" class="transition-all border border-green-500 p-2 px-5 rounded-lg hover:bg-green-500" v-else>Entrar</NuxtLink>
                     </li>
                 </ul>
             </nav>
@@ -22,9 +24,9 @@
 </template>
 
 <script setup lang="ts">
-    import { ref } from 'vue';
-    import 'primeicons/primeicons.css'
-    import UserOptions from './userOptions.vue';
+    import 'primeicons/primeicons.css';
+import { ref } from 'vue';
+import UserOptions from './userOptions.vue';
     const sidebarStatus = ref(false);
 
     const globalState = useGlobalState()

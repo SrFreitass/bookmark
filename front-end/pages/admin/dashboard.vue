@@ -52,6 +52,7 @@ import type { IBorrow } from '~/models/IBorrow';
 
 definePageMeta({
   layout: "admin",
+  middleware: 'admin'
 });
 
 // id: string,

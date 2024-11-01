@@ -14,6 +14,7 @@ import type { User } from '~/models/IUser';
 
 definePageMeta({
   layout: "admin",
+  middleware: 'admin'
 });
 
 const users = reactive<{

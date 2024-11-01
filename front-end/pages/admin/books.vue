@@ -23,6 +23,7 @@ import type { IBook } from '~/models/IBook';
 
 definePageMeta({
   layout: "admin",
+  middleware: 'admin'
 });
 const books = reactive<{
   list: IBook[];

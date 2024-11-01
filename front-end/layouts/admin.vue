@@ -1,6 +1,3 @@
-<script setup lang="ts">
-    import 'primeicons/primeicons.css';
-</script>
 
 <template>
     <Header/>
@@ -10,5 +7,11 @@
             <slot/>
         </main>
     </div>
-    
 </template>
+
+<script setup lang="ts">
+    import 'primeicons/primeicons.css';
+    definePageMeta({
+        middleware: 'admin'
+    })
+</script>

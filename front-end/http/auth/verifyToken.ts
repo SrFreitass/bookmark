@@ -1,9 +1,9 @@
-import { client } from "../client"
+import { client } from "../client";
 import type { HTTPResponse } from "../types/http.response";
 
 
 
-const verifyToken = async (token: string): Promise<HTTPResponse<[]> | null> => {
+const verifyToken = async (token: string): Promise<HTTPResponse<string> | null> => {
     try {
         return await client("POST", `/auth/verify`, {
             token
@@ -14,4 +14,4 @@ const verifyToken = async (token: string): Promise<HTTPResponse<[]> | null> => {
     }
 }
 
-export { verifyToken }
+export { verifyToken };
