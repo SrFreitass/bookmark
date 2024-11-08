@@ -10,9 +10,13 @@ class GetFavoriteBookUseCase {
       throw new ErrorHandler("Invalid input");
     }
 
-    const favorite =  await this.favoriteRepository.findFavorite(userId, bookId);
+    const favorite = await this.favoriteRepository.findFavorite(userId, bookId);
+    
+    if(!favorite) {
+      throw new ErrorHandler('Not found book', 404)
+    }
 
-    return favorite[0];
+    return favorite;
   }
 }
 

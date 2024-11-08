@@ -1,9 +1,9 @@
+import { cors } from '@elysiajs/cors';
 import jwt from '@elysiajs/jwt';
-import { swagger } from '@elysiajs/swagger';
-import { Elysia, t } from 'elysia';
-import { Router } from '../application/routers/router';
-import { cors } from '@elysiajs/cors'
 import staticPlugin from '@elysiajs/static';
+import { swagger } from '@elysiajs/swagger';
+import { Elysia } from 'elysia';
+import { Router } from '../application/routers/router';
 
 const App = new Elysia({})
   .use(staticPlugin({

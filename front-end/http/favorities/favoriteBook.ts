@@ -1,6 +1,7 @@
 import { client } from "../client";
+import type { HTTPResponse } from "../types/http.response";
 
-const favoriteBook = async (bookId: string) => {
+const favoriteBook = async (bookId: string): Promise<HTTPResponse<boolean> | null> => {
     console.log("bookId", bookId);
     const globalState = useGlobalState();
 

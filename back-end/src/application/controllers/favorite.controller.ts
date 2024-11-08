@@ -15,7 +15,7 @@ class FavoriteController {
         this.app.get("/api/v1/favorite/:bookId", async (context) => {
             try {
                 const useCase = new GetFavoriteBookUseCase(new FavoriteRepositoryImpl());
-                const output = await useCase.execute(context.params.bookId, context.headers?.userid || '');
+                const output = await useCase.execute(context.headers?.userid || '', context.params.bookId);
                 return successResponse(200, output, 'Favorite book found');
             } catch (error) {
                 return errorResponse(error);

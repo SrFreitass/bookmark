@@ -62,6 +62,7 @@ import type { IBook } from '~/models/IBook';
     booksRelated.list = res.data.filter((bookR) => bookR.id !== book.item.id);
   }
 
+
   fetchBook();
   fetchBooksRelated();
 </script>

@@ -9,9 +9,11 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
         return (await db.select({ total: count() }).from(favoritiesBooks).where(eq(favoritiesBooks.userId, userId)))[0].total;
     }
 
-    async findFavorite(userId: string, bookId: string): Promise<FavoriteEntity[]> {
-        return await db.select().from(favoritiesBooks).where(and(eq(favoritiesBooks.userId, userId), eq(favoritiesBooks.bookId, bookId)))
+    async findFavorite(userId: string, bookId: string): Promise<FavoriteEntity> {
+        const favorite =  await db.select().from(favoritiesBooks).where(and(eq(favoritiesBooks.userId, userId), eq(favoritiesBooks.bookId, bookId)))
+        return favorite[0];
     }
+    
     async addFavorite(favoriteEntity: FavoriteEntity): Promise<void> {
         await db.insert(favoritiesBooks).values(favoriteEntity)
     }

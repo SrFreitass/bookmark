@@ -1,4 +1,3 @@
-import { useAuthorization } from "~/composables/useAuthorization";
 
 type HttpMethod =
   | "GET"

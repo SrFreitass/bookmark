@@ -1,22 +1,21 @@
-import { error, t } from "elysia";
 import { App } from "../../config/app";
 import { CreateBookUseCase } from "../../core/domains/usecases/createBook.usecase";
 import { DeleteBookUseCase } from "../../core/domains/usecases/deleteBook.usecase";
 import { EditBookUseCase } from "../../core/domains/usecases/editBook.usecase";
+import { GetBookByIdUseCase } from "../../core/domains/usecases/getBookById.usecase";
+import { GetBookByTitleUsecase } from "../../core/domains/usecases/getBookByTitle.usecase";
 import { GetBooksUseCase } from "../../core/domains/usecases/getBooks.usecase";
 import { db } from "../../infra/db/connect";
 import { books } from "../../infra/db/schema";
 import { BookRepositoryImpl } from "../../infra/repositories/book.repository";
 import {
-  createBookDTO,
-  deleteBookDTO,
-  editBookDTO,
-  getBooksDTO,
+    createBookDTO,
+    deleteBookDTO,
+    editBookDTO,
+    getBooksDTO,
 } from "../dto/book.dto";
 import { errorResponse } from "../utils/error.response";
 import { successResponse } from "../utils/success.response";
-import { GetBookByTitleUsecase } from "../../core/domains/usecases/getBookByTitle.usecase";
-import { GetBookByIdUseCase } from "../../core/domains/usecases/getBookById.usecase";
 
 class BookController {
   constructor(private readonly app: typeof App) {

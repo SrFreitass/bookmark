@@ -11,7 +11,7 @@
           <h1 class="text-4xl font-semibold">{{ book.item.title }}</h1>
           <div class="flex gap-4">
             <i :class="`pi ${isFavorite ? 'pi-heart-fill text-green-500' : 'pi-heart'} text-2xl`"
-             @click="warning">
+             @click="favorite">
             </i>
             <i class="pi pi-share-alt text-2xl"></i>
           </div>
@@ -48,9 +48,11 @@
 
 <script setup lang="ts">
 import type { Reactive } from 'vue';
+import { favoriteBook } from '~/http/favorities/favoriteBook';
 import { getFavoriteBook } from '~/http/favorities/getFavoriteBook';
 import type { IBook } from '~/models/IBook';
 
+const user = useGlobalState().value.user;
 const isFavorite = ref(false);
 const { book } = defineProps<{
   book: Reactive<{ item: IBook }>;
@@ -77,21 +79,39 @@ watch(book, () => {
 
 const fetchFavoriteStatus = async (): Promise<void> => {
   const res = await getFavoriteBook(book.item.id);
-  console.log(res);
+  console.log(res, book.item.id);
 
-  if(!res?.success || !res?.data) return;
+  if(!res?.success) return;
 
   isFavorite.value = true;
 };
 
 fetchFavoriteStatus();
 
-const warning = () => {
-  toast.add({
-    severity: 'warn',
-    summary: 'Aviso',
-    detail: 'Você precisa estar logado para favoritar um livro | Modo apresentação',
-    life: 5000
+const favorite = async () => {
+  if(!user?.id) return toast.add({
+    severity: 'error',
+    detail: 'Não é possível favoritar um livro sem conta',
+    summary: 'Ocorreu um erro ao favoritar!',
+    closable: true,
   });
+
+  // todo
+  if(isFavorite.value) return;
+
+  const res = await favoriteBook(book.item.id);
+
+  console.log(res);
+  if(!res?.success) return;
+
+
+  toast.add({
+    severity: 'success',
+    summary: 'Livro favoritado com sucesso',
+    detail: 'O livro foi favoritado com sucesso e está na sua lista de favoritos!',
+  })
+
+  isFavorite.value = !isFavorite.value;
+
 }
 </script>

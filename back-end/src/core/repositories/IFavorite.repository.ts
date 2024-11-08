@@ -4,7 +4,7 @@ interface FavoriteRepository {
     countFavorite(userId: string): Promise<number>;
     addFavorite(favoriteEntity: FavoriteEntity): Promise<void>;
     removeFavorite(userId: string, bookId: string): Promise<void>;
-    findFavorite(userId: string, bookId: string): Promise<FavoriteEntity[]>;
+    findFavorite(userId: string, bookId: string): Promise<FavoriteEntity | null>;
     findFavorites(userId: string): Promise<FavoriteEntity[]>;
 }
 
