@@ -16,7 +16,7 @@ import { successResponse } from "../utils/success.response";
 
 class BorrowBookController {
     constructor(private readonly app: typeof App) {
-        // TODO: middleware
+        // OK: middleware
         this.app.get("/api/v1/borrows", async (context) => {
             try {
                 const useCase = new GetBorrowsUseCase(new BorrowBookRepositoryImpl(db, borrowBooks));
@@ -39,6 +39,7 @@ class BorrowBookController {
             },
         });
 
+        // OK: middleware
         this.app.put("/api/v1/borrow/return", async (context) => {
             try {
                 const useCase = new ReturnBookUseCase(
@@ -53,9 +54,21 @@ class BorrowBookController {
                 return errorResponse(error);
             }
         }, {
+            async beforeHandle(context) {
+                const err = await verifyUserMiddlare({ 
+                  headers: context.headers, 
+                  jwt: context.jwt, 
+                  path: context.path as keyof typeof routes
+                });
+      
+                if(err) {
+                  return errorResponse(err);
+                }
+            },
             body: returnBookDTO
         })
 
+        // OK: middleware
         this.app.post("/api/v1/borrow", async (context) => {
             try {
                 const useCase = new BorrowBookUseCase(
@@ -71,11 +84,15 @@ class BorrowBookController {
                 return errorResponse(error);
             }
         }, {
-            async beforeHandle(context: any) {
-                try {
-                    // await verifyUserMiddlare(context);
-                } catch (error) {
-                    return errorResponse(error);
+            async beforeHandle(context) {
+                const err = await verifyUserMiddlare({ 
+                  headers: context.headers, 
+                  jwt: context.jwt, 
+                  path: context.path as keyof typeof routes
+                });
+      
+                if(err) {
+                  return errorResponse(err);
                 }
             },
             body: borrowBookDTO,

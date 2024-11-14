@@ -1,4 +1,7 @@
 const routes = {
+
+    // BORROW
+
     '/api/v1/borrows': {
         roles: ["ADMIN", "LIBRARIAN"],
     },
@@ -8,6 +11,8 @@ const routes = {
     '/api/v1/borrow': {
         roles: ["ADMIN", "LIBRARIAN"],
     },
+
+    // BOOK
     '/api/v1/book': {
         roles: ["ADMIN", "LIBRARIAN"],
     },
