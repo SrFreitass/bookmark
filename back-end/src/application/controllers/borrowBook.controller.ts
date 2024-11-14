@@ -1,4 +1,3 @@
-import { Context } from "elysia";
 import { App } from "../../config/app";
 import { BorrowBookUseCase } from "../../core/domains/usecases/borrowBook.usecase";
 import { GetBorrowsUseCase } from "../../core/domains/usecases/getBorrows.usecase";
@@ -10,13 +9,14 @@ import { BorrowBookRepositoryImpl } from "../../infra/repositories/borrowBook.re
 import { UserRepositoryImpl } from "../../infra/repositories/user.repository";
 import { borrowBookDTO } from "../dto/borrowBook.dto";
 import { returnBookDTO } from "../dto/returnBook.dto";
+import routes from "../middleware/protectedRoutes";
 import { verifyUserMiddlare } from "../middleware/verifyUser.middleware";
 import { errorResponse } from "../utils/error.response";
 import { successResponse } from "../utils/success.response";
-import { IJWT } from "../../@types/interfaces";
 
 class BorrowBookController {
     constructor(private readonly app: typeof App) {
+        // TODO: middleware
         this.app.get("/api/v1/borrows", async (context) => {
             try {
                 const useCase = new GetBorrowsUseCase(new BorrowBookRepositoryImpl(db, borrowBooks));
@@ -26,14 +26,15 @@ class BorrowBookController {
                 return errorResponse(error);
             }
         }, {
-            // Fix: not throw error!
-            async beforeHandle(cx) {
-                try {
-                    await verifyUserMiddlare(cx as Context & { jwt: IJWT });
-                } catch (error) {
-                    const response = errorResponse(error);
-                    cx.set.status = response.statusCode
-                    return response;
+            async beforeHandle(context) {
+                const err = await verifyUserMiddlare({ 
+                  headers: context.headers, 
+                  jwt: context.jwt, 
+                  path: context.path as keyof typeof routes
+                });
+      
+                if(err) {
+                  return errorResponse(err);
                 }
             },
         });
