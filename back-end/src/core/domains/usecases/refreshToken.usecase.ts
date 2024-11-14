@@ -9,6 +9,8 @@ class RefreshTokenUseCase {
   ) {}
 
   async execute(refreshtoken: string) {
+    // TODO: adicionar registro no banco de dados do refresh token
+
     const isTokenValid = await this.jwt.verify(refreshtoken);
 
     if (!isTokenValid) {
@@ -17,14 +19,14 @@ class RefreshTokenUseCase {
 
     const user = await this.userRepository.findUser({ id: isTokenValid.sub });
 
-    if (!user) {
+    if (!user || !user[0]) {
       throw new ErrorHandler('User not found', 400);
     }
 
     const token = await this.jwt.sign({
-      sub: user.id,
-      email: user.email,
-      role: user.role,
+      sub: user[0].id,
+      email: user[0].email,
+      role: user[0].role,
     });
 
     return {

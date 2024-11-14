@@ -7,6 +7,9 @@ const routes = {
     },
     '/api/v1/borrow': {
         roles: ["ADMIN", "LIBRARIAN"]
+    },
+    '/api/v1/book': {
+        roles: ["ADMIN", "LIBRARIAN"]
     }
 }
 

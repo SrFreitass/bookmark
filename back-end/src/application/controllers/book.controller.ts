@@ -9,11 +9,13 @@ import { db } from "../../infra/db/connect";
 import { books } from "../../infra/db/schema";
 import { BookRepositoryImpl } from "../../infra/repositories/book.repository";
 import {
-    createBookDTO,
-    deleteBookDTO,
-    editBookDTO,
-    getBooksDTO,
+  createBookDTO,
+  deleteBookDTO,
+  editBookDTO,
+  getBooksDTO,
 } from "../dto/book.dto";
+import routes from "../middleware/protectedRoutes";
+import { verifyUserMiddlare } from "../middleware/verifyUser.middleware";
 import { errorResponse } from "../utils/error.response";
 import { successResponse } from "../utils/success.response";
 
@@ -85,6 +87,20 @@ class BookController {
         }
       },
       {
+        async beforeHandle(context) {
+          
+          console.log('running middleware');
+
+          const err = await verifyUserMiddlare({ 
+            headers: context.headers, 
+            jwt: context.jwt, 
+            path: context.path as keyof typeof routes 
+          });
+
+          if(err) {
+            return errorResponse(err);
+          }
+        },
         body: createBookDTO,
         error: (err) => {
           return errorResponse(err.error);
