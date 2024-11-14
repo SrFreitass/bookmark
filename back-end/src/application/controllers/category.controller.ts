@@ -5,6 +5,8 @@ import { db } from "../../infra/db/connect";
 import { categories } from "../../infra/db/schema";
 import { CategoryRepositoryImpl } from "../../infra/repositories/category.repository";
 import { createCategoryDTO } from "../dto/category.dto";
+import routes from "../middleware/protectedRoutes";
+import { verifyUserMiddlare } from "../middleware/verifyUser.middleware";
 import { errorResponse } from "../utils/error.response";
 import { successResponse } from "../utils/success.response";
 
@@ -24,6 +26,17 @@ class CategoryController {
         }
       },
       {
+        async beforeHandle(context) {
+          const err = await verifyUserMiddlare({ 
+            headers: context.headers,
+            jwt: context.jwt, 
+            path: context.path as keyof typeof routes
+          });
+
+          if(err) {
+            return errorResponse(err);
+          }
+      },
         body: createCategoryDTO,
       },
     );
