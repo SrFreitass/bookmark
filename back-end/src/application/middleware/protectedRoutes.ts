@@ -1,14 +1,17 @@
 const routes = {
     '/api/v1/borrows': {
-        roles: ["ADMIN", "LIBRARIAN"]
+        roles: ["ADMIN", "LIBRARIAN"],
     },
     '/api/v1/borrow/return': {
-        roles: ["ADMIN", "LIBRARIAN"]
+        roles: ["ADMIN", "LIBRARIAN"],
     },
     '/api/v1/borrow': {
-        roles: ["ADMIN", "LIBRARIAN"]
+        roles: ["ADMIN", "LIBRARIAN"],
     },
     '/api/v1/book': {
+        roles: ["ADMIN", "LIBRARIAN"],
+    },
+    '/api/v1/book/*': {
         roles: ["ADMIN", "LIBRARIAN"]
     }
 }

@@ -50,6 +50,7 @@ class BookController {
       },
     );
 
+    // TODO: middleware
     this.app.put(
       "/api/v1/book/:id",
       async (context) => {
@@ -64,6 +65,17 @@ class BookController {
         }
       },
       {
+        async beforeHandle(context) {
+          const err = await verifyUserMiddlare({ 
+            headers: context.headers, 
+            jwt: context.jwt, 
+            path: '/api/v1/book/*'
+          });
+
+          if(err) {
+            return errorResponse(err);
+          }
+        },
         body: editBookDTO,
         detail: {
           tags: ["Books"],
@@ -72,6 +84,7 @@ class BookController {
       },
     );
 
+    // OK: middleware
     this.app.post(
       "/api/v1/book",
       async (context) => {
