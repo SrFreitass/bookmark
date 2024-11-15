@@ -12,6 +12,7 @@ import { successResponse } from "../utils/success.response";
 
 class CategoryController {
   constructor(app: typeof App) {
+    // OK: middleware
     app.post(
       "/api/v1/category",
       async (context) => {

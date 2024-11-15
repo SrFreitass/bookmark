@@ -7,6 +7,8 @@ import { books } from "../../infra/db/schema";
 import { BookRepositoryImpl } from "../../infra/repositories/book.repository";
 import { FavoriteRepositoryImpl } from "../../infra/repositories/favorite.repository";
 import { addFavoriteBookDTO } from "../dto/favorite.dto";
+import routes from "../middleware/protectedRoutes";
+import { verifyUserMiddlare } from "../middleware/verifyUser.middleware";
 import { errorResponse } from "../utils/error.response";
 import { successResponse } from "../utils/success.response";
 
@@ -20,6 +22,16 @@ class FavoriteController {
             } catch (error) {
                 return errorResponse(error);
             }
+        }, {
+            async beforeHandle(context) {
+                const err = await verifyUserMiddlare({
+                    headers: context.headers,
+                    jwt: context.jwt,
+                    path: context.path as keyof typeof routes,
+                });
+
+                if(err) return errorResponse(err);
+            },
         });
 
         this.app.post("/api/v1/favorite", async (context) => {
@@ -32,6 +44,15 @@ class FavoriteController {
             }
         },
         {
+            async beforeHandle(context) {
+                const err = await verifyUserMiddlare({
+                    headers: context.headers,
+                    jwt: context.jwt,
+                    path: context.path as keyof typeof routes,
+                });
+
+                if(err) return errorResponse(err);
+            },
             body: addFavoriteBookDTO,
             details: {
                 tags: ['Favorites'],
@@ -48,6 +69,16 @@ class FavoriteController {
             } catch (error) {
                 return errorResponse(error);
             }
+        }, {
+            async beforeHandle(context) {
+                const err = await verifyUserMiddlare({
+                    headers: context.headers,
+                    jwt: context.jwt,
+                    path: context.path as keyof typeof routes,
+                });
+
+                if(err) return errorResponse(err);
+            },
         });
     }
 }

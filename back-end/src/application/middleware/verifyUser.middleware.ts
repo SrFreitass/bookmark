@@ -19,6 +19,8 @@ const verifyUserMiddlare = async ({ headers, path, jwt }: { headers: Record<stri
         return new ErrorHandler("Invalid token", 401);
     }
 
+    headers['userid'] = isTokenValid.sub;
+
     if(!routes[path]) return;
 
     if(!routes[path].roles.includes(isTokenValid.role as string)) {
