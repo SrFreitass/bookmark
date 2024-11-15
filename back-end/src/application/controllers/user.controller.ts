@@ -1,13 +1,15 @@
 import { App } from "../../config/app";
-import { getUserDTO, getUsersDTO } from "../dto/user.dto";
-import { errorResponse } from "../utils/error.response";
 import { GetUserByIdUseCase } from "../../core/domains/usecases/getUserById.usecase";
-import { UserRepositoryImpl } from "../../infra/repositories/user.repository";
+import { GetUserByNameUseCase } from "../../core/domains/usecases/getUserByName.usecase";
+import { GetUsersUseCase } from "../../core/domains/usecases/getUsers.usecase";
 import { db } from "../../infra/db/connect";
 import { users } from "../../infra/db/schema";
+import { UserRepositoryImpl } from "../../infra/repositories/user.repository";
+import { getUserDTO, getUsersDTO } from "../dto/user.dto";
+import routes from "../middleware/protectedRoutes";
+import { verifyUserMiddlare } from "../middleware/verifyUser.middleware";
+import { errorResponse } from "../utils/error.response";
 import { successResponse } from "../utils/success.response";
-import { GetUsersUseCase } from "../../core/domains/usecases/getUsers.usecase";
-import { GetUserByNameUseCase } from "../../core/domains/usecases/getUserByName.usecase";
 
 
 class UserController {
@@ -26,6 +28,15 @@ class UserController {
                 return errorResponse(error);
             }
         }, {
+             async beforeHandle(context) {
+                const err = await verifyUserMiddlare({
+                    headers: context.headers,
+                    jwt: context.jwt,
+                    path: '/api/v1/users/*' as keyof typeof routes,
+                });
+
+                if(err) return errorResponse(err);
+            },
             params: getUsersDTO,
         })
 
@@ -38,6 +49,16 @@ class UserController {
             } catch (error) {
                 return errorResponse(error);
             }
+        }, {
+            async beforeHandle(context) {
+                const err = await verifyUserMiddlare({
+                    headers: context.headers,
+                    jwt: context.jwt,
+                    path: context.path as keyof typeof routes,
+                });
+
+                if(err) return errorResponse(err);
+            },
         })
 
         this.app.get("/api/v1/user/:id", async (context) => {
@@ -49,6 +70,15 @@ class UserController {
                 return errorResponse(error);
             }
         }, {
+             async beforeHandle(context) {
+                const err = await verifyUserMiddlare({
+                    headers: context.headers,
+                    jwt: context.jwt,
+                    path: '/api/v1/user/*' as keyof typeof routes,
+                });
+
+                if(err) return errorResponse(err);
+            },
            params: getUserDTO
         })
     }

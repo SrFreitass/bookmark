@@ -30,6 +30,18 @@ const routes = {
 
     '/api/v1/book/cover': {
         roles: ["ADMIN", "LIBRARIAN"]
+    },
+
+    // USER
+
+    '/api/v1/user': {
+        roles: ["ADMIN", "LIBRARIAN"]
+    },
+    '/api/v1/users/*': {
+        roles: ["ADMIN", "LIBRARIAN"]
+    },
+    '/api/v1/user/*': {
+        roles: ["ADMIN", "LIBRARIAN"]
     }
 }
 
