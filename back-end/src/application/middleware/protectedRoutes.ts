@@ -24,6 +24,12 @@ const routes = {
 
     '/api/v1/category': {
         roles: ["ADMIN", "LIBRARIAN"]
+    },
+
+    // COVER UPLOAD
+
+    '/api/v1/book/cover': {
+        roles: ["ADMIN", "LIBRARIAN"]
     }
 }
 
