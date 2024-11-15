@@ -28,7 +28,7 @@ const refreshToken = pgTable("refresh_tokens", {
   id: varchar("id", { length: 36 }).primaryKey(),
   refreshToken: text("refresh_token").notNull(),
   userId: varchar("user_id", { length: 36 }).references(() => users.id).notNull(),
-  expiresAt: varchar("expires_at", { length: 36 }).notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
 })
 
 const books = pgTable("books", {

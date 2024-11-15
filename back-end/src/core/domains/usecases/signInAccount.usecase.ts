@@ -2,10 +2,12 @@ import dayjs from 'dayjs';
 import { IJWT } from '../../../@types/interfaces';
 import { signInDTO } from '../../../application/dto/auth.dto';
 import { ErrorHandler } from '../../../application/utils/error.handle';
+import { RefreshTokenRepository } from '../../repositories/IRefreshToken.repository';
 import { UserRepository } from '../../repositories/IUser.repository';
+import { RefreshTokenEntity } from '../entities/refreshToken.entity';
 
 class SignInAccount {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository, private readonly refreshToken: RefreshTokenRepository) {}
 
   async execute(body: typeof signInDTO.static, jwt: IJWT) {
     const user = await this.userRepository.findUser({ email: body.email });
@@ -34,6 +36,8 @@ class SignInAccount {
       sub: user[0].id,
       exp: dayjs().add(7, 'days').unix()
     })
+
+    await this.refreshToken.refresh(new RefreshTokenEntity({ refreshToken, userId: user[0].id }))
 
     return {
       refreshToken,

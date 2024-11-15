@@ -6,6 +6,7 @@ import { SignInAccount } from '../../core/domains/usecases/signInAccount.usecase
 import { VerifyTokenUseCase } from '../../core/domains/usecases/verifyToken.usecase';
 import { db } from '../../infra/db/connect';
 import { users } from '../../infra/db/schema';
+import { RefreshTokenRepositoryImpl } from '../../infra/repositories/refreshToken.repository';
 import { UserRepositoryImpl } from '../../infra/repositories/user.repository';
 import { refreshTokenDTO, signInDTO, signUpDTO, verifyTokenDTO } from '../dto/auth.dto';
 import { errorResponse } from '../utils/error.response';
@@ -31,6 +32,7 @@ class AuthController {
         try {
           const usecase = new CreateAccountUseCase(
             new UserRepositoryImpl(db, users),
+            new RefreshTokenRepositoryImpl()
           );
           const output = await usecase.execute(context.body, context.jwt as IJWT);
 
@@ -55,7 +57,7 @@ class AuthController {
       '/api/v1/auth/signin',
       async (context) => {
         try {
-          const usecase = new SignInAccount(new UserRepositoryImpl(db, users));
+          const usecase = new SignInAccount(new UserRepositoryImpl(db, users), new RefreshTokenRepositoryImpl());
           const output = await usecase.execute(context.body, context.jwt as IJWT);
 
           return successResponse(200, output, 'User signed in');
@@ -81,6 +83,7 @@ class AuthController {
         try {
           const usecase = new RefreshTokenUseCase(
             new UserRepositoryImpl(db, users),
+            new RefreshTokenRepositoryImpl(),
             context.jwt as IJWT,
           );
           const output = await usecase.execute(context.body.refreshToken);

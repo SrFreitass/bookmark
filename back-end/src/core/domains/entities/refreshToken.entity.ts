@@ -1,13 +1,17 @@
+import dayjs from "dayjs";
+
 class RefreshTokenEntity {
+    readonly id: string;
     readonly userId: string;
     readonly refreshToken: string;
-    readonly expiresAt: Date | string;
+    readonly expiresAt: Date;
 
-    constructor({ userId, refreshToken }: Omit<RefreshTokenEntity, 'expireAt'>) {
+    constructor({ userId, refreshToken }: Omit<RefreshTokenEntity, 'expiresAt' | 'id'>) {
+        this.id = crypto.randomUUID();
         this.userId = userId;
         this.refreshToken = refreshToken;
         // 2 weeks
-        this.expiresAt = new Date(new Date().getTime() * (1000 * 60 * 60 * 24 * 14));
+        this.expiresAt = dayjs().add(14, 'day').toDate()
     };
 }
 

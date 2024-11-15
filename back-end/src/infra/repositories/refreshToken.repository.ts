@@ -5,6 +5,9 @@ import { db } from "../db/connect";
 import { refreshToken } from "../db/schema";
 
 class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
+    async addRefreshToken(token: RefreshTokenEntity): Promise<void> {
+        await db.insert(refreshToken).values({ ...token })
+    }
     async getRefreshToken(userId: string): Promise<RefreshTokenEntity | null> {
         const token = await db.select().from(refreshToken).where(eq(refreshToken.userId, userId));
 
@@ -16,7 +19,7 @@ class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
     async refresh(token: RefreshTokenEntity): Promise<void> {
         await db.update(refreshToken).set({
             refreshToken: token.refreshToken,
-            expiresAt: token.expiresAt.toString(),
+            expiresAt: token.expiresAt,
         })
     }
 }
