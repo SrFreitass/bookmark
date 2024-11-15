@@ -24,6 +24,12 @@ const users = pgTable("users", {
   createdAt: timestamp("created_at").notNull(),
 });
 
+const refreshToken = pgTable("refresh_tokens", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  refreshToken: text("refresh_token").notNull(),
+  userId: varchar("user_id", { length: 36 }).references(() => users.id).notNull(),
+})
+
 const books = pgTable("books", {
   id: varchar("id", { length: 36 }).primaryKey(),
   isbn: varchar("isbn", { length: 13 }).notNull().unique(),
@@ -72,4 +78,5 @@ const favoritiesBooks = pgTable("favorities_books", {
   createdAt: timestamp("created_at").notNull(),
 });
 
-export { categories, books, borrowBooks, roleEnum, users, favoritiesBooks };
+export { books, borrowBooks, categories, favoritiesBooks, refreshToken, roleEnum, users };
+
