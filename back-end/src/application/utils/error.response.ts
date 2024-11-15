@@ -1,4 +1,4 @@
-import { error, t, ValidationError } from 'elysia';
+import { ValidationError } from 'elysia';
 import { ErrorHandler } from './error.handle';
 
 const errorResponse = (err: unknown) => {
@@ -8,9 +8,9 @@ const errorResponse = (err: unknown) => {
   if (err instanceof ValidationError) {
     return {
       success: false,
-      statusCode: 400,
+      statusCode: 422,
       message: 'Validation error',
-      fields: err.validator
+      fields: err.all
     }
   }
 
