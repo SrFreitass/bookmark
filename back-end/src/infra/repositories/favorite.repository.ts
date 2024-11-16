@@ -19,7 +19,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
     }
 
     async removeFavorite(userId: string, bookId: string): Promise<void> {
-        throw new Error("Method not implemented.");
+        await db.delete(favoritiesBooks).where(and(eq(favoritiesBooks.userId, userId), eq(favoritiesBooks.bookId, bookId)))
     }
 
     async findFavorites(userId: string): Promise<FavoriteEntity[]> {

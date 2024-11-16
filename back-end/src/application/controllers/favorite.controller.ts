@@ -1,5 +1,7 @@
+import { t } from "elysia";
 import { App } from "../../config/app";
 import { AddFavoriteBookUseCase } from "../../core/domains/usecases/addFavoriteBook.usecase";
+import { DeleteFavoriteBookUseCase } from "../../core/domains/usecases/deleteFavoriteBook";
 import { GetFavoriteBookUseCase } from "../../core/domains/usecases/getFavoriteBook.usecase";
 import { GetFavoritesBooksUseCase } from "../../core/domains/usecases/getFavoritesBooks.usecase";
 import { db } from "../../infra/db/connect";
@@ -60,6 +62,27 @@ class FavoriteController {
             }
         }
         );
+
+        this.app.delete("/api/v1/favorite", async (context) => {
+            try {
+                const useCase = new DeleteFavoriteBookUseCase(new BookRepositoryImpl(db, books), new FavoriteRepositoryImpl());
+                await useCase.execute({ ...context.body, userId: context.headers?.userid || '' });
+                return successResponse(204, null, 'Deleted favorite book successfully');
+            } catch (error) {
+                return errorResponse(error);
+            }
+        }, {
+            async beforeHandle(context) {
+                const err = await verifyUserMiddlare({
+                    headers: context.headers,
+                    jwt: context.jwt,
+                    path: context.path as keyof typeof routes,
+                });
+
+                if(err) return errorResponse(err);
+            },
+            body: t.Object({ bookId: t.String({ format: 'uuid' }) })
+        })
 
         this.app.get("/api/v1/favorites", async (context) => {
             try {
