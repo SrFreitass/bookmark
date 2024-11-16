@@ -23,7 +23,7 @@ class RefreshTokenUseCase {
    
     const currentToken = await this.refreshTokenRepository.getRefreshToken(userId);
 
-    if (currentToken?.refreshToken !== refreshtoken) {
+    if (currentToken?.refreshToken !== refreshtoken || currentToken.expiresAt < new Date()) {
       throw new ErrorHandler('Invalid refresh token', 400);
     };
 
