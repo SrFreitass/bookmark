@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { IJWT } from '../../../@types/interfaces';
 import { signInDTO } from '../../../application/dto/auth.dto';
 import { ErrorHandler } from '../../../application/utils/error.handle';
@@ -32,10 +31,7 @@ class SignInAccount {
       role: user[0].role,
     });
 
-    const refreshToken = await jwt.sign({
-      sub: user[0].id,
-      exp: dayjs().add(7, 'days').unix()
-    })
+    const refreshToken = `${crypto.randomUUID()}-${crypto.randomUUID()}`;
 
     await this.refreshToken.refresh(new RefreshTokenEntity({ refreshToken, userId: user[0].id }))
 

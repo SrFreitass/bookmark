@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { IJWT } from '../../../@types/interfaces';
 import { signUpDTO } from '../../../application/dto/auth.dto';
 import { ErrorHandler } from '../../../application/utils/error.handle';
@@ -51,10 +50,7 @@ class CreateAccountUseCase {
       role: newUserEntity.role,
     });
 
-    const refreshToken = await jwt.sign({
-      sub: newUserEntity.id,
-      exp: dayjs().add(7, 'days').unix()
-    });
+    const refreshToken = `${crypto.randomUUID()}-${crypto.randomUUID()}`;
 
     await this.refreshToken.addRefreshToken(new RefreshTokenEntity({ refreshToken, userId: newUserEntity.id }))
 

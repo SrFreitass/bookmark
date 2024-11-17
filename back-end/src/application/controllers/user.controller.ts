@@ -70,15 +70,15 @@ class UserController {
                 return errorResponse(error);
             }
         }, {
-             async beforeHandle(context) {
-                const err = await verifyUserMiddlare({
-                    headers: context.headers,
-                    jwt: context.jwt,
-                    path: '/api/v1/user/*' as keyof typeof routes,
-                });
+            //  async beforeHandle(context) {
+            //     const err = await verifyUserMiddlare({
+            //         headers: context.headers,
+            //         jwt: context.jwt,
+            //         path: '/api/v1/user/*' as keyof typeof routes,
+            //     });
 
-                if(err) return errorResponse(err);
-            },
+            //     if(err) return errorResponse(err);
+            // },
            params: getUserDTO
         })
     }

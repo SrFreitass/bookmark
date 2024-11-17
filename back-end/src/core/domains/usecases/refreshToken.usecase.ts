@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { IJWT } from '../../../@types/interfaces';
 import { ErrorHandler } from '../../../application/utils/error.handle';
 import { RefreshTokenRepository } from '../../repositories/IRefreshToken.repository';
@@ -41,10 +40,7 @@ class RefreshTokenUseCase {
       role: user[0].role,
     });
 
-    const refreshToken = await this.jwt.sign({
-      sub: user[0].id,
-      exp: dayjs().add(14, 'days').unix()
-    })
+    const refreshToken = `${crypto.randomUUID()}-${crypto.randomUUID()}`;
 
     await this.refreshTokenRepository.refresh(new RefreshTokenEntity({ userId, refreshToken }))
     
