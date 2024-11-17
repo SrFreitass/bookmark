@@ -1,3 +1,4 @@
+import type { Tokens } from "~/middleware/admin";
 
 type HttpMethod =
   | "GET"
@@ -15,6 +16,7 @@ const client = async (method: HttpMethod, route: string, body?: unknown, content
   const baseURL = runtime.public.baseUrlApi || "http://localhost:8080/api/v1";
   
   const headers: Record<string, string> = {};
+  const tokens = useCookie<Tokens>('tokens');
 
   if(contentType === 'application/json') { 
     header['Content-Type'] = contentType;
@@ -24,7 +26,7 @@ const client = async (method: HttpMethod, route: string, body?: unknown, content
     const res = await fetch(`${baseURL}${route}`, {
       headers: {
         ...header,
-        Authorization: `Bearer ${''}`,
+        authorization: `${tokens.value.token}`,
       },
       method,
     });  
@@ -35,7 +37,7 @@ const client = async (method: HttpMethod, route: string, body?: unknown, content
   const res = await fetch(`${baseURL}${route}`, {
     headers: {
       ...header,
-      Authorization: `Bearer ${''}`,
+       authorization: `${tokens.value.token}`,
     },
     method,
     body: contentType === 'application/json' ? JSON.stringify(body) : body as BodyInit,

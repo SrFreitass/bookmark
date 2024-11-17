@@ -2,7 +2,7 @@ import { useGlobalState } from "#imports";
 import { jwtDecode, type JwtPayload } from "jwt-decode";
 import { verifyToken } from "~/http/auth/verifyToken";
 
-interface Tokens {
+export interface Tokens {
     token: string;
     refreshToken: string;
 }
