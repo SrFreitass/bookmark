@@ -10,7 +10,7 @@ type HttpMethod =
   | "CONNECT"
   | "TRACE";
 
-const client = async (method: HttpMethod, route: string, body?: unknown, contentType: string = 'application/json', header: Record<string, string> = {}, auth: boolean = true) => {
+const client = async (method: HttpMethod, route: string, body?: unknown, contentType: string = 'application/json', header: Record<string, string> = {}) => {
   const runtime = useRuntimeConfig();
   const baseURL = runtime.public.baseUrlApi || "http://localhost:8080/api/v1";
 

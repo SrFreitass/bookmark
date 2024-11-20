@@ -19,7 +19,7 @@
         <div class="mt-1">
           <NuxtLink
             v-for="(author, i) in book.item.authors"
-            
+
             class="text-gray-400 hover:text-green-500 transition-all"
           >
             {{ author }}{{ i < book.item.authors.length - 1 ? ", " : "" }}
@@ -50,6 +50,7 @@
 import type { Reactive } from 'vue';
 import { favoriteBook } from '~/http/favorities/favoriteBook';
 import { getFavoriteBook } from '~/http/favorities/getFavoriteBook';
+import { deleteFavoriteBook } from '~/http/favorities/deleteFavoriteBook';
 import type { IBook } from '~/models/IBook';
 
 const user = useGlobalState().value.user;
@@ -97,7 +98,23 @@ const favorite = async () => {
   });
 
   // todo
-  if(isFavorite.value) return;
+  if(isFavorite.value) {
+    const res = await deleteFavoriteBook(book.item.id);
+
+    if (!res?.success) return;
+
+    console.log(res);
+
+    toast.add({
+      severity: 'success',
+      summary: 'Livro foi removido com sucesso',
+      detail: 'O livro foi removido da sua lista de favoritos'
+    });
+
+    isFavorite.value = !isFavorite.value;
+
+    return;
+  };
 
   const res = await favoriteBook(book.item.id);
 
