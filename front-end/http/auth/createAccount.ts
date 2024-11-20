@@ -24,9 +24,11 @@ const createAccount = async (body: Body): Promise<HTTPResponse<Response> | null>
 
         return json;
     } catch (err) {
+      console.error(err);
         return null;
     }
 
 }
 
-export { createAccount }
+export { createAccount };
+

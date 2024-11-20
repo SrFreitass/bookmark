@@ -5,16 +5,16 @@
                 <InputGroupAddon>
                     <i :class="config['icon']"></i>
                 </InputGroupAddon>
-                <InputText 
+                <InputText
                     :type="config['type']"
                     :class="
                     `${formErrors['errors'][key]['error'] ? '!border-red-500' : ''}`
                     "
-                    :placeholder="config['placeholder']" 
+                    :placeholder="config['placeholder']"
                     v-model:model-value="form[key]"
                 />
             </InputGroup>
-            <p 
+            <p
                 v-if="formErrors['errors'][key]['error']"
                 class="text-red-500 mt-2"
             >
@@ -27,7 +27,7 @@
             <label>Lembrar de mim</label>
         </div>
          <Button type="submit">Registrar</Button>
-         <p class="text-gray-400">Já tem uma conta? 
+         <p class="text-gray-400">Já tem uma conta?
             <u class="text-white">
                 <NuxtLink href="./signin">Entrar</NuxtLink>
             </u>
@@ -39,11 +39,11 @@
 import Checkbox from 'primevue/checkbox';
 import { useRegisterTokens } from '~/composables/useRgisterTokens';
 import { createAccount } from '~/http/auth/createAccount';
-    
+
     const router = useRouter();
 
     const errors  = {
-        'Username already exists': () => { 
+        'Username already exists': () => {
             formErrors.errors.username.error = true;
             formErrors.errors.username.message = 'Apelido de usuário já existe!'
         },
@@ -97,8 +97,8 @@ import { createAccount } from '~/http/auth/createAccount';
         birthday: ''
     });
 
-    const formErrors = reactive({ 
-        errors: {    
+    const formErrors = reactive({
+        errors: {
             username: {
                 message: '',
                 error: false,
@@ -132,7 +132,7 @@ import { createAccount } from '~/http/auth/createAccount';
         e.preventDefault();
         const { formErrors: formErr, containsErrors } = useSignUpValidation(form);
         formErrors.errors = { ...formErr as typeof formErrors.errors };
-        
+
         if (containsErrors) return;
         const res = await createAccount({
             username: form.username,
