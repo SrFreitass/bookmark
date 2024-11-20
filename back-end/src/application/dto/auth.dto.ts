@@ -26,9 +26,11 @@ const refreshTokenDTO = t.Object(
       minLength: 1,
       errorMessage: 'Refresh token is required',
     }),
+    token: t.String({
+      minLength: 1
+    })
   },
   { errorMessage: 'Refresh token is required' },
 );
 
 export { refreshTokenDTO, signInDTO, signUpDTO, verifyTokenDTO };
-

@@ -13,6 +13,7 @@
     "dayjs": "^1.11.13",
     "drizzle-orm": "^0.33.0",
     "elysia": "latest",
+    "jwt-decode": "^4.0.0",
     "postgres": "^3.4.4"
   },
   "devDependencies": {

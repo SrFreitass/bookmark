@@ -1,3 +1,4 @@
+import { refreshToken } from "./auth/refreshToken";
 
 type HttpMethod =
   | "GET"
@@ -10,7 +11,7 @@ type HttpMethod =
   | "CONNECT"
   | "TRACE";
 
-const client = async (method: HttpMethod, route: string, body?: unknown, contentType: string = 'application/json', header: Record<string, string> = {}) => {
+const client = async (method: HttpMethod, route: string, body?: unknown, contentType: string = 'application/json', header: Record<string, string> = {}, recursion: boolean = false) => {
   const runtime = useRuntimeConfig();
   const baseURL = runtime.public.baseUrlApi || "http://localhost:8080/api/v1";
 
@@ -42,7 +43,16 @@ const client = async (method: HttpMethod, route: string, body?: unknown, content
   });
 
 
-  return await res.json();
+  const json = await res.json();
+
+  if(json?.statusCode == 401 || json?.statusCode == 403) {
+    if (recursion) return;
+
+    await refreshToken();
+    return await client(method, route, body, contentType, header, true);
+  }
+
+  return json;
 };
 
 export { client };

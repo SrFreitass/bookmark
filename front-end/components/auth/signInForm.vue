@@ -5,18 +5,18 @@
                 <InputGroupAddon>
                     <i class="pi pi-envelope"</i>
                 </InputGroupAddon>
-                <InputText 
+                <InputText
                     :class="`${formErrors['email']['error'] ? '!border-red-500' : ''}`"
-                    placeholder="Seu e-mail" 
+                    placeholder="Seu e-mail"
                     v-model:model-value="form.email"
                 />
             </InputGroup>
-            <p 
-                    v-if="formErrors['email']['error']" 
+            <p
+                    v-if="formErrors['email']['error']"
                     class="text-red-500 mt-2"
             >
                 {{ formErrors['email']['message'] }}
-            </p> 
+            </p>
         </div>
 
         <div>
@@ -24,19 +24,19 @@
                 <InputGroupAddon>
                     <i class="pi pi-lock"</i>
                 </InputGroupAddon>
-                <InputText 
+                <InputText
                     :class="`${formErrors['password']['error'] ? '!border-red-500' : ''}`"
-                    type="password" 
-                    placeholder="Sua senha" 
+                    type="password"
+                    placeholder="Sua senha"
                     v-model:model-value="form.password"
                 />
             </InputGroup>
             <p v-i
-                    f="formErrors['password']['error']" 
+                    f="formErrors['password']['error']"
                     class="text-red-500 mt-2"
                 >
                     {{ formErrors['password']['message']
-                 }}</p> 
+                 }}</p>
         </div>
 
         <div class="flex gap-2 items-center">
@@ -47,7 +47,7 @@
         <Button type="submit">Entrar</Button>
 
         <p class="text-gray-400">
-            Não tem uma conta? 
+            Não tem uma conta?
             <u class="text-white"><NuxtLink href="./signup">Criar uma conta</NuxtLink></u>
         </p>
     </form>
@@ -63,7 +63,7 @@ import { signInAccount } from '~/http/auth/signInAccount';
             email: '',
             password: ''
         });
-    
+
     const formErrors = reactive({
         email: {
             error: false,
@@ -74,7 +74,7 @@ import { signInAccount } from '~/http/auth/signInAccount';
             message: ''
         }
     })
-    
+
     const errors = {
         'Incorrect email or password': () => {
             formErrors.email = {
@@ -88,7 +88,7 @@ import { signInAccount } from '~/http/auth/signInAccount';
             }
         },
     }
-    
+
     // TODO: tornar a validateField reutilizável..;
     const onSubmit = async (e: Event) => {
         e.preventDefault();
@@ -124,14 +124,14 @@ import { signInAccount } from '~/http/auth/signInAccount';
             if (errors[message]) {
                 errors[message]();
             }
-            
+
             return;
         };
 
-    
+
         const { token, refreshToken } = res.data;
-        console.log(token, refreshToken)
+        console.log(token, refreshToken, "TOKENS")
         useRegisterTokens(token, refreshToken, checkbox.value);
-        router.push('/')
+        router.push('/');
     }
 </script>

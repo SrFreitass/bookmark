@@ -86,13 +86,10 @@ class AuthController {
             new RefreshTokenRepositoryImpl(),
             context.jwt as IJWT,
           );
-          const output = await usecase.execute(context.body.refreshToken);
 
-          return {
-            status: 200,
-            message: output.message,
-            tokenAccess: output.token,
-          };
+          const output = await usecase.execute(context.body.refreshToken, context.body.token);
+
+          return successResponse(200, output, "Token refreshed")
         } catch (err) {
           return errorResponse(err);
         }
@@ -112,4 +109,3 @@ class AuthController {
 }
 
 export { AuthController };
-

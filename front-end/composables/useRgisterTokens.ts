@@ -1,8 +1,8 @@
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 
 
 const useRegisterTokens = (token: string, refreshToken: string, persist: boolean) => {
-    const expires = dayjs().add(7, 'days').toDate();
+    const expires = dayjs().add(14, 'days').toDate();
 
     if(!persist) {
         sessionStorage.setItem("tokens", JSON.stringify({
@@ -23,4 +23,5 @@ const useRegisterTokens = (token: string, refreshToken: string, persist: boolean
     })
 };
 
-export { useRegisterTokens }
+export { useRegisterTokens };
+

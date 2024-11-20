@@ -20,7 +20,7 @@ class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
         await db.update(refreshToken).set({
             refreshToken: token.refreshToken,
             expiresAt: token.expiresAt,
-        })
+        }).where(eq(refreshToken.userId, token.userId))
     }
 }
 
