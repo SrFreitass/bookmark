@@ -1,11 +1,11 @@
 <template>
     <UserAccount
-        :username="user?.username || '' "
+        :username="user?.username || ''"
         :name="user?.name || '' "
-        :avatar-url="user?.avatarURL || '' "
-        :birthday="user?.birthday || '' "
-        :email="user?.email || '' "
-        :role="user?.role || '' "
+        :avatar-url="user?.avatarURL || ''"
+        :birthday="user?.birthday || ''"
+        :email="user?.email || ''"
+        :role="user?.role || ''"
     />
 </template>
 
