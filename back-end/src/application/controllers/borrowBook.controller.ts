@@ -16,6 +16,28 @@ import { successResponse } from "../utils/success.response";
 
 class BorrowBookController {
     constructor(private readonly app: typeof App) {
+        this.app.get("/api/v1/borrows/user", async (context) => {
+          try {
+              const useCase = new GetBorrowsUseCase(new BorrowBookRepositoryImpl(db, borrowBooks));
+              const output = await useCase.execute({ to: context.query.to as string, from: context.query.from as string, userId: context.headers.userid });
+              return successResponse(200, output, 'Borrows retrieved successfully');
+          } catch(error) {
+            return errorResponse(error);
+          }
+        }, {
+          async beforeHandle(context) {
+            const err = await verifyUserMiddlare({
+              headers: context.headers,
+              jwt: context.jwt,
+              path: context.path as keyof typeof routes
+            });
+
+            if(err) {
+              return errorResponse(err);
+            }
+          }
+        })
+
         // OK: middleware
         this.app.get("/api/v1/borrows", async (context) => {
             try {
@@ -27,12 +49,12 @@ class BorrowBookController {
             }
         }, {
             async beforeHandle(context) {
-                const err = await verifyUserMiddlare({ 
-                  headers: context.headers, 
-                  jwt: context.jwt, 
+                const err = await verifyUserMiddlare({
+                  headers: context.headers,
+                  jwt: context.jwt,
                   path: context.path as keyof typeof routes
                 });
-      
+
                 if(err) {
                   return errorResponse(err);
                 }
@@ -43,24 +65,24 @@ class BorrowBookController {
         this.app.put("/api/v1/borrow/return", async (context) => {
             try {
                 const useCase = new ReturnBookUseCase(
-                    new BookRepositoryImpl(db, books), 
+                    new BookRepositoryImpl(db, books),
                     new UserRepositoryImpl(db, users),
                     new BorrowBookRepositoryImpl(db, borrowBooks),
                 );
                 const output = await useCase.execute(context.body.bookISBN, context.body.userId);
-                
+
                 return successResponse(200, output, 'Book returned successfully');
             } catch (error) {
                 return errorResponse(error);
             }
         }, {
             async beforeHandle(context) {
-                const err = await verifyUserMiddlare({ 
-                  headers: context.headers, 
-                  jwt: context.jwt, 
+                const err = await verifyUserMiddlare({
+                  headers: context.headers,
+                  jwt: context.jwt,
                   path: context.path as keyof typeof routes
                 });
-      
+
                 if(err) {
                   return errorResponse(err);
                 }
@@ -72,7 +94,7 @@ class BorrowBookController {
         this.app.post("/api/v1/borrow", async (context) => {
             try {
                 const useCase = new BorrowBookUseCase(
-                    new BorrowBookRepositoryImpl(db, borrowBooks), 
+                    new BorrowBookRepositoryImpl(db, borrowBooks),
                     new BookRepositoryImpl(db, books)
                 );
                 console.log(context.headers)
@@ -85,12 +107,12 @@ class BorrowBookController {
             }
         }, {
             async beforeHandle(context) {
-                const err = await verifyUserMiddlare({ 
-                  headers: context.headers, 
-                  jwt: context.jwt, 
+                const err = await verifyUserMiddlare({
+                  headers: context.headers,
+                  jwt: context.jwt,
                   path: context.path as keyof typeof routes
                 });
-      
+
                 if(err) {
                   return errorResponse(err);
                 }
@@ -105,4 +127,3 @@ class BorrowBookController {
 }
 
 export { BorrowBookController };
-

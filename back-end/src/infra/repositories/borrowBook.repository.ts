@@ -1,4 +1,4 @@
-import { and, between, count, eq, lte, or } from "drizzle-orm";
+import { and, between, count, eq, or } from "drizzle-orm";
 import { BorrowBookEntity } from "../../core/domains/entities/borrowBook.entity";
 import { BorrowBookRepository } from "../../core/repositories/IBorrowBook.repository";
 import { db } from "../db/connect";
@@ -14,6 +14,7 @@ class BorrowBookRepositoryImpl implements BorrowBookRepository {
     async updateBorrowBook(id: string, fields: { borrow: boolean; updatedAt: Date }): Promise<void> {
         await this.database.update(this.borrowBook).set({ ...fields }).where(eq(this.borrowBook.id, id));
     }
+
     async countBorrowBooks(filter?: { borrow?: boolean; }): Promise<Number> {
         if (filter?.borrow) {
             const total = await this.database.select({
@@ -31,15 +32,17 @@ class BorrowBookRepositoryImpl implements BorrowBookRepository {
         return total[0].total;
     }
 
-    
 
-    async findBorrowBooks({ from, to }: { from: Date; to: Date }): Promise<BorrowBookEntity[]> {
-        return await this.database.select({
+
+    async findBorrowBooks({ from, to, userId }: { from: Date; to: Date, userId: string }): Promise<BorrowBookEntity[]> {
+        const query = this.database.select({
             id: this.borrowBook.id,
             userId: this.borrowBook.userId,
             bookId: this.borrowBook.bookId,
             bookTitle: books.title,
-            userName: users.name,
+            coverURL: books.coverURL,
+            authors: books.authors,
+            username: users.name,
             limitDate: this.borrowBook.limitDate,
             borrow: this.borrowBook.borrow,
             quantity: this.borrowBook.quantity,
@@ -49,12 +52,19 @@ class BorrowBookRepositoryImpl implements BorrowBookRepository {
         .from(this.borrowBook)
         .innerJoin(books, eq(this.borrowBook.bookId, books.id))
         .innerJoin(users, eq(this.borrowBook.userId, users.id))
-        .where(
-            and(
-                between(this.borrowBook.createdAt, from, to),
-                eq(this.borrowBook.borrow, true)
-            )
-        )
+
+      if (userId) {
+        return await query.where(
+          and(
+            eq(this.borrowBook.userId, userId),
+            between(this.borrowBook.createdAt, from, to)
+          )
+        );
+      }
+
+        return await query.where(
+          between(this.borrowBook.createdAt, from, to),
+        );
     }
 
     async findBorrowBook(fields: { userId?: string; bookId?: string; borrow: boolean }): Promise<BorrowBookEntity | null> {
@@ -74,11 +84,10 @@ class BorrowBookRepositoryImpl implements BorrowBookRepository {
 
         return borrowBook;
     }
-    
+
     async create(borrowBook: BorrowBookEntity) {
        await this.database.insert(this.borrowBook).values({ ...borrowBook })
     }
 }
 
 export { BorrowBookRepositoryImpl };
-

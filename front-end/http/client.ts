@@ -21,18 +21,6 @@ const client = async (method: HttpMethod, route: string, body?: unknown, content
     header['Content-Type'] = contentType;
   }
 
-  if(method === 'GET') {
-    const res = await fetch(`${baseURL}${route}`, {
-      headers: {
-        ...header,
-        authorization: `${tokens?.value?.token}`,
-      },
-      method,
-    });
-
-    return res.json();
-  }
-
   const res = await fetch(`${baseURL}${route}`, {
     headers: {
       ...header,
