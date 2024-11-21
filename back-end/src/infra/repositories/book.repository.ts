@@ -106,7 +106,7 @@ class BookRepositoryImpl implements BookRepository {
         or(
           eq(this.book.id, fields.id || ""),
           eq(this.book.isbn, fields.isbn || ""),
-          sql`LOWER title LIKE LOWER(${fields.title})`,
+          sql`LOWER(title) LIKE LOWER(${fields.title})`,
         ),
       )
       .innerJoin(categories, eq(this.book.categoryId, categories.id));
