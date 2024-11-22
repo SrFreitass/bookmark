@@ -1,4 +1,4 @@
-import { and, count, eq, or, sql } from "drizzle-orm";
+import { and, count, eq, ilike, or, sql } from "drizzle-orm";
 import { BookEntity } from "../../core/domains/entities/book.entity";
 import { BookRepository } from "../../core/repositories/IBook.repository";
 import { db } from "../db/connect";
@@ -106,7 +106,7 @@ class BookRepositoryImpl implements BookRepository {
         or(
           eq(this.book.id, fields.id || ""),
           eq(this.book.isbn, fields.isbn || ""),
-          sql`LOWER(title) LIKE LOWER(${fields.title})`,
+          ilike(this.book.title, fields.title || ""),
         ),
       )
       .innerJoin(categories, eq(this.book.categoryId, categories.id));
