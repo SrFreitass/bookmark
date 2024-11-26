@@ -2,9 +2,9 @@
 <template>
     <Header/>
     <div class="flex gap-4 min-h-screen">
-        <AdminSidebar />
+        <AdminSidebar v-if="isAdmin"/>
         <main class="mt-8 w-[80%] mr-4">
-            <slot/>
+            <slot v-if="isAdmin" />
         </main>
     </div>
 </template>
@@ -14,4 +14,11 @@
     definePageMeta({
         middleware: 'admin'
     })
+
+    const isAdmin = ref(false);
+   
+   const user = useGlobalState();
+   if (user.value.user?.role === 'ADMIN' || user.value.user?.role === 'LIBRARIAN') {
+        isAdmin.value = true;
+   }
 </script>
