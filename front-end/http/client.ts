@@ -33,7 +33,7 @@ const client = async (method: HttpMethod, route: string, body?: unknown, content
 
   const json = await res.json();
 
-  if(json?.statusCode == 401 || json?.statusCode == 403) {
+  if(json?.statusCode == 401 || json?.statusCode == 403 || json?.statusCode == 400) {
     if (recursion) return;
 
     await refreshToken();
