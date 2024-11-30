@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="max-w-[1600px]">
     <h1 class="text-2xl font-semibold">Bom dia, {{ user?.name }}!</h1>
     <p>Dashboard</p>
-    <div class="grid grid-cols-dashboard gap-8 max-2xl:grid-cols-dashboard-2 max-2xl:gap-4">
-      <AdminBooksCard
+    <div class="flex gap-4 mb-4">
+        <AdminBooksCard
         title="Empréstimos ativos"
         icon="pi pi-bookmark"
         value="25"
@@ -32,28 +32,41 @@
         description="Usuários na plataforma"
         class="max-2xl:hidden"
       />
+    </div>
+    <div class="grid grid-cols-dashboard gap-8 max-2xl:gap-4">
       <BorrowTable
         :borrows="borrow"
         class="col-span-3"
       />
+    </div>
+    <AdminBooksPendencyTable class="mt-6" />
+    <div class="flex gap-4 mt-4">
       <Chart
-        class="bg-card-bg border border-border rounded-md p-4 max-2xl:hidden"
+        class="bg-card-bg border border-border rounded-md p-4 grow"
+        type="line"
+        :data="exampleChartData"
+        :options="exampleChartOptions"
+      />
+      <Chart
+        class="bg-card-bg border border-border rounded-md p-4 grow"
         type="pie"
         :data="exampleChartData"
         :options="exampleChartOptions"
       />
     </div>
-    <AdminBooksPendencyTable class="mt-6" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { getBorrows } from '~/http/borrow/getBorrows';
 import type { IBorrow } from '~/models/IBorrow';
+
 
 definePageMeta({
   layout: "admin",
   middleware: 'admin'
 });
+
 
 // id: string,
 //     bookId: string,
@@ -80,6 +93,21 @@ const borrow = reactive<{ list: IBorrow[] }>({
   // @ts-ignore FIXME: fix this! URGENCY!
   list: [exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow, exampleBorrow],
 });
+
+const borrows = ref<IBorrow[]>([]);
+
+const fetchBorrows = async () => {
+  const month = new Date().getMonth() + 1;
+  const year = new Date().getFullYear();
+
+  const res = await getBorrows(`${month}-01-${year}`, `${month}-30-${year}`)
+
+  if(!res?.success) return;
+  
+  borrow.list = res.data;
+}
+
+fetchBorrows();
 
 const {
   value: { user },

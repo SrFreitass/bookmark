@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-card-bg flex justify-between w-[22rem] h-32 border border-[#5454547a] p-4 rounded-lg mt-6">
+    <div class="bg-card-bg flex justify-between grow h-32 border border-[#5454547a] p-4 rounded-lg mt-6">
         <div>
             <h3 class="text-xl font-semibold">{{ title }}</h3>
             <p class="text-2xl font-semibold mt-2">{{ value  }}</p>
