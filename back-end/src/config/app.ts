@@ -5,6 +5,8 @@ import { swagger } from '@elysiajs/swagger';
 import { Elysia } from 'elysia';
 import { Router } from '../application/routers/router';
 
+
+
 const App = new Elysia({})
   .use(staticPlugin({
     assets: './static',
@@ -24,7 +26,7 @@ const App = new Elysia({})
   .use(
     jwt({
       name: 'jwt',
-      secret: process.env.JWT_SECRET || '',
+      secret: process.env.JWT_SECRET,
       exp: '5min'
     }),
   );
@@ -37,3 +39,4 @@ App.listen({ port: 8080 }, () => {
 });
 
 export { App };
+
