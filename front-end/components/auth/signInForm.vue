@@ -1,54 +1,54 @@
 <template>
-    <form class="flex flex-col gap-4" @submit="onSubmit">
+    <form class="flex flex-col gap-2" @submit="onSubmit">
         <div>
-            <InputGroup>
-                <InputGroupAddon>
-                    <i class="pi pi-envelope"</i>
-                </InputGroupAddon>
+            <p class="mb-2 font-medium">Código do aluno</p>
+            <IconField>
+                <InputIcon class="pi pi-user"/>
                 <InputText
-                    :class="`${formErrors['email']['error'] ? '!border-red-500' : ''}`"
-                    placeholder="Seu e-mail"
-                    v-model:model-value="form.email"
+                    :class="`w-full ${formErrors['studentCode']['error'] ? '!border-red-500' : ''}`"
+                    placeholder="Seu código de aluno"
+                    v-model:model-value="form.studentCode"
                 />
-            </InputGroup>
+            </IconField>
             <p
-                    v-if="formErrors['email']['error']"
+                    v-if="formErrors['studentCode']['error']"
                     class="text-red-500 mt-2"
             >
-                {{ formErrors['email']['message'] }}
+                {{ formErrors['studentCode']['message'] }}
             </p>
         </div>
 
         <div>
-            <InputGroup>
-                <InputGroupAddon>
-                    <i class="pi pi-lock"</i>
-                </InputGroupAddon>
+            <p class="mb-2 font-medium">Senha</p>
+            <IconField>
+                <InputIcon class="pi pi-lock"/>
                 <InputText
-                    :class="`${formErrors['password']['error'] ? '!border-red-500' : ''}`"
+                    :class="`w-full ${formErrors['password']['error'] ? '!border-red-500' : ''}`"
                     type="password"
                     placeholder="Sua senha"
                     v-model:model-value="form.password"
                 />
-            </InputGroup>
-            <p v-i
-                    f="formErrors['password']['error']"
+            </IconField>
+            <p v-if="formErrors['password']['error']"
                     class="text-red-500 mt-2"
                 >
-                    {{ formErrors['password']['message']
-                 }}</p>
+                {{ formErrors['password']['message']}}
+            </p>
         </div>
 
-        <div class="flex gap-2 items-center">
+        <div class="my-2 flex gap-2 items-center">
             <Checkbox v-model:model-value="checkbox" :binary="true"/>
             <p class="text-gray-400">Lembrar de mim</p>
         </div>
 
+
         <Button type="submit">Entrar</Button>
 
-        <p class="text-gray-400">
+        <p class="text-gray-400 mt-4">
             Não tem uma conta?
-            <u class="text-white"><NuxtLink href="./signup">Criar uma conta</NuxtLink></u>
+            <NuxtLink class="underline text-green-400">
+            Como criar
+            </NuxtLink>
         </p>
     </form>
 </template>
@@ -60,12 +60,12 @@ import { signInAccount } from '~/http/auth/signInAccount';
     const checkbox = ref(false);
 
     const form = reactive({
-            email: '',
+            studentCode: '',
             password: ''
-        });
+    });
 
     const formErrors = reactive({
-        email: {
+        studentCode: {
             error: false,
             message: '',
         },
@@ -76,8 +76,8 @@ import { signInAccount } from '~/http/auth/signInAccount';
     })
 
     const errors = {
-        'Incorrect email or password': () => {
-            formErrors.email = {
+        'Incorrect studentCode or password': () => {
+          formErrors.studentCode = {
                 error: true,
                 message: 'E-mail ou senha incorreto!'
             }
@@ -106,13 +106,13 @@ import { signInAccount } from '~/http/auth/signInAccount';
             }
         }
 
-        validateField(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/g.test(form.email), 'email', 'E-mail inválido!');
+        validateField(form.studentCode.length < 7 || form.studentCode.length > 7, 'studentCode', 'Código do aluno inválido!');
         validateField(!form.password || form.password.length < 8, 'password', 'Senha inválida! Menor que 8 caracteres!');
 
         if(err) return;
 
         const res = await signInAccount({
-            email: form.email,
+            studentCode: form.studentCode,
             password: form.password
         });
 

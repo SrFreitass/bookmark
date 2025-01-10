@@ -2,7 +2,7 @@ import { client } from "../client";
 import type { HTTPResponse } from "../types/http.response";
 
 interface Body {
-    email: string;
+    studentCode: string;
     password: string;
 }
 
@@ -24,4 +24,5 @@ const signInAccount = async (body: Body): Promise<HTTPResponse<Response> | null>
     }
 }
 
-export { signInAccount }
+export { signInAccount };
+

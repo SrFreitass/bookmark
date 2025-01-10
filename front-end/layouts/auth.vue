@@ -6,7 +6,7 @@
 </script>
 
 <template>
-    <div class="w-96 m-auto flex flex-col justify-center gap-4 min-h-screen">
+    <div class="m-auto flex flex-col justify-center gap-4 min-h-screen">
         <slot/>
-    </div> 
+    </div>
 </template>
