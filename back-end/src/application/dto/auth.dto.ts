@@ -5,13 +5,9 @@ const verifyTokenDTO = t.Object({
 })
 
 const signUpDTO = t.Object({
+  studentCode: t.String({ minLength: 7, maxLength: 7 }),
   name: t.String({ minLength: 3, maxLength: 50 }),
-  username: t.String({ minLength: 3, maxLength: 50 }),
   email: t.String({ format: 'email' }),
-  password: t.String({
-    minLength: 8,
-    pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})',
-  }),
   birthday: t.String({ format: 'date' }),
 });
 
@@ -34,3 +30,4 @@ const refreshTokenDTO = t.Object(
 );
 
 export { refreshTokenDTO, signInDTO, signUpDTO, verifyTokenDTO };
+

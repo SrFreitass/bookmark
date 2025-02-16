@@ -6,7 +6,7 @@ interface UserRepository {
   findUser(fields: {
     name?: string;
     email?: string;
-    username?: string;
+    studentCode?: string;
     id?: string;
   }): Promise<UserEntity[] | null>;
   findUsers(): Promise<UserEntity[]>;
@@ -18,3 +18,4 @@ interface UserRepository {
 }
 
 export { UserRepository };
+

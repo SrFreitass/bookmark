@@ -86,12 +86,13 @@ export class UserRepositoryImpl implements UserRepository {
     name?: string;
     email?: string;
     username?: string;
+    studentCode?: string;
     id?: string;
   }): Promise<UserEntity[] | null> {
     const user = await this.database.query.users.findMany({
       where: or(
-        ilike(users.username, fields.username || ''),
         ilike(users.name, fields.name || ''),
+        eq(users.studentCode, fields.studentCode || ''),
         eq(users.id, fields.id || ''),
         eq(users.email, fields.email || ''),
       ),

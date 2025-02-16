@@ -9,6 +9,8 @@ import { users } from '../../infra/db/schema';
 import { RefreshTokenRepositoryImpl } from '../../infra/repositories/refreshToken.repository';
 import { UserRepositoryImpl } from '../../infra/repositories/user.repository';
 import { refreshTokenDTO, signInDTO, signUpDTO, verifyTokenDTO } from '../dto/auth.dto';
+import routes from '../middleware/protectedRoutes';
+import { verifyUserMiddlare } from '../middleware/verifyUser.middleware';
 import { errorResponse } from '../utils/error.response';
 import { successResponse } from '../utils/success.response';
 
@@ -27,7 +29,7 @@ class AuthController {
     })
 
     this.app.post(
-      '/api/v1/auth/signup',
+      '/api/v1/auth/user',
       async (context) => {
         try {
           const usecase = new CreateAccountUseCase(
@@ -42,6 +44,20 @@ class AuthController {
         }
       },
       {
+        async beforeHandle(context) {
+          
+          console.log('running middleware');
+
+          const err = await verifyUserMiddlare({ 
+            headers: context.headers, 
+            jwt: context.jwt, 
+            path: context.path as keyof typeof routes 
+          });
+
+          if(err) {
+            return errorResponse(err);
+          }
+        },
         body: signUpDTO,
         error: (err) => {
           return errorResponse(err.error);
@@ -109,3 +125,4 @@ class AuthController {
 }
 
 export { AuthController };
+

@@ -7,8 +7,8 @@ type role =
 
 class UserEntity {
   readonly id: string;
+  readonly studentCode: string;
   readonly name: string;
-  readonly username: string;
   readonly email: string;
   readonly password: string;
   readonly birthday: Date;
@@ -23,10 +23,10 @@ class UserEntity {
     password,
     birthday,
     avatarURL,
-    username,
+    studentCode,
   }: Omit<UserEntity, 'id' | 'role' | 'createdAt' | 'isVerified'>) {
     this.id = crypto.randomUUID();
-    this.username = username;
+    this.studentCode = studentCode;
     this.name = name;
     this.email = email;
     this.password = password;
@@ -38,5 +38,5 @@ class UserEntity {
   }
 }
 
-export { UserEntity, role };
+export { role, UserEntity };
 

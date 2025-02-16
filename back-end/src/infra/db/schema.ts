@@ -13,8 +13,8 @@ const roleEnum = pgEnum("role", ["DEVELOPER", "ADMIN", "LIBRARIAN", "STUDENT"]);
 
 const users = pgTable("users", {
   id: varchar("id", { length: 36 }).primaryKey(),
+  studentCode: varchar("student_code", { length: 7 }).notNull().unique(),
   name: varchar("name", { length: 100 }).notNull(),
-  username: varchar("username", { length: 100 }).notNull(),
   email: text("email").notNull(),
   password: text("password").notNull(),
   birthday: timestamp("birthday").notNull(),

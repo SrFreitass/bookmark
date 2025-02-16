@@ -42,7 +42,13 @@ const routes = {
     },
     '/api/v1/user/*': {
         roles: ["ADMIN", "LIBRARIAN"]
-    }
+    },
+
+    // AUTH
+
+    '/api/v1/auth/user': {
+        roles: ["ADMIN", "LIBRARIAN"]
+    },
 }
 
 export default routes;
