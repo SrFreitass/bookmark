@@ -28,16 +28,16 @@ class CreateAccountUseCase {
       throw new ErrorHandler('Student code already exists', 400);
     }
 
-    // body.password = Bun.password.hashSync(body.password, {
-    //   algorithm: 'bcrypt',
-    //   cost: 10,
-    // });
+    const passwordHash = Bun.password.hashSync(`${body.birthday}-${body.name.split(' ')[0]}`, {
+      algorithm: 'bcrypt',
+      cost: 10,
+    });
 
     const newUserEntity = new UserEntity({
       studentCode: body.studentCode,
       name: body.name,
       email: body.email,
-      password: `${body.birthday}-${body.name.split(' ')[0]}`, // default password
+      password: passwordHash, // default password
       birthday: new Date(body.birthday),
       avatarURL:
         'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
