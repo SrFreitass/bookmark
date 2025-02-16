@@ -12,7 +12,7 @@ const signUpDTO = t.Object({
 });
 
 const signInDTO = t.Object({
-  email: t.String({ format: 'email' }),
+  studentCode: t.String({ minLength: 7, maxLength: 7 }),
   password: t.String({ minLength: 8 }),
 });
 

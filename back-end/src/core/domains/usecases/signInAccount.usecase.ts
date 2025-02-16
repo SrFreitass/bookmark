@@ -9,17 +9,21 @@ class SignInAccount {
   constructor(private readonly userRepository: UserRepository, private readonly refreshToken: RefreshTokenRepository) {}
 
   async execute(body: typeof signInDTO.static, jwt: IJWT) {
-    const user = await this.userRepository.findUser({ email: body.email });
+    const user = await this.userRepository.findUser({ studentCode: body.studentCode });
 
     if (!user || !user[0]) {
       throw new ErrorHandler('Incorrect email or password', 400);
     }
+
+    console.log(user);
 
     const isPasswordCorrect = Bun.password.verifySync(
       body.password,
       user[0].password,
       'bcrypt',
     );
+
+    console.log(isPasswordCorrect, user[0].password);
 
     if (!isPasswordCorrect) {
       throw new ErrorHandler('Incorrect email or password', 400);
@@ -43,3 +47,4 @@ class SignInAccount {
 }
 
 export { SignInAccount };
+

@@ -28,7 +28,9 @@ class CreateAccountUseCase {
       throw new ErrorHandler('Student code already exists', 400);
     }
 
-    const passwordHash = Bun.password.hashSync(`${body.birthday}-${body.name.split(' ')[0]}`, {
+    const password = `${body.birthday}-${body.name.split(' ')[0]}`;
+
+    const passwordHash = Bun.password.hashSync(password, {
       algorithm: 'bcrypt',
       cost: 10,
     });
@@ -65,7 +67,7 @@ class CreateAccountUseCase {
       `Olá ${newUserEntity.name}, sua conta foi criada com sucesso!
       Para acessar o sistema, utilize as seguintes credenciais:
       Seu código de estudante é: ${newUserEntity.studentCode}
-      Sua senha é: ${newUserEntity.password}`,
+      Sua senha é: ${password}`,
     });
 
     return {
